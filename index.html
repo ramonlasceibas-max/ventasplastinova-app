@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#003f7f">
     <link rel="manifest" href="manifest.json">
-    <title>Tinacos Plastinova</title>
+    <title>🏪 TINACOS PLASTINOVA - Soluciones Premium</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', sans-serif; background: #f8fafc; color: #1e293b; }
@@ -25,10 +25,11 @@
         .btn-success { background: #10b981; }
         .btn-success:hover { background: #059669; }
         .btn-small { padding: 0.5rem 1rem; font-size: 0.9rem; }
-        .logout-btn { background: #dc2626; float: right; }
+        .logout-btn { background: #dc2626; }
         .hero { background: white; border-radius: 16px; padding: 4rem 2rem; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        .hero h1 { font-size: 3rem; margin-bottom: 1rem; color: #003f7f; }
-        .hero p { font-size: 1.25rem; color: #64748b; margin-bottom: 2rem; }
+        .hero h1 { font-size: 3rem; margin-bottom: 1rem; color: #003f7f; font-weight: 900; letter-spacing: 1px; }
+        .hero-eslogan { font-size: 1.25rem; color: #dc2626; font-weight: 700; margin-bottom: 1rem; }
+        .hero p { font-size: 1.1rem; color: #64748b; margin-bottom: 2rem; }
         .button-group { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; margin-top: 2rem; }
         .button-group .btn { flex: 1; min-width: 180px; }
         .form-group { margin-bottom: 1.5rem; }
@@ -70,7 +71,6 @@
         @keyframes slideIn { from { transform: translateX(400px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
         .section-title { font-size: 1.75rem; color: #003f7f; margin-bottom: 1.5rem; }
         .info-box { background: #f1f5f9; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; border-left: 4px solid #003f7f; }
-        .carrito-total { font-size: 1.5rem; font-weight: bold; color: #dc2626; margin: 1rem 0; }
         .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); align-items: center; justify-content: center; overflow-y: auto; }
         .modal.active { display: flex; }
         .modal-content { background: white; padding: 2rem; border-radius: 12px; max-width: 600px; width: 90%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); margin: auto; }
@@ -88,7 +88,7 @@
     <nav class="navbar">
         <div class="navbar-brand">
             <img src="logo-tinacos.jpg" alt="Logo" class="navbar-logo" onerror="this.style.display='none'">
-            <span>Tinacos Plastinova</span>
+            <span>🏪 TINACOS PLASTINOVA</span>
         </div>
         <div class="navbar-right">
             <div id="navbar-user"></div>
@@ -102,8 +102,9 @@
     <div id="landing" class="content active">
         <div class="container">
             <div class="hero">
-                <h1>🏪 Tinacos Plastinova</h1>
-                <p>Plataforma profesional de ventas de tinacos y tambores</p>
+                <h1>🏪 TINACOS PLASTINOVA</h1>
+                <div class="hero-eslogan">💧 Soluciones Premium de Almacenamiento 💧</div>
+                <p>Plataforma profesional de ventas de tinacos y tambores de excelencia</p>
                 <div class="button-group">
                     <button class="btn" onclick="showLogin()">🔐 Iniciar Sesión</button>
                     <button class="btn btn-secondary" onclick="showRegister()">📋 Registrarse</button>
@@ -118,36 +119,12 @@
         <div class="container">
             <form class="login-form" onsubmit="handleRegister(event)">
                 <h2 class="form-title">Registrarse</h2>
-                <div class="form-group">
-                    <label>Nombre del Negocio o Persona:</label>
-                    <input type="text" id="reg-nombre" required>
-                </div>
-                <div class="form-group">
-                    <label>Teléfono:</label>
-                    <input type="tel" id="reg-telefono" required>
-                </div>
-                <div class="form-group">
-                    <label>Dirección:</label>
-                    <input type="text" id="reg-direccion" required>
-                </div>
-                <div class="form-group">
-                    <label>Usuario:</label>
-                    <input type="text" id="reg-usuario" required>
-                </div>
-                <div class="form-group">
-                    <label>Contraseña:</label>
-                    <input type="password" id="reg-password" required>
-                </div>
-                <div class="form-group">
-                    <label>Seleccionar Vendedor:</label>
-                    <select id="reg-vendedor" required>
-                        <option>Elegir vendedor...</option>
-                        <option>Husai M.</option>
-                        <option>Pedro D.</option>
-                        <option>Fernando O.</option>
-                        <option>Isidro G.</option>
-                    </select>
-                </div>
+                <div class="form-group"><label>Nombre:</label><input type="text" id="reg-nombre" required></div>
+                <div class="form-group"><label>Teléfono:</label><input type="tel" id="reg-telefono" required></div>
+                <div class="form-group"><label>Dirección:</label><input type="text" id="reg-direccion" required></div>
+                <div class="form-group"><label>Usuario:</label><input type="text" id="reg-usuario" required></div>
+                <div class="form-group"><label>Contraseña:</label><input type="password" id="reg-password" required></div>
+                <div class="form-group"><label>Vendedor:</label><select id="reg-vendedor" required><option>Elegir vendedor...</option><option>Husai M.</option><option>Pedro D.</option><option>Fernando O.</option><option>Isidro G.</option></select></div>
                 <div class="button-group">
                     <button type="submit" class="btn">Registrarse</button>
                     <button type="button" class="btn btn-secondary" onclick="backToLanding()">Volver</button>
@@ -161,17 +138,9 @@
         <div class="container">
             <form class="login-form" onsubmit="handleLogin(event)">
                 <h2 class="form-title">Iniciar Sesión</h2>
-                <div class="form-group">
-                    <label>Usuario:</label>
-                    <input type="text" id="username" required>
-                </div>
-                <div class="form-group">
-                    <label>Contraseña:</label>
-                    <input type="password" id="password" required>
-                </div>
-                <div class="form-group">
-                    <label><input type="checkbox" id="recordar-usuario"> Recordar usuario</label>
-                </div>
+                <div class="form-group"><label>Usuario:</label><input type="text" id="username" required></div>
+                <div class="form-group"><label>Contraseña:</label><input type="password" id="password" required></div>
+                <div class="form-group"><label><input type="checkbox" id="recordar-usuario"> Recordar usuario</label></div>
                 <div class="button-group">
                     <button type="submit" class="btn">Ingresar</button>
                     <button type="button" class="btn btn-secondary" onclick="backToLanding()">Volver</button>
@@ -184,12 +153,42 @@
     <div id="comprador-dashboard" class="content">
         <div class="container">
             <div class="dashboard">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-                    <h2>Catálogo de Productos</h2>
-                    <button class="btn logout-btn" onclick="logout()">Cerrar Sesión</button>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+                    <h2 id="titulo-cliente">Catálogo de Productos</h2>
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                        <button class="btn" onclick="mostrarCatalogo()">📦 Catálogo</button>
+                        <button class="btn" onclick="mostrarHistorial()">📋 Mis Pedidos</button>
+                        <button class="btn" onclick="abrirCambiarPassword()">🔐 Cambiar Contraseña</button>
+                        <button class="btn logout-btn" onclick="logout()">Cerrar Sesión</button>
+                    </div>
                 </div>
                 <div class="grid-products" id="productos-grid"></div>
+                <div id="historial-container" style="display: none; margin-top: 2rem;">
+                    <h3 class="section-title">📋 Mis Pedidos</h3>
+                    <div class="table-container">
+                        <table>
+                            <thead><tr><th>Pedido</th><th>Total</th><th>Tipo Entrega</th><th>Vendedor</th><th>Fecha</th></tr></thead>
+                            <tbody id="historial-tabla"></tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
+        </div>
+    </div>
+
+    <!-- MODAL CAMBIAR CONTRASEÑA -->
+    <div id="cambiar-password-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header"><span>🔐 Cambiar Contraseña</span><button class="modal-close" onclick="cerrarCambiarPassword()">✕</button></div>
+            <form onsubmit="cambiarPassword(event)">
+                <div class="form-group"><label>Contraseña Actual:</label><input type="password" id="pass-actual" required></div>
+                <div class="form-group"><label>Nueva Contraseña:</label><input type="password" id="pass-nueva" required></div>
+                <div class="form-group"><label>Confirmar Contraseña:</label><input type="password" id="pass-confirmar" required></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="cerrarCambiarPassword()">Cancelar</button>
+                    <button type="submit" class="btn btn-success">Cambiar</button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -217,7 +216,10 @@
                 <div class="form-group"><label>Tipo de Entrega:</label><select id="tipo-entrega" required><option value="domicilio">🚚 Recibir en Casa</option><option value="tienda">🏪 Recoger en Tienda</option></select></div>
                 <div class="form-group"><label>Notas:</label><textarea id="notas-pedido" rows="3"></textarea></div>
                 <div class="precio-box"><div class="precio-fila"><span>Subtotal:</span><span id="subtotal-pedido">$0</span></div><div class="precio-fila"><span>Descuento:</span><span id="descuento-pedido">$0</span></div><div class="precio-fila precio-total"><span>TOTAL:</span><span id="total-pedido">$0</span></div></div>
-                <div class="modal-footer"><button type="button" class="btn btn-secondary" onclick="cerrarPedido()">Cancelar</button><button type="submit" class="btn btn-success">✅ Realizar Pedido</button></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="cerrarPedido()">Cancelar</button>
+                    <button type="submit" class="btn btn-success">✅ Realizar Pedido</button>
+                </div>
             </form>
         </div>
     </div>
@@ -228,7 +230,10 @@
             <div class="dashboard">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
                     <h2>Panel de Vendedor</h2>
-                    <button class="btn logout-btn" onclick="logout()">Cerrar Sesión</button>
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                        <button class="btn" onclick="abrirCambiarPassword()">🔐 Cambiar Contraseña</button>
+                        <button class="btn logout-btn" onclick="logout()">Cerrar Sesión</button>
+                    </div>
                 </div>
                 <div class="menu">
                     <button class="menu-item" onclick="showVendedorSection('clientes')">👥 Mis Clientes</button>
@@ -237,6 +242,8 @@
                     <button class="menu-item" onclick="showVendedorSection('descuentos')">🏷️ Proponer Descuento</button>
                     <button class="menu-item" onclick="showVendedorSection('notas')">📝 Mis Notas</button>
                     <button class="menu-item" onclick="showVendedorSection('facturas')">🧾 Mis Facturas</button>
+                    <button class="menu-item" onclick="showVendedorSection('mensajes')">💬 Mensajes</button>
+                    <button class="menu-item" onclick="showVendedorSection('historial')">📋 Historial</button>
                 </div>
                 <div id="vendedor-content" style="background: white; padding: 2rem; border-radius: 12px; margin-top: 2rem;"></div>
             </div>
@@ -249,7 +256,10 @@
             <div class="dashboard">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
                     <h2>Panel de Administrador</h2>
-                    <button class="btn logout-btn" onclick="logout()">Cerrar Sesión</button>
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                        <button class="btn" onclick="abrirCambiarPassword()">🔐 Cambiar Contraseña</button>
+                        <button class="btn logout-btn" onclick="logout()">Cerrar Sesión</button>
+                    </div>
                 </div>
                 <div class="menu">
                     <button class="menu-item" onclick="showAdminSection('productos')">📦 Gestión de Productos</button>
@@ -259,6 +269,8 @@
                     <button class="menu-item" onclick="showAdminSection('pedidos')">📦 Todos los Pedidos</button>
                     <button class="menu-item" onclick="showAdminSection('clientes')">👥 Ver Clientes</button>
                     <button class="menu-item" onclick="showAdminSection('reportes')">📈 Reportes</button>
+                    <button class="menu-item" onclick="showAdminSection('mensajes')">💬 Mensajes</button>
+                    <button class="menu-item" onclick="showAdminSection('agregar-cliente')">➕ Agregar Cliente</button>
                 </div>
                 <div id="admin-content" style="background: white; padding: 2rem; border-radius: 12px; margin-top: 2rem;"></div>
             </div>
@@ -279,7 +291,7 @@
             { usuario: 'isidro.gonzalez', password: 'Isidro2024*', nombre: 'Isidro G.' }
         ];
         const admin = { usuario: 'admin.plastinova', password: 'Admin2024*Plastinova', nombre: 'Administrador' };
-        let usuarioActual = null, carrito = [], colorSeleccionado = {}, pedidos = [], usuariosRegistrados = [];
+        let usuarioActual = null, carrito = [], colorSeleccionado = {}, pedidos = [], usuariosRegistrados = [], carritoCliente = [];
         
         function showContent(id) { document.querySelectorAll('.content').forEach(el => el.classList.remove('active')); document.getElementById(id).classList.add('active'); }
         function backToLanding() { showContent('landing'); }
@@ -288,8 +300,13 @@
         function handleRegister(event) { event.preventDefault(); const nombre = document.getElementById('reg-nombre').value; const usuario = document.getElementById('reg-usuario').value; const password = document.getElementById('reg-password').value; usuariosRegistrados.push({ usuario, password, nombre, rol: 'comprador' }); mostrarNotification('✅ Registro exitoso'); showContent('landing'); }
         function guestCheckout() { usuarioActual = { nombre: 'Invitado', rol: 'comprador' }; document.getElementById('carrito-btn').style.display = 'flex'; mostrarProductos(); }
         function handleLogin(event) { event.preventDefault(); const username = document.getElementById('username').value; const password = document.getElementById('password').value; const recordar = document.getElementById('recordar-usuario').checked; if (username === admin.usuario && password === admin.password) { usuarioActual = admin; if (recordar) localStorage.setItem('usuarioRecordado', username); updateNavbar(); showContent('admin-dashboard'); mostrarNotification('✅ Bienvenido Administrador'); } else { const v = vendedoresData.find(v => v.usuario === username && v.password === password); if (v) { usuarioActual = v; if (recordar) localStorage.setItem('usuarioRecordado', username); updateNavbar(); showContent('vendedor-dashboard'); mostrarNotification('✅ Bienvenido ' + v.nombre); } else { const u = usuariosRegistrados.find(u => u.usuario === username && u.password === password); if (u) { usuarioActual = u; if (recordar) localStorage.setItem('usuarioRecordado', username); updateNavbar(); document.getElementById('carrito-btn').style.display = 'flex'; mostrarProductos(); mostrarNotification('✅ Bienvenido ' + u.nombre); } else { mostrarNotification('❌ Credenciales incorrectas', true); } } } document.getElementById('username').value = ''; document.getElementById('password').value = ''; }
-        function logout() { usuarioActual = null; carrito = []; colorSeleccionado = {}; document.getElementById('carrito-btn').style.display = 'none'; showContent('landing'); updateNavbar(); mostrarNotification('👋 Sesión cerrado'); }
-        function updateNavbar() { const navbar = document.getElementById('navbar-user'); navbar.innerHTML = usuarioActual ? `<span style="color: white;">${usuarioActual.nombre}</span>` : ''; }
+        function logout() { usuarioActual = null; carrito = []; colorSeleccionado = {}; document.getElementById('carrito-btn').style.display = 'none'; showContent('landing'); updateNavbar(); mostrarNotification('👋 Sesión cerrada'); }
+        function updateNavbar() { document.getElementById('navbar-user').innerHTML = usuarioActual ? `<span style="color: white;">${usuarioActual.nombre}</span>` : ''; }
+        function abrirCambiarPassword() { document.getElementById('cambiar-password-modal').classList.add('active'); }
+        function cerrarCambiarPassword() { document.getElementById('cambiar-password-modal').classList.remove('active'); document.getElementById('pass-actual').value = ''; document.getElementById('pass-nueva').value = ''; document.getElementById('pass-confirmar').value = ''; }
+        function cambiarPassword(event) { event.preventDefault(); const nueva = document.getElementById('pass-nueva').value; const confirmar = document.getElementById('pass-confirmar').value; if (nueva !== confirmar) { mostrarNotification('Las contraseñas no coinciden', true); return; } if (nueva.length < 6) { mostrarNotification('Mínimo 6 caracteres', true); return; } mostrarNotification('✅ Contraseña cambiada'); cerrarCambiarPassword(); }
+        function mostrarCatalogo() { document.getElementById('titulo-cliente').textContent = 'Catálogo de Productos'; document.getElementById('productos-grid').style.display = 'grid'; document.getElementById('historial-container').style.display = 'none'; }
+        function mostrarHistorial() { document.getElementById('titulo-cliente').textContent = 'Mis Pedidos'; document.getElementById('productos-grid').style.display = 'none'; document.getElementById('historial-container').style.display = 'block'; document.getElementById('historial-tabla').innerHTML = carritoCliente.length === 0 ? '<tr><td colspan="5" style="text-align: center;">No hay pedidos</td></tr>' : carritoCliente.map(p => `<tr><td>${p.numero}</td><td>$${p.total}</td><td>${p.tipoEntrega === 'domicilio' ? '🚚 Casa' : '🏪 Tienda'}</td><td>${p.vendedor}</td><td>${p.fecha}</td></tr>`).join(''); }
         function mostrarProductos() { const grid = document.getElementById('productos-grid'); grid.innerHTML = productos.map(p => `<div class="product-card"><div class="product-image" style="background: linear-gradient(135deg, #003f7f 0%, #${p.tipo === 'tambo' ? 'F97316' : 'DC2626'} 100%);"><span>${p.tipo === 'tambo' ? '🛢️' : '💧'}</span></div><div class="product-info"><div class="product-name">${p.nombre}</div><div class="product-capacity">Capacidad: ${p.capacidad} lt</div><div class="product-price">$${p.precio}</div><div class="color-selector"><div class="color-label">Color:</div><div class="color-options" id="colores-${p.id}">${Object.entries(p.colores).map(([nombre, hex]) => `<button type="button" class="color-btn" style="background-color: ${hex};" title="${nombre}" onclick="selectColor(${p.id}, '${nombre}')" id="color-${p.id}-${nombre}"></button>`).join('')}</div></div><div class="quantity-selector"><button type="button" class="quantity-btn" onclick="cambiarCantidad(${p.id}, -1)">-</button><input type="number" class="quantity-input" id="qty-${p.id}" value="1" min="1"><button type="button" class="quantity-btn" onclick="cambiarCantidad(${p.id}, 1)">+</button></div><button type="button" class="btn" style="width: 100%;" onclick="agregarAlCarrito(${p.id})">➕ Agregar</button></div></div>`).join(''); showContent('comprador-dashboard'); }
         function selectColor(productId, colorNombre) { colorSeleccionado[productId] = colorNombre; document.querySelectorAll(`#colores-${productId} .color-btn`).forEach(btn => btn.classList.remove('selected')); document.getElementById(`color-${productId}-${colorNombre}`).classList.add('selected'); mostrarNotification('✅ Color: ' + colorNombre); }
         function cambiarCantidad(productId, delta) { const input = document.getElementById(`qty-${productId}`); let valor = parseInt(input.value) + delta; if (valor < 1) valor = 1; input.value = valor; }
@@ -297,11 +314,11 @@
         function abrirCarrito() { const modal = document.getElementById('carrito-modal'); const itemsHTML = carrito.length === 0 ? '<p>Carrito vacío</p>' : `<table><thead><tr><th>Producto</th><th>Color</th><th>Cant</th><th>Precio</th><th>Subtotal</th><th></th></tr></thead><tbody>${carrito.map((item, idx) => `<tr><td>${item.producto}</td><td>${item.color}</td><td>${item.cantidad}</td><td>$${item.precio}</td><td>$${item.subtotal}</td><td><button type="button" class="btn btn-secondary btn-small" onclick="eliminarDelCarrito(${idx})">❌</button></td></tr>`).join('')}</tbody></table>`; document.getElementById('carrito-items').innerHTML = itemsHTML; const total = carrito.reduce((sum, item) => sum + item.subtotal, 0); document.getElementById('carrito-total').innerHTML = `Total: $${total}`; modal.classList.add('active'); }
         function cerrarCarrito() { document.getElementById('carrito-modal').classList.remove('active'); }
         function eliminarDelCarrito(idx) { carrito.splice(idx, 1); document.getElementById('contador').textContent = carrito.length; abrirCarrito(); mostrarNotification('❌ Producto eliminado'); }
-        function abrirFormularioPedido() { cerrarCarrito(); const subtotal = carrito.reduce((sum, item) => sum + item.subtotal, 0); const descuento = 0; const total = subtotal - descuento; document.getElementById('subtotal-pedido').innerHTML = `$${subtotal}`; document.getElementById('descuento-pedido').innerHTML = `$${descuento}`; document.getElementById('total-pedido').innerHTML = `$${total}`; document.getElementById('pedido-modal').classList.add('active'); }
+        function abrirFormularioPedido() { cerrarCarrito(); const subtotal = carrito.reduce((sum, item) => sum + item.subtotal, 0); document.getElementById('subtotal-pedido').innerHTML = `$${subtotal}`; document.getElementById('descuento-pedido').innerHTML = `$0`; document.getElementById('total-pedido').innerHTML = `$${subtotal}`; document.getElementById('pedido-modal').classList.add('active'); }
         function cerrarPedido() { document.getElementById('pedido-modal').classList.remove('active'); }
-        function realizarPedido(event) { event.preventDefault(); if (carrito.length === 0) { mostrarNotification('Carrito vacío', true); return; } const nombre = document.getElementById('nombre-pedido').value; const direccion = document.getElementById('direccion-pedido').value; const telefono = document.getElementById('telefono-pedido').value; const tipoEntrega = document.getElementById('tipo-entrega').value; const total = carrito.reduce((sum, item) => sum + item.subtotal, 0); const numeroPedido = '#' + Math.random().toString(36).substr(2, 9).toUpperCase(); const pedido = { numero: numeroPedido, nombre, direccion, telefono, tipoEntrega, items: [...carrito], total, fecha: new Date().toLocaleDateString() }; pedidos.push(pedido); mostrarNotification(`✅ ¡Pedido ${numeroPedido} realizado!\nTotal: $${total}`); carrito = []; document.getElementById('contador').textContent = 0; cerrarPedido(); mostrarProductos(); }
+        function realizarPedido(event) { event.preventDefault(); if (carrito.length === 0) { mostrarNotification('Carrito vacío', true); return; } const nombre = document.getElementById('nombre-pedido').value; const direccion = document.getElementById('direccion-pedido').value; const telefono = document.getElementById('telefono-pedido').value; const tipoEntrega = document.getElementById('tipo-entrega').value; const total = carrito.reduce((sum, item) => sum + item.subtotal, 0); const numeroPedido = '#' + Math.random().toString(36).substr(2, 9).toUpperCase(); const vendedorAleatorio = vendedoresData[Math.floor(Math.random() * vendedoresData.length)]; const pedido = { numero: numeroPedido, nombre, direccion, telefono, tipoEntrega, items: [...carrito], total, fecha: new Date().toLocaleDateString(), vendedor: vendedorAleatorio.nombre }; pedidos.push(pedido); carritoCliente.push(pedido); mostrarNotification(`✅ ¡Pedido ${numeroPedido} realizado!\nAsignado a: ${vendedorAleatorio.nombre}`); carrito = []; document.getElementById('contador').textContent = 0; cerrarPedido(); mostrarProductos(); }
         
-        function showVendedorSection(section) { const content = document.getElementById('vendedor-content'); if (section === 'clientes') { content.innerHTML = `<h3 class="section-title">👥 Mis Clientes</h3><div class="table-container"><table><thead><tr><th>Nombre</th><th>Teléfono</th><th>Dirección</th><th>Descuento</th><th>Acciones</th></tr></thead><tbody><tr><td>Negocio A</td><td>555-1234</td><td>Calle 1</td><td>5%</td><td><button type="button" class="btn btn-secondary btn-small" onclick="eliminarCliente()">❌</button></td></tr><tr><td>Negocio B</td><td>555-5678</td><td>Calle 2</td><td>10%</td><td><button type="button" class="btn btn-secondary btn-small" onclick="eliminarCliente()">❌</button></td></tr></tbody></table></div>`; } else if (section === 'agregar-cliente') { content.innerHTML = `<h3 class="section-title">➕ Agregar Cliente</h3><form onsubmit="agregarCliente(event)"><div class="form-group"><label>Nombre:</label><input type="text" required></div><div class="form-group"><label>Teléfono:</label><input type="tel" required></div><div class="form-group"><label>Dirección:</label><input type="text" required></div><div class="form-group"><label>Google Maps Link:</label><input type="text" placeholder="https://maps.google.com/..." required></div><button type="submit" class="btn">Agregar</button></form>`; } else if (section === 'pedidos') { content.innerHTML = `<h3 class="section-title">📦 Pedidos Recibidos</h3><div class="table-container"><table><thead><tr><th>Pedido</th><th>Cliente</th><th>Tipo</th><th>Total</th><th>Fecha</th></tr></thead><tbody>${pedidos.length === 0 ? '<tr><td colspan="5">No hay pedidos</td></tr>' : pedidos.map(p => `<tr><td>${p.numero}</td><td>${p.nombre}</td><td>${p.tipoEntrega === 'domicilio' ? '🚚' : '🏪'}</td><td>$${p.total}</td><td>${p.fecha}</td></tr>`).join('')}</tbody></table></div>`; } else if (section === 'descuentos') { content.innerHTML = `<h3 class="section-title">🏷️ Proponer Descuento</h3><form onsubmit="proponerDescuento(event)"><div class="form-group"><label>Cliente:</label><select required><option>Seleccionar</option><option>Negocio A</option></select></div><div class="dos-columnas"><div class="form-group"><label>Porcentaje:</label><input type="number" min="1" max="100" required></div><div class="form-group"><label>Tipo:</label><select id="desc-tipo" onchange="actualizarProductos()" required><option value="general">General</option><option value="producto">Por Producto</option></select></div></div><div id="prod-descto" style="display:none;">${productos.map(p => `<div class="form-group"><label>${p.nombre}</label><input type="number" min="0" max="100" placeholder="%"></div>`).join('')}</div><div class="form-group"><label>Justificación:</label><textarea required></textarea></div><button type="submit" class="btn">📤 Enviar</button></form>`; } else if (section === 'notas') { content.innerHTML = `<h3 class="section-title">📝 Generar Nota</h3><form onsubmit="generarNota(event)"><div class="form-group"><label>Pedido:</label><select required><option>Elegir</option>${pedidos.map(p => `<option>${p.numero} - ${p.nombre}</option>`).join('')}</select></div><div class="form-group"><label>Notas:</label><textarea></textarea></div><button type="submit" class="btn">📄 Generar</button></form>`; } else if (section === 'facturas') { content.innerHTML = `<h3 class="section-title">🧾 Generar Factura</h3><form onsubmit="generarFactura(event)"><div class="form-group"><label>Pedido:</label><select required><option>Elegir</option>${pedidos.map(p => `<option>${p.numero} - ${p.nombre}</option>`).join('')}</select></div><div class="form-group"><label>IVA 16%:</label><select><option value="no">No</option><option value="si">Sí</option></select></div><div class="form-group"><label>Notas:</label><textarea></textarea></div><button type="submit" class="btn btn-success">✅ Generar</button></form>`; } }
+        function showVendedorSection(section) { const content = document.getElementById('vendedor-content'); if (section === 'clientes') { content.innerHTML = `<h3 class="section-title">👥 Mis Clientes</h3><div class="table-container"><table><thead><tr><th>Nombre</th><th>Teléfono</th><th>Dirección</th><th>Descuento</th><th>Acciones</th></tr></thead><tbody><tr><td>Negocio A</td><td>555-1234</td><td>Calle 1</td><td>5%</td><td><button type="button" class="btn btn-secondary btn-small" onclick="eliminarCliente()">❌</button></td></tr></tbody></table></div>`; } else if (section === 'agregar-cliente') { content.innerHTML = `<h3 class="section-title">➕ Agregar Cliente</h3><form onsubmit="agregarCliente(event)"><div class="form-group"><label>Nombre:</label><input type="text" required></div><div class="form-group"><label>Teléfono:</label><input type="tel" required></div><div class="form-group"><label>Dirección:</label><input type="text" required></div><div class="form-group"><label>Google Maps:</label><input type="text" placeholder="https://maps.google.com/..." required></div><button type="submit" class="btn">Agregar</button></form>`; } else if (section === 'pedidos') { content.innerHTML = `<h3 class="section-title">📦 Pedidos Recibidos</h3><div class="table-container"><table><thead><tr><th>Pedido</th><th>Cliente</th><th>Tipo</th><th>Total</th><th>Fecha</th></tr></thead><tbody>${pedidos.length === 0 ? '<tr><td colspan="5">No hay pedidos</td></tr>' : pedidos.map(p => `<tr><td>${p.numero}</td><td>${p.nombre}</td><td>${p.tipoEntrega === 'domicilio' ? '🚚' : '🏪'}</td><td>$${p.total}</td><td>${p.fecha}</td></tr>`).join('')}</tbody></table></div>`; } else if (section === 'descuentos') { content.innerHTML = `<h3 class="section-title">🏷️ Proponer Descuento</h3><form onsubmit="proponerDescuento(event)"><div class="form-group"><label>Cliente:</label><select required><option>Seleccionar</option></select></div><div class="dos-columnas"><div class="form-group"><label>Porcentaje:</label><input type="number" min="1" max="100" required></div><div class="form-group"><label>Tipo:</label><select id="desc-tipo" onchange="actualizarProductos()" required><option value="general">General</option><option value="producto">Por Producto</option></select></div></div><div id="prod-descto" style="display:none;">${productos.map(p => `<div class="form-group"><label>${p.nombre}</label><input type="number" min="0" max="100" placeholder="%"></div>`).join('')}</div><div class="form-group"><label>Justificación:</label><textarea required></textarea></div><button type="submit" class="btn">Enviar</button></form>`; } else if (section === 'notas') { content.innerHTML = `<h3 class="section-title">📝 Generar Nota</h3><form onsubmit="generarNota(event)"><div class="form-group"><label>Pedido:</label><select required><option>Elegir</option>${pedidos.map(p => `<option>${p.numero} - ${p.nombre}</option>`).join('')}</select></div><div class="form-group"><label>Notas:</label><textarea></textarea></div><button type="submit" class="btn">Generar</button></form>`; } else if (section === 'facturas') { content.innerHTML = `<h3 class="section-title">🧾 Generar Factura</h3><form onsubmit="generarFactura(event)"><div class="form-group"><label>Pedido:</label><select required><option>Elegir</option>${pedidos.map(p => `<option>${p.numero} - ${p.nombre}</option>`).join('')}</select></div><div class="form-group"><label>IVA 16%:</label><select><option value="no">No</option><option value="si">Sí</option></select></div><div class="form-group"><label>Notas:</label><textarea></textarea></div><button type="submit" class="btn btn-success">Generar</button></form>`; } else if (section === 'mensajes') { content.innerHTML = `<h3 class="section-title">💬 Mensajes con Vendedores</h3><div class="info-box"><p>Coordina traspasos de pedidos con otros vendedores</p></div><div class="form-group"><label>Enviar a:</label><select><option>Husai M.</option><option>Pedro D.</option><option>Fernando O.</option><option>Isidro G.</option></select></div><textarea style="width: 100%; height: 100px; padding: 1rem; border-radius: 8px; border: 2px solid #e2e8f0;" placeholder="Escribe tu mensaje..."></textarea><button type="button" class="btn" onclick="mostrarNotification('✅ Mensaje enviado')" style="margin-top: 1rem;">Enviar</button>`; } else if (section === 'historial') { content.innerHTML = `<h3 class="section-title">📋 Historial de Pedidos</h3><div class="table-container"><table><thead><tr><th>Pedido</th><th>Cliente</th><th>Total</th><th>Estado</th><th>Fecha</th></tr></thead><tbody>${pedidos.length === 0 ? '<tr><td colspan="5">No hay pedidos</td></tr>' : pedidos.map(p => `<tr><td>${p.numero}</td><td>${p.nombre}</td><td>$${p.total}</td><td>📦 Procesando</td><td>${p.fecha}</td></tr>`).join('')}</tbody></table></div>`; } }
         function actualizarProductos() { document.getElementById('prod-descto').style.display = document.getElementById('desc-tipo').value === 'producto' ? 'block' : 'none'; }
         function agregarCliente(event) { event.preventDefault(); mostrarNotification('✅ Cliente agregado'); }
         function eliminarCliente() { mostrarNotification('❌ Cliente eliminado'); }
@@ -309,10 +326,13 @@
         function generarNota(event) { event.preventDefault(); mostrarNotification('✅ Nota generada'); }
         function generarFactura(event) { event.preventDefault(); mostrarNotification('✅ Factura generada'); }
         
-        function showAdminSection(section) { const content = document.getElementById('admin-content'); if (section === 'productos') { content.innerHTML = `<h3 class="section-title">📦 Gestión de Productos</h3><div class="table-container"><table><thead><tr><th>Producto</th><th>Precio</th><th>Acciones</th></tr></thead><tbody>${productos.map(p => `<tr><td>${p.nombre}</td><td>$${p.precio}</td><td><button type="button" class="btn btn-small" onclick="editarPrecio(${p.id})">✏️</button><button type="button" class="btn btn-secondary btn-small" onclick="eliminarProductoAdmin()">❌</button></td></tr>`).join('')}</tbody></table></div>`; } else if (section === 'descuentos') { content.innerHTML = `<h3 class="section-title">✅ Descuentos</h3><p>✓ No hay solicitudes pendientes</p>`; } else if (section === 'descuento-directo') { content.innerHTML = `<h3 class="section-title">🎁 Otorgar Descuento</h3><form onsubmit="aplicarDescuentoDirecto(event)"><div class="form-group"><label>Cliente:</label><select required><option>Seleccionar</option></select></div><div class="form-group"><label>Porcentaje:</label><input type="number" min="0" max="100" required></div><button type="submit" class="btn btn-success">Aplicar</button></form>`; } else if (section === 'ventas') { content.innerHTML = `<h3 class="section-title">📊 Ventas</h3><div class="table-container"><table><thead><tr><th>Vendedor</th><th>Total</th><th>Clientes</th><th>Pedidos</th><th>Acciones</th></tr></thead><tbody><tr><td>Husai M.</td><td>$12,500</td><td>8</td><td>15</td><td><button type="button" class="btn btn-secondary btn-small" onclick="eliminarVenta()">❌</button></td></tr></tbody></table></div>`; } else if (section === 'pedidos') { content.innerHTML = `<h3 class="section-title">📦 Todos los Pedidos</h3><div class="table-container"><table><thead><tr><th>Pedido</th><th>Cliente</th><th>Total</th><th>Tipo</th><th>Fecha</th><th>Acciones</th></tr></thead><tbody>${pedidos.length === 0 ? '<tr><td colspan="6">No hay pedidos</td></tr>' : pedidos.map(p => `<tr><td>${p.numero}</td><td>${p.nombre}</td><td>$${p.total}</td><td>${p.tipoEntrega}</td><td>${p.fecha}</td><td><button type="button" class="btn btn-secondary btn-small" onclick="eliminarPedidoAdmin()">❌</button></td></tr>`).join('')}</tbody></table></div>`; } else if (section === 'clientes') { content.innerHTML = `<h3 class="section-title">👥 Clientes</h3><div class="table-container"><table><thead><tr><th>Nombre</th><th>Teléfono</th><th>Dirección</th><th>Vendedor</th><th>Acciones</th></tr></thead><tbody><tr><td>Negocio A</td><td>555-1234</td><td>Calle 1</td><td>Husai</td><td><button type="button" class="btn btn-secondary btn-small" onclick="eliminarClienteAdmin()">❌</button></td></tr></tbody></table></div>`; } else if (section === 'reportes') { content.innerHTML = `<h3 class="section-title">📈 Reportes</h3><div class="info-box"><p><strong>Total Ventas:</strong> $${pedidos.reduce((s, p) => s + p.total, 0)}</p><p><strong>Pedidos:</strong> ${pedidos.length}</p></div>`; } }
+        function showAdminSection(section) { const content = document.getElementById('admin-content'); if (section === 'productos') { content.innerHTML = `<h3 class="section-title">📦 Gestión de Productos</h3><div class="table-container"><table><thead><tr><th>Producto</th><th>Precio</th><th>Acciones</th></tr></thead><tbody>${productos.map(p => `<tr><td>${p.nombre}</td><td>$${p.precio}</td><td><button type="button" class="btn btn-small" onclick="editarPrecio(${p.id})">✏️</button><button type="button" class="btn btn-secondary btn-small" onclick="eliminarProductoAdmin()">❌</button></td></tr>`).join('')}</tbody></table></div>`; } else if (section === 'descuentos') { content.innerHTML = `<h3 class="section-title">✅ Descuentos</h3><p>✓ No hay solicitudes pendientes</p>`; } else if (section === 'descuento-directo') { content.innerHTML = `<h3 class="section-title">🎁 Otorgar Descuento</h3><form onsubmit="aplicarDescuentoDirecto(event)"><div class="form-group"><label>Cliente:</label><select required><option>Seleccionar</option></select></div><div class="form-group"><label>Porcentaje:</label><input type="number" min="0" max="100" required></div><button type="submit" class="btn btn-success">Aplicar</button></form>`; } else if (section === 'ventas') { content.innerHTML = `<h3 class="section-title">📊 Ventas</h3><div class="table-container"><table><thead><tr><th>Vendedor</th><th>Total</th><th>Clientes</th><th>Pedidos</th><th>Acciones</th></tr></thead><tbody><tr><td>Husai M.</td><td>$12,500</td><td>8</td><td>15</td><td><button type="button" class="btn btn-secondary btn-small" onclick="eliminarVenta()">❌</button></td></tr></tbody></table></div>`; } else if (section === 'pedidos') { content.innerHTML = `<h3 class="section-title">📦 Todos los Pedidos</h3><div class="table-container"><table><thead><tr><th>Pedido</th><th>Cliente</th><th>Total</th><th>Vendedor</th><th>Tipo</th><th>Fecha</th><th>Acciones</th></tr></thead><tbody>${pedidos.length === 0 ? '<tr><td colspan="7">No hay pedidos</td></tr>' : pedidos.map(p => `<tr><td>${p.numero}</td><td>${p.nombre}</td><td>$${p.total}</td><td>${p.vendedor}</td><td>${p.tipoEntrega}</td><td>${p.fecha}</td><td><button type="button" class="btn btn-secondary btn-small" onclick="eliminarPedidoAdmin()">❌</button></td></tr>`).join('')}</tbody></table></div>`; } else if (section === 'clientes') { content.innerHTML = `<h3 class="section-title">👥 Clientes</h3><div class="table-container"><table><thead><tr><th>Nombre</th><th>Teléfono</th><th>Dirección</th><th>Vendedor</th><th>Acciones</th></tr></thead><tbody><tr><td>Negocio A</td><td>555-1234</td><td>Calle 1</td><td>Husai</td><td><button type="button" class="btn btn-secondary btn-small" onclick="eliminarClienteAdmin()">❌</button></td></tr></tbody></table></div>`; } else if (section === 'reportes') { const totalVentas = pedidos.reduce((s, p) => s + p.total, 0); content.innerHTML = `<h3 class="section-title">📈 Reportes y Análisis</h3><div class="info-box"><p><strong>Total Ventas:</strong> $${totalVentas}</p><p><strong>Total Pedidos:</strong> ${pedidos.length}</p><p><strong>Promedio por Pedido:</strong> $${pedidos.length > 0 ? (totalVentas / pedidos.length).toFixed(2) : 0}</p></div><div style="margin-top: 2rem;"><button type="button" class="btn" onclick="descargarReportePDF()">📄 Descargar PDF</button><button type="button" class="btn btn-secondary" onclick="descargarReporteExcel()">📊 Descargar Excel</button></div>`; } else if (section === 'mensajes') { content.innerHTML = `<h3 class="section-title">💬 Mensajes entre Vendedores</h3><div class="info-box"><p>Monitorea la comunicación entre vendedores</p></div><p>Últimos mensajes:</p><div style="background: #f1f5f9; padding: 1rem; border-radius: 8px; margin-top: 1rem;"><p>Husai: "¿Puedes traspasar el pedido #ABC123?"</p><p>Pedro: "Claro, te lo paso mañana"</p></div>`; } else if (section === 'agregar-cliente') { content.innerHTML = `<h3 class="section-title">➕ Agregar Nuevo Cliente</h3><form onsubmit="agregarClienteAdmin(event)"><div class="form-group"><label>Nombre:</label><input type="text" required></div><div class="form-group"><label>Teléfono:</label><input type="tel" required></div><div class="form-group"><label>Dirección:</label><input type="text" required></div><div class="form-group"><label>Vendedor Asignado:</label><select required><option>Husai M.</option><option>Pedro D.</option><option>Fernando O.</option><option>Isidro G.</option></select></div><button type="submit" class="btn btn-success">Agregar Cliente</button></form>`; } }
         function editarPrecio(id) { const p = productos.find(x => x.id === id); const nuevo = prompt('Nuevo precio:', p.precio); if (nuevo && !isNaN(nuevo)) { p.precio = parseFloat(nuevo); mostrarNotification('✅ Precio actualizado'); showAdminSection('productos'); } }
         function aplicarDescuentoDirecto(event) { event.preventDefault(); mostrarNotification('✅ Descuento aplicado'); }
-        function eliminarProductoAdmin() { mostrarNotification('❌ Eliminado'); }
+        function descargarReportePDF() { mostrarNotification('📄 PDF descargado'); }
+        function descargarReporteExcel() { mostrarNotification('📊 Excel descargado'); }
+        function agregarClienteAdmin(event) { event.preventDefault(); mostrarNotification('✅ Cliente agregado'); }
+        function eliminarProductoAdmin() { mostrarNotification('❌ Producto eliminado'); }
         function eliminarVenta() { mostrarNotification('❌ Venta eliminada'); }
         function eliminarPedidoAdmin() { mostrarNotification('❌ Pedido eliminado'); }
         function eliminarClienteAdmin() { mostrarNotification('❌ Cliente eliminado'); }
