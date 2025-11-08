@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -692,6 +693,62 @@
       border-color: var(--color-primary);
     }
     
+    /* Modal system */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      animation: fadeIn 0.2s ease-out;
+    }
+    .modal-content {
+      background: var(--color-surface);
+      border-radius: var(--radius-lg);
+      max-width: 500px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      animation: slideIn 0.3s ease-out;
+    }
+    .modal-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--color-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .modal-body {
+      padding: 24px;
+    }
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: var(--color-text-secondary);
+      padding: 0;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-sm);
+      transition: all 0.2s ease;
+    }
+    .modal-close:hover {
+      background: var(--color-secondary);
+      color: var(--color-text);
+    }
+    
     /* Timeline de pedidos */
     .timeline {
       position: relative;
@@ -853,12 +910,12 @@
   </div>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
-    // ---- DATOS BÁSICOS ---- //
+    // DATOS BASICOS
     const PRODUCTOS = [
-      { nombre:"Tambo 235 lt", precio:520, colores:["beige","blanco","negro","azul","rojo","verde","naranja","rojo con blanco","azul con blanco","melón","verde con blanco","granito"] },
-      { nombre:"Tinaco 750 lt", precio:1400, colores:["beige","blanco","negro","rojo","verde","naranja","café","granito"] },
-      { nombre:"Tinaco 1100 lt", precio:1500, colores:["beige","blanco","negro","rojo","verde","naranja","café","granito"] },
-      { nombre:"Tinaco 1200 lt", precio:1600, colores:["beige","blanco","negro","rojo","verde","naranja","café","granito"] }
+      { id:1, nombre:"Tambo 235 lt", precio:520, precioInicial:520, colores:["beige","blanco","negro","azul","rojo","verde","naranja","rojo con blanco","azul con blanco","melón","verde con blanco","granito"] },
+      { id:2, nombre:"Tinaco 750 lt", precio:1400, precioInicial:1400, colores:["beige","blanco","negro","rojo","verde","naranja","café","granito"] },
+      { id:3, nombre:"Tinaco 1100 lt", precio:1500, precioInicial:1500, colores:["beige","blanco","negro","rojo","verde","naranja","café","granito"] },
+      { id:4, nombre:"Tinaco 1200 lt", precio:1600, precioInicial:1600, colores:["beige","blanco","negro","rojo","verde","naranja","café","granito"] }
     ];
     const VENDEDORES = [
       { usuario:'husai.mendez', password:'Husai2024*', mostrar:"Husai M.", nombre_completo: "Husai Méndez", telefono:'7775146927' },
@@ -869,13 +926,16 @@
     const ADMIN = { usuario:'admin.plastinova', password:'Admin2024*Plastinova', nombre:'Administrador', correo:'tinacos-plastinova@outlook.com', telefono:'5636259982' };
     const ROLES = ["comprador","vendedor","administrador"];
 
-    // ---- ESTADO "BACKEND" (IN MEMORIA, SOLO DEMO) ---- //
+    // ESTADO BACKEND (IN MEMORIA, SOLO DEMO)
     // Persiste solo en memoria mientras dure la sesión/browser
     let estado = {
       user: null, // Ejemplo: {rol, nombre, vendedor_asignado, ...}
       users: [], // [{tipo, datos...}]
       pedidos: [], // list of pedidos
       descuentos: {}, // {'usuario-vendedor': descuento}
+      solicitudesDescuento: [], // {id, vendedor, cliente, producto, porcentaje, justificacion, estado, fecha}
+      descuentosActivos: [], // {id, cliente, tipo, porcentaje, producto, fechaInicio, fechaExpiracion, otorgadoPor, notas}
+      historialPrecios: [], // {producto, precioAnterior, precioNuevo, fecha, modificadoPor}
       notas: [], // {id, pedidoId, factura, nota}
       mensajes: [], // {de, para, msg, fecha}
       fotos: {}, // {producto: [urls]}
@@ -947,17 +1007,24 @@
       }
       if(user.rol==='vendedor'){
         const pedidosNuevos = estado.pedidos.filter(p=>p.comprador.vendedor===user.mostrar && p.estatus==='Pendiente').length;
+        const misSolicitudes = estado.solicitudesDescuento.filter(s => s.vendedor === user.mostrar && s.estado === 'pendiente').length;
+        const notificaciones = estado.mensajes.filter(m => (m.tipo === 'aprobacion' || m.tipo === 'rechazo') && m.vendedorDestino === user.mostrar).length;
         html += `
           <button class='btn btn--secondary' onclick='cargarHome()'>📊 Dashboard</button>
           <button class='btn btn--secondary' onclick='verPedidosVendedor()'>📦 Pedidos${pedidosNuevos > 0 ? `<span class="badge">${pedidosNuevos}</span>` : ''}</button>
           <button class='btn btn--secondary' onclick='verMisClientes()'>👥 Clientes</button>
+          <button class='btn btn--secondary' onclick='verMisSolicitudesDescuento()'>💰 Mis Solicitudes${misSolicitudes > 0 ? `<span class="badge">${misSolicitudes}</span>` : ''}</button>
           <button class='btn btn--secondary' onclick='verNotas()'>📄 Notas</button>
-          <button class='btn btn--secondary' onclick='verMensajes()'>💬 Mensajes</button>`;
+          <button class='btn btn--secondary' onclick='verMensajes()'>💬 Mensajes${notificaciones > 0 ? `<span class="badge">${notificaciones}</span>` : ''}</button>`;
       }
       if(user.rol==='administrador'){
         const totalMensajes = estado.mensajes.length;
+        const solicitudesPendientes = estado.solicitudesDescuento.filter(s => s.estado === 'pendiente').length;
         html += `
           <button class='btn btn--secondary' onclick='cargarHome()'>📊 Dashboard</button>
+          <button class='btn btn--secondary' onclick='verGestionProductos()'>🏷️ Productos</button>
+          <button class='btn btn--secondary' onclick='verSolicitudesDescuento()'>💰 Solicitudes${solicitudesPendientes > 0 ? `<span class="badge">${solicitudesPendientes}</span>` : ''}</button>
+          <button class='btn btn--secondary' onclick='verDescuentosActivos()'>📊 Descuentos</button>
           <button class='btn btn--secondary' onclick='verTodosLosPedidos()'>📦 Pedidos</button>
           <button class='btn btn--secondary' onclick='verPanelAdmin()'>⚙️ Admin</button>
           <button class='btn btn--secondary' onclick='verMensajes()'>💬 Mensajes${totalMensajes > 0 ? `<span class="badge">${totalMensajes}</span>` : ''}</button>`;
@@ -1161,18 +1228,43 @@
             <button type='button' class='btn btn--outline btn--sm' onclick='eliminarDelCarrito(${i})'>🗑️ Eliminar</button>
           </div>`;
       });
-      // Descuento automático
-      let descuento = obtenerDescuentoComprador();
-      let total = carrito.reduce((a,x,i)=>{
-        const p = PRODUCTOS.find(p=>p.nombre===x.prod);
-        return a + p.precio* x.cant;
-      },0);
-      let totalDesc = Math.round(total * (1-descuento/100));
+      // Calcular totales con descuentos (puede ser por producto)
+      let subtotal = 0;
+      let totalDescuento = 0;
+      let detalleDescuentos = [];
+      
+      carrito.forEach(item => {
+        const p = PRODUCTOS.find(pr => pr.nombre === item.prod);
+        const precioItem = p.precio * item.cant;
+        const descuentoItem = obtenerDescuentoComprador(item.prod);
+        const descuentoMonto = Math.round(precioItem * descuentoItem / 100);
+        
+        subtotal += precioItem;
+        totalDescuento += descuentoMonto;
+        
+        if(descuentoItem > 0){
+          detalleDescuentos.push({prod: item.prod, desc: descuentoItem});
+        }
+      });
+      
+      let totalDesc = subtotal - totalDescuento;
+      let descuentoPromedio = subtotal > 0 ? Math.round((totalDescuento / subtotal) * 100) : 0;
       html += `<div class='info-card' style='background:var(--color-bg-1);'>
-        <div style='font-size:16px;margin-bottom:8px;'><b>Subtotal:</b> <span style='float:right;'>$${total.toLocaleString()}</span></div>
-        <div style='font-size:16px;margin-bottom:8px;color:var(--color-success);'><b>Descuento (${descuento}%):</b> <span style='float:right;'>-$${(total-totalDesc).toLocaleString()}</span></div>
-        <div style='font-size:24px;font-weight:700;color:var(--color-primary);padding-top:12px;border-top:2px solid var(--color-border);'><b>Total:</b> <span style='float:right;'>$${totalDesc.toLocaleString()}</span></div>
-      </div>
+        <div style='font-size:16px;margin-bottom:8px;'><b>Subtotal:</b> <span style='float:right;'>$${subtotal.toLocaleString()}</span></div>`;
+      
+      if(totalDescuento > 0){
+        html += `<div style='font-size:16px;margin-bottom:8px;color:var(--color-success);'><b>Descuento${descuentoPromedio > 0 ? ` (${descuentoPromedio}% prom.)` : ''}:</b> <span style='float:right;'>-$${totalDescuento.toLocaleString()}</span></div>`;
+        if(detalleDescuentos.length > 0){
+          html += `<div style='font-size:12px;color:var(--color-text-secondary);margin-bottom:8px;padding-left:12px;'>`;
+          for(const det of detalleDescuentos){
+            html += `• ${det.prod}: ${det.desc}%<br>`;
+          }
+          html += `</div>`;
+        }
+      }
+      
+      html += `<div style='font-size:24px;font-weight:700;color:var(--color-primary);padding-top:12px;border-top:2px solid var(--color-border);'><b>Total:</b> <span style='float:right;'>$${totalDesc.toLocaleString()}</span></div>
+      </div>`;
       <button class='btn btn--primary btn--full-width mt-8' type='submit' style='font-size:18px;padding:14px;'>💳 Confirmar pedido</button>
       </form>`;
       dom.contentSection.innerHTML = html;
@@ -1184,10 +1276,35 @@
       actualizarBadgeCarrito();
       verCarrito();
     }
-    function obtenerDescuentoComprador(){
+    function obtenerDescuentoComprador(productoNombre = null){
       const u = estado.user;
       if(!u) return 0;
       if(u.rol==='invitado') return 0;
+      
+      // Buscar descuentos activos para este cliente
+      const descuentosCliente = estado.descuentosActivos.filter(d => 
+        d.activo && 
+        d.clienteTelefono === u.telefono &&
+        (!d.fechaExpiracion || new Date(d.fechaExpiracion) > new Date())
+      );
+      
+      if(descuentosCliente.length === 0){
+        // Fallback al sistema antiguo
+        let clave = (u.telefono||u.nombre)+ '-' + u.vendedor;
+        return estado.descuentos[clave] || 0;
+      }
+      
+      // Si se especifica producto, buscar descuento específico
+      if(productoNombre){
+        const descuentoProducto = descuentosCliente.find(d => d.tipo === 'producto' && d.producto === productoNombre);
+        if(descuentoProducto) return descuentoProducto.porcentaje;
+      }
+      
+      // Si no, buscar descuento general
+      const descuentoGeneral = descuentosCliente.find(d => d.tipo === 'general');
+      if(descuentoGeneral) return descuentoGeneral.porcentaje;
+      
+      // Si hay descuentos pero no aplicables, usar el sistema antiguo
       let clave = (u.telefono||u.nombre)+ '-' + u.vendedor;
       return estado.descuentos[clave] || 0;
     }
@@ -1311,16 +1428,97 @@
       dom.contentSection.innerHTML = html;
     }
     function asignarDescuento(telefono){
-      const n = prompt("¿Porcentaje de descuento para este comprador? (0-100)");
-      if(n === null) return;
-      if(isNaN(Number(n)) || Number(n) < 0 || Number(n) > 100) {
-        mostrarToast('Ingresa un número válido entre 0 y 100', 'error');
-        return;
-      }
-      let clave = telefono + '-' + estado.user.mostrar;
-      estado.descuentos[clave] = Number(n);
-      mostrarToast(`Descuento del ${n}% asignado exitosamente`, 'success');
-      verMisClientes();
+      const cliente = estado.users.find(u => u.telefono === telefono && u.vendedor === estado.user.mostrar);
+      if(!cliente) return;
+      
+      dom.contentSection.innerHTML = `<div class="section-header"><h2>Proponer Descuento</h2><p>Solicita autorización del administrador</p></div>
+      <div class='info-card' style='max-width:500px;margin:0 auto;'>
+        <div style='background:var(--color-bg-1);padding:16px;border-radius:var(--radius-md);margin-bottom:16px;'>
+          <div style='font-weight:600;margin-bottom:8px;'>Cliente</div>
+          <div style='color:var(--color-text-secondary);'>👤 ${cliente.nombre}</div>
+          <div style='color:var(--color-text-secondary);font-size:13px;'>📞 ${cliente.telefono}</div>
+        </div>
+        <form id='form-solicitar-descuento'>
+          <div class='form-group'>
+            <label class='form-label'>Tipo de descuento</label>
+            <select name='tipo' class='form-control' required>
+              <option value='general'>General para el cliente</option>
+              <option value='producto'>Por producto específico</option>
+            </select>
+          </div>
+          <div class='form-group' id='producto-select' style='display:none;'>
+            <label class='form-label'>Selecciona el producto</label>
+            <select name='producto' class='form-control'>
+              ${PRODUCTOS.map(p => `<option value='${p.nombre}'>${p.nombre}</option>`).join('')}
+            </select>
+          </div>
+          <div class='form-group'>
+            <label class='form-label'>Porcentaje de descuento (%)</label>
+            <input type='number' name='porcentaje' class='form-control' min='1' max='100' required placeholder='Ej: 15' />
+          </div>
+          <div class='form-group'>
+            <label class='form-label'>Justificación del descuento</label>
+            <textarea name='justificacion' class='form-control' rows='3' required placeholder='Explica la razón del descuento...'></textarea>
+          </div>
+          <div style='display:flex;gap:12px;margin-top:24px;'>
+            <button type='submit' class='btn btn--primary' style='flex:1;'>📨 Enviar solicitud</button>
+            <button type='button' class='btn btn--outline' onclick='verMisClientes()'>Cancelar</button>
+          </div>
+        </form>
+      </div>`;
+      
+      document.querySelector('select[name="tipo"]').onchange = function(){
+        document.getElementById('producto-select').style.display = this.value === 'producto' ? 'block' : 'none';
+      };
+      
+      document.getElementById('form-solicitar-descuento').onsubmit = function(e){
+        e.preventDefault();
+        const tipo = this.tipo.value;
+        const porcentaje = Number(this.porcentaje.value);
+        const justificacion = this.justificacion.value.trim();
+        const producto = tipo === 'producto' ? this.producto.value : null;
+        
+        // Validar que no exista una solicitud pendiente para este cliente
+        const tienePendiente = estado.solicitudesDescuento.some(s => 
+          s.clienteTelefono === cliente.telefono && 
+          s.estado === 'pendiente' &&
+          s.vendedor === estado.user.mostrar
+        );
+        
+        if(tienePendiente){
+          mostrarToast('⚠️ Ya existe una solicitud pendiente para este cliente', 'warning');
+          return;
+        }
+        
+        const solicitud = {
+          id: 'SD' + Date.now(),
+          vendedor: estado.user.mostrar,
+          vendedorCompleto: estado.user.nombre_completo,
+          cliente: cliente.nombre,
+          clienteTelefono: cliente.telefono,
+          tipo: tipo,
+          producto: producto,
+          porcentaje: porcentaje,
+          justificacion: justificacion,
+          estado: 'pendiente',
+          fecha: new Date().toISOString()
+        };
+        
+        estado.solicitudesDescuento.push(solicitud);
+        
+        // Notificar al admin
+        estado.mensajes.push({
+          de: estado.user.nombre_completo || estado.user.mostrar,
+          para: 'administrador',
+          msg: `💰 Nueva solicitud de descuento del ${porcentaje}% para el cliente ${cliente.nombre}. Justificación: ${justificacion}`,
+          fecha: new Date().toISOString(),
+          tipo: 'solicitud',
+          vendedorOrigen: estado.user.mostrar
+        });
+        
+        mostrarToast('✅ Solicitud enviada al administrador', 'success');
+        verMisClientes();
+      };
     }
     function registrarNuevoComprador(){
       dom.contentSection.innerHTML = `<div class="section-header"><h2>Registrar Nuevo Cliente</h2></div>
@@ -1389,16 +1587,60 @@
     // -- Mensajería interna --
     function verMensajes(){
       let u = estado.user;
-      dom.contentSection.innerHTML = `<div class="section-header"><h2>Mensajería Interna</h2><p>Comunicación con el equipo</p></div>
+      
+      // Filtrar mensajes relevantes para el usuario
+      let mensajesRelevantes = estado.mensajes.filter(m => {
+        if(u.rol === 'administrador') return true; // Admin ve todo
+        if(m.para === u.rol) {
+          // Si es vendedor, solo mostrar los que son para él específicamente
+          if(u.rol === 'vendedor' && m.vendedorDestino){
+            return m.vendedorDestino === u.mostrar;
+          }
+          return true;
+        }
+        if(m.para === u.nombre) return true;
+        return false;
+      });
+      
+      // Separar notificaciones de sistema y mensajes normales
+      const notificaciones = mensajesRelevantes.filter(m => m.tipo === 'aprobacion' || m.tipo === 'rechazo');
+      const mensajesNormales = mensajesRelevantes.filter(m => !m.tipo);
+      
+      dom.contentSection.innerHTML = `<div class="section-header"><h2>Mensajería Interna</h2><p>Comunicación con el equipo</p></div>`;
+      
+      // Notificaciones de descuentos
+      if(notificaciones.length > 0 && u.rol === 'vendedor'){
+        dom.contentSection.innerHTML += `<div style='margin-bottom:24px;'><h3 style='margin-bottom:12px;'>🔔 Notificaciones (${notificaciones.length})</h3>`;
+        for(const notif of notificaciones.slice().reverse()){
+          const icono = notif.tipo === 'aprobacion' ? '✅' : '❌';
+          const color = notif.tipo === 'aprobacion' ? 'var(--color-success)' : 'var(--color-error)';
+          dom.contentSection.innerHTML += `<div class='info-card' style='border-left:4px solid ${color};'>
+            <div style='display:flex;gap:12px;align-items:start;'>
+              <div style='font-size:24px;'>${icono}</div>
+              <div style='flex:1;'>
+                <div style='font-weight:600;color:${color};margin-bottom:4px;'>${notif.de}</div>
+                <div style='margin-bottom:4px;'>${notif.msg}</div>
+                <div style='color:var(--color-text-secondary);font-size:12px;'>${new Date(notif.fecha).toLocaleString('es-MX')}</div>
+              </div>
+            </div>
+          </div>`;
+        }
+        dom.contentSection.innerHTML += `</div>`;
+      }
+      
+      // Mensajes normales
+      dom.contentSection.innerHTML += `<h3 style='margin-bottom:12px;'>💬 Mensajes</h3>
       <div id='mensajes-list' style='max-height:400px;overflow:auto;margin-bottom:24px;'>
-        ${(estado.mensajes.filter(m=>m.para===u.rol||m.para===u.nombre||u.rol==='administrador').map(m=>`<div class='info-card' style='margin-bottom:12px;'><div style='font-weight:600;color:var(--color-primary);margin-bottom:4px;'>👤 ${m.de}</div><div>${m.msg}</div><div style='color:var(--color-text-secondary);font-size:12px;margin-top:8px;'>${new Date(m.fecha).toLocaleString('es-MX')}</div></div>`).join('')) || '<div style="text-align:center;padding:40px;color:var(--color-text-secondary);">Sin mensajes.</div>'}
-      </div>
-      <div class='info-card'><form id='form-msg'>
+        ${mensajesNormales.length > 0 ? mensajesNormales.slice().reverse().map(m=>`<div class='info-card' style='margin-bottom:12px;'><div style='font-weight:600;color:var(--color-primary);margin-bottom:4px;'>👤 ${m.de}</div><div>${m.msg}</div><div style='color:var(--color-text-secondary);font-size:12px;margin-top:8px;'>${new Date(m.fecha).toLocaleString('es-MX')}</div></div>`).join('') : '<div style="text-align:center;padding:40px;color:var(--color-text-secondary);">Sin mensajes.</div>'}
+      </div>`;
+      
+      dom.contentSection.innerHTML += `<div class='info-card'><h3 style='margin-bottom:16px;'>Enviar mensaje</h3><form id='form-msg'>
       <div class='form-group'><label class='form-label'>Destinatario</label>
       <select name='para' class='form-control'>${ROLES.filter(r=>r!=="comprador"&&(u.rol==='administrador'||(u.rol==='vendedor'&&r!=='administrador'))).map(r=>`<option value='${r}'>${r.charAt(0).toUpperCase()+r.slice(1)}</option>`).join('')}</select></div>
       <div class='form-group'><label class='form-label'>Mensaje</label>
       <textarea placeholder='Escribe tu mensaje aquí...' class='form-control' name='msg' rows='3' required></textarea></div>
       <button class='btn btn--primary btn--full-width'>📨 Enviar mensaje</button></form></div>`;
+      
       document.getElementById('form-msg').onsubmit = function(e){
         e.preventDefault();
         let msg = this.msg.value.trim();
@@ -1413,6 +1655,18 @@
     function verPanelAdmin(){
       let html = `<div class="section-header"><h2>Panel de Administración</h2><p>Configuración y gestión del sistema</p></div>
       <div class='kpi-grid'>
+        <div class='kpi-card' onclick='verGestionProductos()' style='cursor:pointer;'>
+          <div style='font-size:36px;margin-bottom:8px;'>🏷️</div>
+          <div class='kpi-label'>Gestionar productos</div>
+        </div>
+        <div class='kpi-card' onclick='verSolicitudesDescuento()' style='cursor:pointer;'>
+          <div style='font-size:36px;margin-bottom:8px;'>💰</div>
+          <div class='kpi-label'>Autorizar descuentos</div>
+        </div>
+        <div class='kpi-card' onclick='verDescuentosActivos()' style='cursor:pointer;'>
+          <div style='font-size:36px;margin-bottom:8px;'>📊</div>
+          <div class='kpi-label'>Descuentos activos</div>
+        </div>
         <div class='kpi-card' onclick='subirFotoProducto()' style='cursor:pointer;'>
           <div style='font-size:36px;margin-bottom:8px;'>🖼️</div>
           <div class='kpi-label'>Gestionar imágenes</div>
@@ -1514,39 +1768,79 @@
       let total = data.reduce((a,b)=>a+b,0);
       const totalPedidos = estado.pedidos.length;
       const totalClientes = estado.users.filter(u=>u.rol==='comprador').length;
+      const descuentosActivos = estado.descuentosActivos.filter(d => d.activo).length;
+      const solicitudesPendientes = estado.solicitudesDescuento.filter(s => s.estado === 'pendiente').length;
       
-      dom.contentSection.innerHTML = `<div class="section-header"><h2>Estadísticas de Ventas</h2><p>Resumen general del negocio</p></div>
-      <div class='kpi-grid'>
-        <div class='kpi-card'>
+      dom.contentSection.innerHTML = `<div class="section-header"><h2>📈 Dashboard Administrador</h2><p>Resumen general del negocio</p></div>`;
+      
+      // KPIs principales
+      dom.contentSection.innerHTML += `<div class='kpi-grid'>
+        <div class='kpi-card' style='background:linear-gradient(135deg, var(--color-bg-1), var(--color-bg-3));'>
           <div class='kpi-label'>Ventas Totales</div>
           <div class='kpi-value'>$${total.toLocaleString()}</div>
         </div>
-        <div class='kpi-card'>
+        <div class='kpi-card' style='background:linear-gradient(135deg, var(--color-bg-2), var(--color-bg-4));'>
           <div class='kpi-label'>Total Pedidos</div>
           <div class='kpi-value'>${totalPedidos}</div>
         </div>
-        <div class='kpi-card'>
-          <div class='kpi-label'>Clientes</div>
+        <div class='kpi-card' style='background:linear-gradient(135deg, var(--color-bg-5), var(--color-bg-7));'>
+          <div class='kpi-label'>Clientes Registrados</div>
           <div class='kpi-value'>${totalClientes}</div>
         </div>
-        <div class='kpi-card'>
+        <div class='kpi-card' style='background:linear-gradient(135deg, var(--color-bg-6), var(--color-bg-8));'>
           <div class='kpi-label'>Ticket Promedio</div>
           <div class='kpi-value'>$${totalPedidos > 0 ? Math.round(total/totalPedidos).toLocaleString() : 0}</div>
         </div>
-      </div>
-      <div class='info-card' style='margin-top:24px;'>
+      </div>`;
+      
+      // KPIs secundarios (descuentos)
+      dom.contentSection.innerHTML += `<div class='kpi-grid' style='margin-top:16px;'>
+        <div class='kpi-card' onclick='verDescuentosActivos()' style='cursor:pointer;'>
+          <div style='font-size:32px;margin-bottom:8px;'>💰</div>
+          <div class='kpi-label'>Descuentos Activos</div>
+          <div class='kpi-value'>${descuentosActivos}</div>
+        </div>
+        <div class='kpi-card' onclick='verSolicitudesDescuento()' style='cursor:pointer;${solicitudesPendientes > 0 ? "border:2px solid var(--color-warning);" : ""}'>
+          <div style='font-size:32px;margin-bottom:8px;'>⏳</div>
+          <div class='kpi-label'>Solicitudes Pendientes</div>
+          <div class='kpi-value' style='${solicitudesPendientes > 0 ? "color:var(--color-warning);" : ""}'>${solicitudesPendientes}</div>
+        </div>
+        <div class='kpi-card' onclick='verGestionProductos()' style='cursor:pointer;'>
+          <div style='font-size:32px;margin-bottom:8px;'>🏷️</div>
+          <div class='kpi-label'>Productos</div>
+          <div class='kpi-value'>${PRODUCTOS.length}</div>
+        </div>
+        <div class='kpi-card' onclick='verHistorialPrecios()' style='cursor:pointer;'>
+          <div style='font-size:32px;margin-bottom:8px;'>📜</div>
+          <div class='kpi-label'>Cambios de Precio</div>
+          <div class='kpi-value'>${estado.historialPrecios.length}</div>
+        </div>
+      </div>`;
+      
+      // Alertas rápidas
+      if(solicitudesPendientes > 0){
+        dom.contentSection.innerHTML += `<div class='info-card' style='background:var(--color-bg-2);border-left:4px solid var(--color-warning);margin-top:24px;'>
+          <div style='font-size:18px;font-weight:600;margin-bottom:8px;'>⚠️ Tienes ${solicitudesPendientes} solicitud${solicitudesPendientes > 1 ? 'es' : ''} de descuento pendiente${solicitudesPendientes > 1 ? 's' : ''}</div>
+          <button class='btn btn--primary' onclick='verSolicitudesDescuento()'>Revisar solicitudes</button>
+        </div>`;
+      }
+      
+      dom.contentSection.innerHTML += `<div class='info-card' style='margin-top:24px;'>
         <h3 style='margin-bottom:16px;'>Ventas por Vendedor</h3>
         <div style='max-width:600px;margin:auto;'>
           <canvas id='ventasChart' style='max-height:300px;'></canvas>
         </div>
       </div>`;
+      
       setTimeout(()=>{
-        const ctx = document.getElementById('ventasChart').getContext('2d');
-        new Chart(ctx,{
-          type:'bar',
-          data:{labels, datasets:[{label:'Ventas ($)',data, backgroundColor:['#1FB8CD','#FFC185','#B4413C','#ECEBD5','#5D878F']}]},
-          options:{responsive:true, maintainAspectRatio: true, plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'$'+c.parsed.y.toLocaleString()}}},scales:{y:{beginAtZero:true,ticks:{callback:v=>'$'+v.toLocaleString()}}}}
-        });
+        const ctx = document.getElementById('ventasChart');
+        if(ctx){
+          new Chart(ctx.getContext('2d'),{
+            type:'bar',
+            data:{labels, datasets:[{label:'Ventas ($)',data, backgroundColor:['#1FB8CD','#FFC185','#B4413C','#ECEBD5','#5D878F']}]},
+            options:{responsive:true, maintainAspectRatio: true, plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'$'+c.parsed.y.toLocaleString()}}},scales:{y:{beginAtZero:true,ticks:{callback:v=>'$'+v.toLocaleString()}}}}
+          });
+        }
       },100);
     }
     // -------- Cerrar sesión ----------
@@ -1723,6 +2017,613 @@
         setTimeout(() => verPerfil(), 800);
       };
     }
+    // ========== NUEVAS FUNCIONES ADMINISTRADOR ==========
+    
+    // GESTIÓN DE PRODUCTOS Y PRECIOS
+    function verGestionProductos(){
+      let html = `<div class="section-header"><h2>🏷️ Gestión de Productos</h2><p>Administra el catálogo y precios</p></div>`;
+      
+      // Estadísticas rápidas
+      const totalProductos = PRODUCTOS.length;
+      const precioPromedio = Math.round(PRODUCTOS.reduce((sum, p) => sum + p.precio, 0) / totalProductos);
+      const cambiosRecientes = estado.historialPrecios.length;
+      
+      html += `<div class='kpi-grid' style='margin-bottom:24px;'>
+        <div class='kpi-card'>
+          <div class='kpi-label'>Productos</div>
+          <div class='kpi-value'>${totalProductos}</div>
+        </div>
+        <div class='kpi-card'>
+          <div class='kpi-label'>Precio Promedio</div>
+          <div class='kpi-value'>$${precioPromedio.toLocaleString()}</div>
+        </div>
+        <div class='kpi-card'>
+          <div class='kpi-label'>Cambios de Precio</div>
+          <div class='kpi-value'>${cambiosRecientes}</div>
+        </div>
+      </div>`;
+      
+      html += `<div style='margin-bottom:24px;'><button class='btn btn--primary' onclick='verHistorialPrecios()'>📜 Ver historial de precios</button></div>`;
+      
+      html += `<div style='display:grid;gap:16px;'>`;
+      for(const prod of PRODUCTOS){
+        const cambioReciente = estado.historialPrecios.filter(h => h.producto === prod.nombre).slice(-1)[0];
+        const tieneCambios = cambioReciente !== undefined;
+        const diferenciaPrecio = prod.precio - prod.precioInicial;
+        const porcentajeCambio = prod.precioInicial > 0 ? ((diferenciaPrecio / prod.precioInicial) * 100).toFixed(1) : 0;
+        
+        html += `<div class='info-card' style='transition:all 0.3s ease;'>
+          <div style='display:flex;justify-content:space-between;align-items:start;flex-wrap:wrap;gap:16px;'>
+            <div style='flex:1;min-width:250px;'>
+              <div style='font-size:20px;font-weight:600;margin-bottom:8px;'>${prod.nombre}</div>
+              <div style='color:var(--color-text-secondary);margin-bottom:4px;'>📦 Capacidad: ${prod.nombre.match(/\d+/)[0]} litros</div>
+              <div style='color:var(--color-text-secondary);margin-bottom:8px;'>🎨 Colores: ${prod.colores.length} disponibles</div>
+              <div style='background:var(--color-bg-1);padding:8px 12px;border-radius:var(--radius-sm);display:inline-block;margin-bottom:8px;'>
+                <span style='color:var(--color-text-secondary);font-size:13px;'>Precio inicial:</span>
+                <span style='font-weight:600;margin-left:4px;'>$${prod.precioInicial.toLocaleString()}</span>
+              </div>
+              ${diferenciaPrecio !== 0 ? `<div style='font-size:13px;margin-top:4px;'><span class='status status--${diferenciaPrecio > 0 ? "warning" : "success"}' style='font-size:12px;'>${diferenciaPrecio > 0 ? '↑' : '↓'} ${Math.abs(porcentajeCambio)}% ${diferenciaPrecio > 0 ? 'aumento' : 'descuento'}</span></div>` : ''}
+              ${tieneCambios ? `<div style='font-size:12px;color:var(--color-text-secondary);margin-top:4px;'>⏱️ Última modificación: ${new Date(cambioReciente.fecha).toLocaleDateString('es-MX')}</div>` : ''}
+            </div>
+            <div style='text-align:right;'>
+              <div style='font-size:32px;font-weight:700;color:var(--color-primary);margin-bottom:8px;'>$${prod.precio.toLocaleString()}</div>
+              <div style='color:var(--color-text-secondary);font-size:13px;margin-bottom:12px;'>Precio actual</div>
+              <button class='btn btn--primary btn--sm' onclick='editarPrecioProducto(${prod.id})'>✏️ Editar precio</button>
+            </div>
+          </div>
+        </div>`;
+      }
+      html += `</div>`;
+      
+      dom.contentSection.innerHTML = html;
+    }
+    
+    function editarPrecioProducto(productoId){
+      const prod = PRODUCTOS.find(p => p.id === productoId);
+      if(!prod) return;
+      
+      // Crear modal
+      const modalHTML = `<div class='modal-overlay' id='modal-precio' onclick='if(event.target===this) cerrarModal("modal-precio")'>
+        <div class='modal-content'>
+          <div class='modal-header'>
+            <h3 style='margin:0;'>✏️ Editar Precio</h3>
+            <button class='modal-close' onclick='cerrarModal("modal-precio")'>×</button>
+          </div>
+          <div class='modal-body'>
+            <div style='background:var(--color-bg-1);padding:16px;border-radius:var(--radius-md);margin-bottom:16px;'>
+              <div style='font-size:18px;font-weight:600;margin-bottom:8px;'>${prod.nombre}</div>
+              <div style='color:var(--color-text-secondary);'>Precio actual: <span style='font-weight:600;color:var(--color-primary);font-size:20px;'>$${prod.precio.toLocaleString()}</span></div>
+            </div>
+            <form id='form-editar-precio'>
+              <div class='form-group'>
+                <label class='form-label'>Nuevo precio (MXN)</label>
+                <input type='number' name='precio' class='form-control' min='1' step='1' value='${prod.precio}' required autofocus />
+              </div>
+              <div style='background:var(--color-bg-2);padding:12px;border-radius:var(--radius-sm);margin-bottom:16px;'>
+                <div style='font-size:13px;color:var(--color-text-secondary);margin-bottom:4px;'>⚠️ Nota importante</div>
+                <div style='font-size:13px;'>Este cambio se aplicará inmediatamente y quedará registrado en el historial.</div>
+              </div>
+              <div style='display:flex;gap:12px;'>
+                <button type='submit' class='btn btn--primary' style='flex:1;'>💾 Guardar cambios</button>
+                <button type='button' class='btn btn--outline' onclick='cerrarModal("modal-precio")'>Cancelar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>`;
+      
+      document.body.insertAdjacentHTML('beforeend', modalHTML);
+      
+      document.getElementById('form-editar-precio').onsubmit = function(e){
+        e.preventDefault();
+        const nuevoPrecio = Number(this.precio.value);
+        
+        if(nuevoPrecio === prod.precio){
+          mostrarToast('El precio no ha cambiado', 'info');
+          cerrarModal('modal-precio');
+          return;
+        }
+        
+        if(confirm(`¿Confirmas cambiar el precio de ${prod.nombre} de $${prod.precio.toLocaleString()} a $${nuevoPrecio.toLocaleString()}?`)){
+          // Guardar en historial
+          estado.historialPrecios.push({
+            producto: prod.nombre,
+            precioAnterior: prod.precio,
+            precioNuevo: nuevoPrecio,
+            fecha: new Date().toISOString(),
+            modificadoPor: estado.user.nombre
+          });
+          
+          // Actualizar precio
+          prod.precio = nuevoPrecio;
+          
+          mostrarToast('✅ Precio actualizado exitosamente', 'success');
+          cerrarModal('modal-precio');
+          verGestionProductos();
+        }
+      };
+    }
+    
+    function cerrarModal(modalId){
+      const modal = document.getElementById(modalId);
+      if(modal) modal.remove();
+    }
+    
+    function verHistorialPrecios(){
+      let html = `<div class="section-header"><h2>📜 Historial de Cambios de Precios</h2><p>Registro de todas las modificaciones</p></div>`;
+      html += `<button class='btn btn--secondary mb-8' onclick='verGestionProductos()'>← Volver a productos</button>`;
+      
+      if(estado.historialPrecios.length === 0){
+        html += `<div style="text-align:center;padding:40px;">
+          <div style="font-size:48px;margin-bottom:16px;">📜</div>
+          <p style="color:var(--color-text-secondary);">No hay cambios de precios registrados</p>
+        </div>`;
+      } else {
+        html += `<div style='display:grid;gap:12px;'>`;
+        const historialOrdenado = [...estado.historialPrecios].reverse();
+        for(const cambio of historialOrdenado){
+          const fecha = new Date(cambio.fecha);
+          const diferencia = cambio.precioNuevo - cambio.precioAnterior;
+          const porcentaje = ((diferencia / cambio.precioAnterior) * 100).toFixed(1);
+          const esAumento = diferencia > 0;
+          
+          html += `<div class='info-card'>
+            <div style='display:flex;justify-content:space-between;align-items:start;flex-wrap:wrap;gap:12px;'>
+              <div>
+                <div style='font-weight:600;margin-bottom:4px;'>${cambio.producto}</div>
+                <div style='color:var(--color-text-secondary);font-size:13px;margin-bottom:4px;'>📅 ${fecha.toLocaleDateString('es-MX')} - ${fecha.toLocaleTimeString('es-MX', {hour:'2-digit', minute:'2-digit'})}</div>
+                <div style='color:var(--color-text-secondary);font-size:13px;'>👤 Modificado por: ${cambio.modificadoPor}</div>
+              </div>
+              <div style='text-align:right;'>
+                <div style='font-size:14px;color:var(--color-text-secondary);text-decoration:line-through;margin-bottom:4px;'>$${cambio.precioAnterior.toLocaleString()}</div>
+                <div style='font-size:20px;font-weight:700;color:var(--color-primary);margin-bottom:4px;'>$${cambio.precioNuevo.toLocaleString()}</div>
+                <span class='status status--${esAumento ? "warning" : "success"}' style='font-size:12px;'>${esAumento ? '↑' : '↓'} ${Math.abs(diferencia).toLocaleString()} (${porcentaje}%)</span>
+              </div>
+            </div>
+          </div>`;
+        }
+        html += `</div>`;
+      }
+      
+      dom.contentSection.innerHTML = html;
+    }
+    
+    // SISTEMA DE AUTORIZACIÓN DE DESCUENTOS
+    function verSolicitudesDescuento(){
+      const solicitudesPendientes = estado.solicitudesDescuento.filter(s => s.estado === 'pendiente');
+      const solicitudesHistorial = estado.solicitudesDescuento.filter(s => s.estado !== 'pendiente');
+      
+      let html = `<div class="section-header"><h2>💰 Solicitudes de Descuentos</h2><p>Aprueba o rechaza las propuestas de vendedores</p></div>`;
+      
+      // Pendientes
+      html += `<div style='margin-bottom:32px;'><h3 style='margin-bottom:16px;color:var(--color-warning);'>⏳ Pendientes de Aprobación (${solicitudesPendientes.length})</h3>`;
+      
+      if(solicitudesPendientes.length === 0){
+        html += `<div class='info-card' style='text-align:center;background:var(--color-bg-1);'>
+          <div style='font-size:36px;margin-bottom:8px;'>✅</div>
+          <p style='color:var(--color-text-secondary);'>No hay solicitudes pendientes</p>
+        </div>`;
+      } else {
+        for(const sol of solicitudesPendientes){
+          const fecha = new Date(sol.fecha);
+          html += `<div class='info-card' style='border-left:4px solid var(--color-warning);'>
+            <div style='display:flex;justify-content:space-between;align-items:start;flex-wrap:wrap;gap:16px;margin-bottom:12px;'>
+              <div style='flex:1;'>
+                <div style='font-size:18px;font-weight:600;margin-bottom:8px;'>Solicitud #${sol.id}</div>
+                <div style='display:grid;gap:6px;'>
+                  <div>👤 <strong>Vendedor:</strong> ${sol.vendedorCompleto || sol.vendedor}</div>
+                  <div>🏢 <strong>Cliente:</strong> ${sol.cliente}</div>
+                  <div>📦 <strong>Producto:</strong> ${sol.producto || 'General (todos los productos)'}</div>
+                  <div style='color:var(--color-primary);font-weight:600;'>💰 <strong>Descuento propuesto:</strong> ${sol.porcentaje}%</div>
+                  <div style='color:var(--color-text-secondary);font-size:13px;'>📅 ${fecha.toLocaleDateString('es-MX')} ${fecha.toLocaleTimeString('es-MX', {hour:'2-digit', minute:'2-digit'})}</div>
+                </div>
+              </div>
+            </div>
+            <div style='background:var(--color-bg-1);padding:12px;border-radius:var(--radius-sm);margin-bottom:16px;'>
+              <div style='font-weight:600;margin-bottom:6px;font-size:13px;color:var(--color-text-secondary);'>📝 Justificación:</div>
+              <div style='font-size:14px;'>${sol.justificacion}</div>
+            </div>
+            <div style='display:flex;gap:8px;flex-wrap:wrap;'>
+              <button class='btn btn--primary btn--sm' onclick='aprobarDescuento("${sol.id}")'>✅ Aprobar</button>
+              <button class='btn btn--outline btn--sm' onclick='rechazarDescuento("${sol.id}")'>❌ Rechazar</button>
+            </div>
+          </div>`;
+        }
+      }
+      html += `</div>`;
+      
+      // Historial
+      html += `<div><h3 style='margin-bottom:16px;'>📋 Historial de Solicitudes</h3>`;
+      if(solicitudesHistorial.length === 0){
+        html += `<div class='info-card' style='text-align:center;background:var(--color-bg-1);'>
+          <p style='color:var(--color-text-secondary);'>No hay historial aún</p>
+        </div>`;
+      } else {
+        const historialOrdenado = [...solicitudesHistorial].reverse();
+        for(const sol of historialOrdenado){
+          const fecha = new Date(sol.fecha);
+          const esAprobada = sol.estado === 'aprobada';
+          html += `<div class='info-card' style='opacity:0.85;'>
+            <div style='display:flex;justify-content:space-between;align-items:start;flex-wrap:wrap;gap:12px;'>
+              <div style='flex:1;'>
+                <div style='font-size:14px;font-weight:600;margin-bottom:6px;'>${sol.vendedorCompleto || sol.vendedor} → ${sol.cliente}</div>
+                <div style='font-size:13px;color:var(--color-text-secondary);'>Descuento: ${sol.porcentaje}% | ${fecha.toLocaleDateString('es-MX')}</div>
+              </div>
+              <span class='status status--${esAprobada ? "success" : "error"}'>${esAprobada ? '✅ Aprobada' : '❌ Rechazada'}</span>
+            </div>
+            ${sol.respuestaAdmin ? `<div style='margin-top:8px;font-size:13px;color:var(--color-text-secondary);'>💬 ${sol.respuestaAdmin}</div>` : ''}
+          </div>`;
+        }
+      }
+      html += `</div>`;
+      
+      html += `<div style='margin-top:32px;text-align:center;'><button class='btn btn--primary' onclick='otorgarDescuentoDirecto()'>➕ Otorgar descuento directo</button></div>`;
+      
+      dom.contentSection.innerHTML = html;
+    }
+    
+    function aprobarDescuento(solicitudId){
+      const sol = estado.solicitudesDescuento.find(s => s.id === solicitudId);
+      if(!sol) return;
+      
+      if(confirm(`¿Aprobar descuento del ${sol.porcentaje}% para ${sol.cliente}?`)){
+        sol.estado = 'aprobada';
+        sol.fechaAprobacion = new Date().toISOString();
+        sol.aprobadoPor = estado.user.nombre;
+        sol.respuestaAdmin = 'Aprobado';
+        
+        // Crear descuento activo
+        const descuentoActivo = {
+          id: 'DA' + Date.now(),
+          cliente: sol.cliente,
+          clienteTelefono: sol.clienteTelefono,
+          tipo: sol.tipo,
+          producto: sol.producto,
+          porcentaje: sol.porcentaje,
+          fechaInicio: new Date().toISOString(),
+          fechaExpiracion: null,
+          otorgadoPor: 'Admin (aprobación de solicitud)',
+          vendedor: sol.vendedor,
+          notas: `Aprobado por ${estado.user.nombre}. Justificación original: ${sol.justificacion}`,
+          activo: true
+        };
+        estado.descuentosActivos.push(descuentoActivo);
+        
+        // También actualizar el sistema antiguo para compatibilidad
+        let clave = sol.clienteTelefono + '-' + sol.vendedor;
+        estado.descuentos[clave] = sol.porcentaje;
+        
+        // Enviar notificación al vendedor
+        estado.mensajes.push({
+          de: 'Administrador',
+          para: 'vendedor',
+          msg: `✅ Tu solicitud de descuento del ${sol.porcentaje}% para ${sol.cliente} ha sido APROBADA. El descuento ya está activo.`,
+          fecha: new Date().toISOString(),
+          tipo: 'aprobacion',
+          vendedorDestino: sol.vendedor
+        });
+        
+        mostrarToast('✅ Descuento aprobado exitosamente. Vendedor notificado.', 'success');
+        verSolicitudesDescuento();
+      }
+    }
+    
+    function rechazarDescuento(solicitudId){
+      const sol = estado.solicitudesDescuento.find(s => s.id === solicitudId);
+      if(!sol) return;
+      
+      const razon = prompt('Razón del rechazo (opcional):');
+      if(razon === null) return;
+      
+      sol.estado = 'rechazada';
+      sol.fechaRechazo = new Date().toISOString();
+      sol.rechazadoPor = estado.user.nombre;
+      sol.respuestaAdmin = razon || 'Sin especificar';
+      
+      // Enviar notificación al vendedor
+      estado.mensajes.push({
+        de: 'Administrador',
+        para: 'vendedor',
+        msg: `❌ Tu solicitud de descuento del ${sol.porcentaje}% para ${sol.cliente} ha sido RECHAZADA. Razón: ${sol.respuestaAdmin}`,
+        fecha: new Date().toISOString(),
+        tipo: 'rechazo',
+        vendedorDestino: sol.vendedor
+      });
+      
+      mostrarToast('Solicitud rechazada. Vendedor notificado.', 'warning');
+      verSolicitudesDescuento();
+    }
+    
+    // OTORGAR DESCUENTO DIRECTO (ADMIN)
+    function otorgarDescuentoDirecto(){
+      const clientes = estado.users.filter(u => u.rol === 'comprador');
+      
+      let html = `<div class="section-header"><h2>➕ Otorgar Descuento Directo</h2><p>Asigna descuentos sin solicitud previa</p></div>`;
+      
+      html += `<div class='info-card' style='max-width:600px;margin:0 auto;'>
+        <form id='form-descuento-directo'>
+          <div class='form-group'>
+            <label class='form-label'>Seleccionar cliente</label>
+            <select name='cliente' class='form-control' required>
+              <option value=''>-- Selecciona un cliente --</option>
+              ${clientes.map(c => `<option value='${c.telefono}'>${c.nombre} (${c.telefono}) - Vendedor: ${c.vendedor}</option>`).join('')}
+            </select>
+          </div>
+          <div class='form-group'>
+            <label class='form-label'>Tipo de descuento</label>
+            <select name='tipo' class='form-control' required>
+              <option value='general'>General para el cliente</option>
+              <option value='producto'>Por producto específico</option>
+            </select>
+          </div>
+          <div class='form-group' id='producto-select-directo' style='display:none;'>
+            <label class='form-label'>Producto específico</label>
+            <select name='producto' class='form-control'>
+              ${PRODUCTOS.map(p => `<option value='${p.nombre}'>${p.nombre}</option>`).join('')}
+            </select>
+          </div>
+          <div class='form-group'>
+            <label class='form-label'>Porcentaje de descuento (%)</label>
+            <input type='number' name='porcentaje' class='form-control' min='0' max='100' required placeholder='Ej: 20' />
+          </div>
+          <div class='form-group'>
+            <label class='form-label'>Fecha de expiración (opcional)</label>
+            <input type='date' name='expiracion' class='form-control' />
+          </div>
+          <div class='form-group'>
+            <label class='form-label'>Notas / Justificación</label>
+            <textarea name='notas' class='form-control' rows='2' placeholder='Motivo del descuento...'></textarea>
+          </div>
+          <div style='display:flex;gap:12px;margin-top:24px;'>
+            <button type='submit' class='btn btn--primary' style='flex:1;'>💾 Aplicar descuento</button>
+            <button type='button' class='btn btn--outline' onclick='verSolicitudesDescuento()'>Cancelar</button>
+          </div>
+        </form>
+      </div>`;
+      
+      dom.contentSection.innerHTML = html;
+      
+      document.querySelector('select[name="tipo"]').onchange = function(){
+        document.getElementById('producto-select-directo').style.display = this.value === 'producto' ? 'block' : 'none';
+      };
+      
+      document.getElementById('form-descuento-directo').onsubmit = function(e){
+        e.preventDefault();
+        
+        const clienteTelefono = this.cliente.value;
+        const cliente = clientes.find(c => c.telefono === clienteTelefono);
+        if(!cliente) return;
+        
+        const tipo = this.tipo.value;
+        const producto = tipo === 'producto' ? this.producto.value : null;
+        const porcentaje = Number(this.porcentaje.value);
+        const expiracion = this.expiracion.value || null;
+        const notas = this.notas.value.trim();
+        
+        // Validar porcentaje
+        if(porcentaje < 0 || porcentaje > 100){
+          mostrarToast('El porcentaje debe estar entre 0 y 100', 'error');
+          return;
+        }
+        
+        // Verificar si ya existe un descuento activo similar
+        const yaExiste = estado.descuentosActivos.some(d => 
+          d.activo && 
+          d.clienteTelefono === cliente.telefono && 
+          d.tipo === tipo &&
+          (tipo === 'general' || d.producto === producto)
+        );
+        
+        if(yaExiste && !confirm('Ya existe un descuento activo similar para este cliente. ¿Deseas reemplazarlo?')){
+          return;
+        }
+        
+        // Desactivar descuentos anteriores similares
+        if(yaExiste){
+          estado.descuentosActivos.forEach(d => {
+            if(d.activo && d.clienteTelefono === cliente.telefono && d.tipo === tipo && (tipo === 'general' || d.producto === producto)){
+              d.activo = false;
+              d.fechaDesactivacion = new Date().toISOString();
+              d.desactivadoPor = estado.user.nombre;
+            }
+          });
+        }
+        
+        const descuento = {
+          id: 'DA' + Date.now(),
+          cliente: cliente.nombre,
+          clienteTelefono: cliente.telefono,
+          tipo: tipo,
+          producto: producto,
+          porcentaje: porcentaje,
+          fechaInicio: new Date().toISOString(),
+          fechaExpiracion: expiracion ? new Date(expiracion).toISOString() : null,
+          otorgadoPor: estado.user.nombre,
+          vendedor: cliente.vendedor,
+          notas: notas || 'Descuento directo del administrador',
+          activo: true
+        };
+        
+        estado.descuentosActivos.push(descuento);
+        
+        // Actualizar sistema antiguo
+        let clave = cliente.telefono + '-' + cliente.vendedor;
+        if(tipo === 'general'){
+          estado.descuentos[clave] = porcentaje;
+        }
+        
+        // Notificar al vendedor
+        const vendedor = VENDEDORES.find(v => v.mostrar === cliente.vendedor);
+        if(vendedor){
+          estado.mensajes.push({
+            de: 'Administrador',
+            para: 'vendedor',
+            msg: `🎉 Se ha otorgado un descuento del ${porcentaje}% para tu cliente ${cliente.nombre} (${tipo === 'general' ? 'general' : producto}). ${notas ? 'Nota: ' + notas : ''}`,
+            fecha: new Date().toISOString(),
+            tipo: 'info',
+            vendedorDestino: cliente.vendedor
+          });
+        }
+        
+        mostrarToast('✅ Descuento aplicado exitosamente', 'success');
+        verDescuentosActivos();
+      };
+    }
+    
+    // VER DESCUENTOS ACTIVOS
+    function verDescuentosActivos(){
+      const descuentosVigentes = estado.descuentosActivos.filter(d => d.activo);
+      const descuentosExpirados = estado.descuentosActivos.filter(d => !d.activo);
+      
+      let html = `<div class="section-header"><h2>📊 Descuentos Activos</h2><p>Gestiona todos los descuentos vigentes</p></div>`;
+      
+      // Estadísticas
+      const totalDescuentos = descuentosVigentes.length;
+      const promedioDescuento = totalDescuentos > 0 
+        ? (descuentosVigentes.reduce((sum, d) => sum + d.porcentaje, 0) / totalDescuentos).toFixed(1)
+        : 0;
+      const pendientesAprobacion = estado.solicitudesDescuento.filter(s => s.estado === 'pendiente').length;
+      
+      html += `<div class='kpi-grid' style='margin-bottom:24px;'>
+        <div class='kpi-card'>
+          <div class='kpi-label'>Descuentos Activos</div>
+          <div class='kpi-value'>${totalDescuentos}</div>
+        </div>
+        <div class='kpi-card'>
+          <div class='kpi-label'>Promedio de Descuento</div>
+          <div class='kpi-value'>${promedioDescuento}%</div>
+        </div>
+        <div class='kpi-card'>
+          <div class='kpi-label'>Por Aprobar</div>
+          <div class='kpi-value'>${pendientesAprobacion}</div>
+        </div>
+      </div>`;
+      
+      html += `<button class='btn btn--primary mb-8' onclick='otorgarDescuentoDirecto()'>➕ Nuevo descuento directo</button>`;
+      
+      // Descuentos activos
+      if(descuentosVigentes.length === 0){
+        html += `<div class='info-card' style='text-align:center;background:var(--color-bg-1);'>
+          <div style='font-size:48px;margin-bottom:16px;'>📊</div>
+          <p style='color:var(--color-text-secondary);'>No hay descuentos activos</p>
+        </div>`;
+      } else {
+        html += `<h3 style='margin-bottom:16px;'>Descuentos vigentes</h3>`;
+        for(const desc of descuentosVigentes){
+          const fechaInicio = new Date(desc.fechaInicio);
+          const expira = desc.fechaExpiracion ? new Date(desc.fechaExpiracion) : null;
+          const diasRestantes = expira ? Math.ceil((expira - new Date()) / (1000 * 60 * 60 * 24)) : null;
+          
+          html += `<div class='info-card'>
+            <div style='display:flex;justify-content:space-between;align-items:start;flex-wrap:wrap;gap:16px;'>
+              <div style='flex:1;'>
+                <div style='font-size:18px;font-weight:600;margin-bottom:8px;'>👤 ${desc.cliente}</div>
+                <div style='display:grid;gap:4px;font-size:14px;color:var(--color-text-secondary);'>
+                  <div>📦 ${desc.producto || 'General (todos los productos)'}</div>
+                  <div>👥 Vendedor: ${desc.vendedor}</div>
+                  <div>📅 Desde: ${fechaInicio.toLocaleDateString('es-MX')}</div>
+                  ${expira ? `<div style='color:${diasRestantes < 7 ? 'var(--color-warning)' : 'inherit'};'>⏰ Expira: ${expira.toLocaleDateString('es-MX')} (${diasRestantes} días)</div>` : '<div>⏰ Sin fecha de expiración</div>'}
+                  ${desc.notas ? `<div style='margin-top:4px;'>📝 ${desc.notas}</div>` : ''}
+                </div>
+              </div>
+              <div style='text-align:right;'>
+                <div style='font-size:32px;font-weight:700;color:var(--color-success);margin-bottom:8px;'>${desc.porcentaje}%</div>
+                <button class='btn btn--outline btn--sm' onclick='desactivarDescuento("${desc.id}")' style='margin-bottom:4px;'>🔒 Desactivar</button>
+              </div>
+            </div>
+          </div>`;
+        }
+      }
+      
+      dom.contentSection.innerHTML = html;
+    }
+    
+    function desactivarDescuento(descuentoId){
+      const desc = estado.descuentosActivos.find(d => d.id === descuentoId);
+      if(!desc) return;
+      
+      if(confirm(`¿Desactivar descuento del ${desc.porcentaje}% para ${desc.cliente}?`)){
+        desc.activo = false;
+        desc.fechaDesactivacion = new Date().toISOString();
+        desc.desactivadoPor = estado.user.nombre;
+        
+        // Actualizar sistema antiguo
+        let clave = desc.clienteTelefono + '-' + desc.vendedor;
+        if(estado.descuentos[clave]) delete estado.descuentos[clave];
+        
+        mostrarToast('Descuento desactivado', 'warning');
+        verDescuentosActivos();
+      }
+    }
+    
+    // VER MIS SOLICITUDES (VENDEDOR)
+    function verMisSolicitudesDescuento(){
+      const misSolicitudes = estado.solicitudesDescuento.filter(s => s.vendedor === estado.user.mostrar);
+      
+      let html = `<div class="section-header"><h2>💰 Mis Solicitudes de Descuento</h2><p>Estado de tus propuestas</p></div>`;
+      
+      const pendientes = misSolicitudes.filter(s => s.estado === 'pendiente');
+      const aprobadas = misSolicitudes.filter(s => s.estado === 'aprobada');
+      const rechazadas = misSolicitudes.filter(s => s.estado === 'rechazada');
+      
+      html += `<div class='kpi-grid' style='margin-bottom:24px;'>
+        <div class='kpi-card'>
+          <div class='kpi-label'>Pendientes</div>
+          <div class='kpi-value' style='color:var(--color-warning);'>${pendientes.length}</div>
+        </div>
+        <div class='kpi-card'>
+          <div class='kpi-label'>Aprobadas</div>
+          <div class='kpi-value' style='color:var(--color-success);'>${aprobadas.length}</div>
+        </div>
+        <div class='kpi-card'>
+          <div class='kpi-label'>Rechazadas</div>
+          <div class='kpi-value' style='color:var(--color-error);'>${rechazadas.length}</div>
+        </div>
+      </div>`;
+      
+      if(misSolicitudes.length === 0){
+        html += `<div class='info-card' style='text-align:center;background:var(--color-bg-1);'>
+          <div style='font-size:48px;margin-bottom:16px;'>💰</div>
+          <p style='color:var(--color-text-secondary);'>No has enviado solicitudes de descuento aún</p>
+          <button class='btn btn--primary mt-8' onclick='verMisClientes()'>Proponer descuento a un cliente</button>
+        </div>`;
+      } else {
+        const ordenadas = [...misSolicitudes].reverse();
+        for(const sol of ordenadas){
+          const fecha = new Date(sol.fecha);
+          let estadoColor = 'info';
+          let estadoTexto = '⏳ Pendiente';
+          if(sol.estado === 'aprobada'){
+            estadoColor = 'success';
+            estadoTexto = '✅ Aprobada';
+          } else if(sol.estado === 'rechazada'){
+            estadoColor = 'error';
+            estadoTexto = '❌ Rechazada';
+          }
+          
+          html += `<div class='info-card'>
+            <div style='display:flex;justify-content:space-between;align-items:start;flex-wrap:wrap;gap:12px;margin-bottom:12px;'>
+              <div>
+                <div style='font-size:16px;font-weight:600;margin-bottom:6px;'>🏢 ${sol.cliente}</div>
+                <div style='color:var(--color-text-secondary);font-size:13px;margin-bottom:4px;'>📦 ${sol.producto || 'General'}</div>
+                <div style='color:var(--color-primary);font-weight:600;'>💰 Descuento: ${sol.porcentaje}%</div>
+                <div style='color:var(--color-text-secondary);font-size:13px;margin-top:6px;'>📅 ${fecha.toLocaleDateString('es-MX')}</div>
+              </div>
+              <span class='status status--${estadoColor}'>${estadoTexto}</span>
+            </div>
+            <div style='background:var(--color-bg-1);padding:10px;border-radius:var(--radius-sm);font-size:13px;'>
+              <strong>Justificación:</strong> ${sol.justificacion}
+            </div>
+            ${sol.respuestaAdmin ? `<div style='margin-top:8px;padding:10px;background:var(--color-bg-2);border-radius:var(--radius-sm);font-size:13px;'>
+              <strong>Respuesta del administrador:</strong> ${sol.respuestaAdmin}
+            </div>` : ''}
+          </div>`;
+        }
+      }
+      
+      dom.contentSection.innerHTML = html;
+    }
+    
     // Estado persistente para trackear logins
     estado.yaLogueados = [];
     
