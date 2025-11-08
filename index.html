@@ -35,13 +35,14 @@
         .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
         .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 0.75rem; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem; font-family: inherit; }
         .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: #003f7f; }
+        .form-group input[type="checkbox"] { width: auto; }
         .login-form { max-width: 400px; margin: 2rem auto; background: white; padding: 2rem; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
         .form-title { font-size: 2rem; margin-bottom: 2rem; color: #003f7f; }
         .dashboard { background: white; border-radius: 16px; padding: 2rem; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
         .dashboard h2 { color: #003f7f; margin-bottom: 1.5rem; }
         .menu { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
         .menu-item { background: linear-gradient(135deg, #003f7f 0%, #1e3a8a 100%); color: white; padding: 1.5rem; border-radius: 12px; text-align: center; cursor: pointer; transition: 0.3s; border: none; font-size: 1rem; font-weight: 500; }
-        .menu-item:hover { transform: translateY(-4px); background: linear-gradient(135deg, #1e3a8a 0%, #2e5a9e 100%); }
+        .menu-item:hover { transform: translateY(-4px); }
         .grid-products { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem; }
         .product-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: 0.3s; border: 2px solid transparent; }
         .product-card:hover { transform: translateY(-8px); border-color: #003f7f; }
@@ -70,21 +71,17 @@
         .section-title { font-size: 1.75rem; color: #003f7f; margin-bottom: 1.5rem; }
         .info-box { background: #f1f5f9; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; border-left: 4px solid #003f7f; }
         .carrito-total { font-size: 1.5rem; font-weight: bold; color: #dc2626; margin: 1rem 0; }
-        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); align-items: center; justify-content: center; }
+        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); align-items: center; justify-content: center; overflow-y: auto; }
         .modal.active { display: flex; }
-        .modal-content { background: white; padding: 2rem; border-radius: 12px; max-width: 600px; width: 90%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .modal-content { background: white; padding: 2rem; border-radius: 12px; max-width: 600px; width: 90%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); margin: auto; }
         .modal-header { font-size: 1.75rem; color: #003f7f; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center; }
         .modal-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #64748b; }
-        .modal-footer { display: flex; gap: 1rem; margin-top: 2rem; justify-content: flex-end; }
+        .modal-footer { display: flex; gap: 1rem; margin-top: 2rem; justify-content: flex-end; flex-wrap: wrap; }
         .dos-columnas { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-        @media (max-width: 768px) {
-            .navbar { flex-direction: column; gap: 1rem; }
-            .hero h1 { font-size: 2rem; }
-            .button-group { flex-direction: column; }
-            .button-group .btn { width: 100%; }
-            .grid-products { grid-template-columns: 1fr; }
-            .dos-columnas { grid-template-columns: 1fr; }
-        }
+        .precio-box { background: #f1f5f9; padding: 1.5rem; border-radius: 8px; margin: 1rem 0; }
+        .precio-fila { display: flex; justify-content: space-between; margin: 0.75rem 0; font-size: 1.1rem; }
+        .precio-total { font-size: 1.5rem; font-weight: bold; color: #003f7f; border-top: 2px solid #e2e8f0; padding-top: 1rem; margin-top: 1rem; }
+        @media (max-width: 768px) { .navbar { flex-direction: column; gap: 1rem; } .hero h1 { font-size: 2rem; } .button-group { flex-direction: column; } .button-group .btn { width: 100%; } .grid-products { grid-template-columns: 1fr; } .dos-columnas { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -123,19 +120,27 @@
                 <h2 class="form-title">Registrarse</h2>
                 <div class="form-group">
                     <label>Nombre del Negocio o Persona:</label>
-                    <input type="text" required>
+                    <input type="text" id="reg-nombre" required>
                 </div>
                 <div class="form-group">
                     <label>Teléfono:</label>
-                    <input type="tel" required>
+                    <input type="tel" id="reg-telefono" required>
                 </div>
                 <div class="form-group">
                     <label>Dirección:</label>
-                    <input type="text" required>
+                    <input type="text" id="reg-direccion" required>
+                </div>
+                <div class="form-group">
+                    <label>Usuario:</label>
+                    <input type="text" id="reg-usuario" required>
+                </div>
+                <div class="form-group">
+                    <label>Contraseña:</label>
+                    <input type="password" id="reg-password" required>
                 </div>
                 <div class="form-group">
                     <label>Seleccionar Vendedor:</label>
-                    <select required>
+                    <select id="reg-vendedor" required>
                         <option>Elegir vendedor...</option>
                         <option>Husai M.</option>
                         <option>Pedro D.</option>
@@ -164,6 +169,9 @@
                     <label>Contraseña:</label>
                     <input type="password" id="password" required>
                 </div>
+                <div class="form-group">
+                    <label><input type="checkbox" id="recordar-usuario"> Recordar usuario</label>
+                </div>
                 <div class="button-group">
                     <button type="submit" class="btn">Ingresar</button>
                     <button type="button" class="btn btn-secondary" onclick="backToLanding()">Volver</button>
@@ -188,10 +196,7 @@
     <!-- MODAL CARRITO -->
     <div id="carrito-modal" class="modal">
         <div class="modal-content">
-            <div class="modal-header">
-                <span>🛒 Tu Carrito</span>
-                <button class="modal-close" onclick="cerrarCarrito()">✕</button>
-            </div>
+            <div class="modal-header"><span>🛒 Tu Carrito</span><button class="modal-close" onclick="cerrarCarrito()">✕</button></div>
             <div id="carrito-items"></div>
             <div class="carrito-total" id="carrito-total">Total: $0</div>
             <div class="modal-footer">
@@ -201,42 +206,18 @@
         </div>
     </div>
 
-    <!-- MODAL PEDIDO INVITADO -->
+    <!-- MODAL PEDIDO -->
     <div id="pedido-modal" class="modal">
         <div class="modal-content">
-            <div class="modal-header">
-                <span>📋 Información del Pedido</span>
-                <button class="modal-close" onclick="cerrarPedido()">✕</button>
-            </div>
+            <div class="modal-header"><span>📋 Información del Pedido</span><button class="modal-close" onclick="cerrarPedido()">✕</button></div>
             <form onsubmit="realizarPedido(event)">
-                <div class="form-group">
-                    <label>Nombre Completo:</label>
-                    <input type="text" id="nombre-pedido" required>
-                </div>
-                <div class="form-group">
-                    <label>Dirección de Entrega:</label>
-                    <input type="text" id="direccion-pedido" required>
-                </div>
-                <div class="form-group">
-                    <label>Teléfono:</label>
-                    <input type="tel" id="telefono-pedido" required>
-                </div>
-                <div class="form-group">
-                    <label>Tipo de Entrega:</label>
-                    <select id="tipo-entrega" required>
-                        <option value="domicilio">🚚 Recibir en Casa</option>
-                        <option value="tienda">🏪 Recoger en Tienda</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Notas (opcional):</label>
-                    <textarea id="notas-pedido" rows="3"></textarea>
-                </div>
-                <div class="carrito-total" id="total-pedido">Total: $0</div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" onclick="cerrarPedido()">Cancelar</button>
-                    <button type="submit" class="btn btn-success">✅ Realizar Pedido</button>
-                </div>
+                <div class="form-group"><label>Nombre Completo:</label><input type="text" id="nombre-pedido" required></div>
+                <div class="form-group"><label>Dirección:</label><input type="text" id="direccion-pedido" required></div>
+                <div class="form-group"><label>Teléfono:</label><input type="tel" id="telefono-pedido" required></div>
+                <div class="form-group"><label>Tipo de Entrega:</label><select id="tipo-entrega" required><option value="domicilio">🚚 Recibir en Casa</option><option value="tienda">🏪 Recoger en Tienda</option></select></div>
+                <div class="form-group"><label>Notas:</label><textarea id="notas-pedido" rows="3"></textarea></div>
+                <div class="precio-box"><div class="precio-fila"><span>Subtotal:</span><span id="subtotal-pedido">$0</span></div><div class="precio-fila"><span>Descuento:</span><span id="descuento-pedido">$0</span></div><div class="precio-fila precio-total"><span>TOTAL:</span><span id="total-pedido">$0</span></div></div>
+                <div class="modal-footer"><button type="button" class="btn btn-secondary" onclick="cerrarPedido()">Cancelar</button><button type="submit" class="btn btn-success">✅ Realizar Pedido</button></div>
             </form>
         </div>
     </div>
@@ -285,531 +266,58 @@
     </div>
 
     <script>
-        // DATOS
-        const vendedores = [
+        const productos = [
+            { id: 1, nombre: 'Tambo 235 lt', capacidad: 235, precio: 520, tipo: 'tambo', colores: { beige: '#D4A574', blanco: '#FFFFFF', negro: '#000000', azul: '#003B7F', rojo: '#DC2626', verde: '#10B981', naranja: '#F97316', granito: '#808080' } },
+            { id: 2, nombre: 'Tinaco 750 lt', capacidad: 750, precio: 1400, tipo: 'tinaco', colores: { beige: '#D4A574', blanco: '#FFFFFF', negro: '#000000', rojo: '#DC2626', verde: '#10B981', naranja: '#F97316', café: '#8B4513', granito: '#808080' } },
+            { id: 3, nombre: 'Tinaco 1100 lt', capacidad: 1100, precio: 1500, tipo: 'tinaco', colores: { beige: '#D4A574', blanco: '#FFFFFF', negro: '#000000', rojo: '#DC2626', verde: '#10B981', naranja: '#F97316', café: '#8B4513', granito: '#808080' } },
+            { id: 4, nombre: 'Tinaco 1200 lt', capacidad: 1200, precio: 1600, tipo: 'tinaco', colores: { beige: '#D4A574', blanco: '#FFFFFF', negro: '#000000', rojo: '#DC2626', verde: '#10B981', naranja: '#F97316', café: '#8B4513', granito: '#808080' } }
+        ];
+        const vendedoresData = [
             { usuario: 'husai.mendez', password: 'Husai2024*', nombre: 'Husai M.' },
             { usuario: 'pedro.delgado', password: 'Pedro2024*', nombre: 'Pedro D.' },
             { usuario: 'fernando.ocampo', password: 'Fernando2024*', nombre: 'Fernando O.' },
             { usuario: 'isidro.gonzalez', password: 'Isidro2024*', nombre: 'Isidro G.' }
         ];
         const admin = { usuario: 'admin.plastinova', password: 'Admin2024*Plastinova', nombre: 'Administrador' };
-        const productos = [
-            { id: 1, nombre: 'Tambo 235 lt', capacidad: 235, precio: 520, tipo: 'tambo', colores: { beige: '#D4A574', blanco: '#FFFFFF', negro: '#000000', azul: '#003B7F', rojo: '#DC2626', verde: '#10B981', naranja: '#F97316', 'rojo con blanco': '#DC2626', 'azul con blanco': '#003B7F', melón: '#FFB84D', 'verde con blanco': '#10B981', granito: '#808080' } },
-            { id: 2, nombre: 'Tinaco 750 lt', capacidad: 750, precio: 1400, tipo: 'tinaco', colores: { beige: '#D4A574', blanco: '#FFFFFF', negro: '#000000', rojo: '#DC2626', verde: '#10B981', naranja: '#F97316', café: '#8B4513', granito: '#808080' } },
-            { id: 3, nombre: 'Tinaco 1100 lt', capacidad: 1100, precio: 1500, tipo: 'tinaco', colores: { beige: '#D4A574', blanco: '#FFFFFF', negro: '#000000', rojo: '#DC2626', verde: '#10B981', naranja: '#F97316', café: '#8B4513', granito: '#808080' } },
-            { id: 4, nombre: 'Tinaco 1200 lt', capacidad: 1200, precio: 1600, tipo: 'tinaco', colores: { beige: '#D4A574', blanco: '#FFFFFF', negro: '#000000', rojo: '#DC2626', verde: '#10B981', naranja: '#F97316', café: '#8B4513', granito: '#808080' } }
-        ];
-
-        let usuarioActual = null;
-        let carrito = [];
-        let colorSeleccionado = {};
-        let pedidos = [];
-        let clientes = [];
-        let notasFacturas = [];
-
-        // NAVEGACIÓN
-        function showContent(id) {
-            document.querySelectorAll('.content').forEach(el => el.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-        }
-
+        let usuarioActual = null, carrito = [], colorSeleccionado = {}, pedidos = [], usuariosRegistrados = [];
+        
+        function showContent(id) { document.querySelectorAll('.content').forEach(el => el.classList.remove('active')); document.getElementById(id).classList.add('active'); }
         function backToLanding() { showContent('landing'); }
-        function showLogin() { showContent('login'); }
-        
+        function showLogin() { showContent('login'); const recordado = localStorage.getItem('usuarioRecordado'); if (recordado) document.getElementById('username').value = recordado; }
         function showRegister() { showContent('register'); }
+        function handleRegister(event) { event.preventDefault(); const nombre = document.getElementById('reg-nombre').value; const usuario = document.getElementById('reg-usuario').value; const password = document.getElementById('reg-password').value; usuariosRegistrados.push({ usuario, password, nombre, rol: 'comprador' }); mostrarNotification('✅ Registro exitoso'); showContent('landing'); }
+        function guestCheckout() { usuarioActual = { nombre: 'Invitado', rol: 'comprador' }; document.getElementById('carrito-btn').style.display = 'flex'; mostrarProductos(); }
+        function handleLogin(event) { event.preventDefault(); const username = document.getElementById('username').value; const password = document.getElementById('password').value; const recordar = document.getElementById('recordar-usuario').checked; if (username === admin.usuario && password === admin.password) { usuarioActual = admin; if (recordar) localStorage.setItem('usuarioRecordado', username); updateNavbar(); showContent('admin-dashboard'); mostrarNotification('✅ Bienvenido Administrador'); } else { const v = vendedoresData.find(v => v.usuario === username && v.password === password); if (v) { usuarioActual = v; if (recordar) localStorage.setItem('usuarioRecordado', username); updateNavbar(); showContent('vendedor-dashboard'); mostrarNotification('✅ Bienvenido ' + v.nombre); } else { const u = usuariosRegistrados.find(u => u.usuario === username && u.password === password); if (u) { usuarioActual = u; if (recordar) localStorage.setItem('usuarioRecordado', username); updateNavbar(); document.getElementById('carrito-btn').style.display = 'flex'; mostrarProductos(); mostrarNotification('✅ Bienvenido ' + u.nombre); } else { mostrarNotification('❌ Credenciales incorrectas', true); } } } document.getElementById('username').value = ''; document.getElementById('password').value = ''; }
+        function logout() { usuarioActual = null; carrito = []; colorSeleccionado = {}; document.getElementById('carrito-btn').style.display = 'none'; showContent('landing'); updateNavbar(); mostrarNotification('👋 Sesión cerrado'); }
+        function updateNavbar() { const navbar = document.getElementById('navbar-user'); navbar.innerHTML = usuarioActual ? `<span style="color: white;">${usuarioActual.nombre}</span>` : ''; }
+        function mostrarProductos() { const grid = document.getElementById('productos-grid'); grid.innerHTML = productos.map(p => `<div class="product-card"><div class="product-image" style="background: linear-gradient(135deg, #003f7f 0%, #${p.tipo === 'tambo' ? 'F97316' : 'DC2626'} 100%);"><span>${p.tipo === 'tambo' ? '🛢️' : '💧'}</span></div><div class="product-info"><div class="product-name">${p.nombre}</div><div class="product-capacity">Capacidad: ${p.capacidad} lt</div><div class="product-price">$${p.precio}</div><div class="color-selector"><div class="color-label">Color:</div><div class="color-options" id="colores-${p.id}">${Object.entries(p.colores).map(([nombre, hex]) => `<button type="button" class="color-btn" style="background-color: ${hex};" title="${nombre}" onclick="selectColor(${p.id}, '${nombre}')" id="color-${p.id}-${nombre}"></button>`).join('')}</div></div><div class="quantity-selector"><button type="button" class="quantity-btn" onclick="cambiarCantidad(${p.id}, -1)">-</button><input type="number" class="quantity-input" id="qty-${p.id}" value="1" min="1"><button type="button" class="quantity-btn" onclick="cambiarCantidad(${p.id}, 1)">+</button></div><button type="button" class="btn" style="width: 100%;" onclick="agregarAlCarrito(${p.id})">➕ Agregar</button></div></div>`).join(''); showContent('comprador-dashboard'); }
+        function selectColor(productId, colorNombre) { colorSeleccionado[productId] = colorNombre; document.querySelectorAll(`#colores-${productId} .color-btn`).forEach(btn => btn.classList.remove('selected')); document.getElementById(`color-${productId}-${colorNombre}`).classList.add('selected'); mostrarNotification('✅ Color: ' + colorNombre); }
+        function cambiarCantidad(productId, delta) { const input = document.getElementById(`qty-${productId}`); let valor = parseInt(input.value) + delta; if (valor < 1) valor = 1; input.value = valor; }
+        function agregarAlCarrito(productId) { const producto = productos.find(p => p.id === productId); const cantidad = parseInt(document.getElementById(`qty-${productId}`).value); const color = colorSeleccionado[productId] || 'blanco'; const item = { id: productId + '_' + color + '_' + Date.now(), productoId: productId, producto: producto.nombre, precio: producto.precio, cantidad: cantidad, color: color, subtotal: producto.precio * cantidad }; carrito.push(item); document.getElementById('contador').textContent = carrito.length; mostrarNotification(`✅ Agregado: ${cantidad}x ${producto.nombre}`); document.getElementById(`qty-${productId}`).value = 1; delete colorSeleccionado[productId]; }
+        function abrirCarrito() { const modal = document.getElementById('carrito-modal'); const itemsHTML = carrito.length === 0 ? '<p>Carrito vacío</p>' : `<table><thead><tr><th>Producto</th><th>Color</th><th>Cant</th><th>Precio</th><th>Subtotal</th><th></th></tr></thead><tbody>${carrito.map((item, idx) => `<tr><td>${item.producto}</td><td>${item.color}</td><td>${item.cantidad}</td><td>$${item.precio}</td><td>$${item.subtotal}</td><td><button type="button" class="btn btn-secondary btn-small" onclick="eliminarDelCarrito(${idx})">❌</button></td></tr>`).join('')}</tbody></table>`; document.getElementById('carrito-items').innerHTML = itemsHTML; const total = carrito.reduce((sum, item) => sum + item.subtotal, 0); document.getElementById('carrito-total').innerHTML = `Total: $${total}`; modal.classList.add('active'); }
+        function cerrarCarrito() { document.getElementById('carrito-modal').classList.remove('active'); }
+        function eliminarDelCarrito(idx) { carrito.splice(idx, 1); document.getElementById('contador').textContent = carrito.length; abrirCarrito(); mostrarNotification('❌ Producto eliminado'); }
+        function abrirFormularioPedido() { cerrarCarrito(); const subtotal = carrito.reduce((sum, item) => sum + item.subtotal, 0); const descuento = 0; const total = subtotal - descuento; document.getElementById('subtotal-pedido').innerHTML = `$${subtotal}`; document.getElementById('descuento-pedido').innerHTML = `$${descuento}`; document.getElementById('total-pedido').innerHTML = `$${total}`; document.getElementById('pedido-modal').classList.add('active'); }
+        function cerrarPedido() { document.getElementById('pedido-modal').classList.remove('active'); }
+        function realizarPedido(event) { event.preventDefault(); if (carrito.length === 0) { mostrarNotification('Carrito vacío', true); return; } const nombre = document.getElementById('nombre-pedido').value; const direccion = document.getElementById('direccion-pedido').value; const telefono = document.getElementById('telefono-pedido').value; const tipoEntrega = document.getElementById('tipo-entrega').value; const total = carrito.reduce((sum, item) => sum + item.subtotal, 0); const numeroPedido = '#' + Math.random().toString(36).substr(2, 9).toUpperCase(); const pedido = { numero: numeroPedido, nombre, direccion, telefono, tipoEntrega, items: [...carrito], total, fecha: new Date().toLocaleDateString() }; pedidos.push(pedido); mostrarNotification(`✅ ¡Pedido ${numeroPedido} realizado!\nTotal: $${total}`); carrito = []; document.getElementById('contador').textContent = 0; cerrarPedido(); mostrarProductos(); }
         
-        function handleRegister(event) {
-            event.preventDefault();
-            mostrarNotification('✅ Registro completado. Por favor inicia sesión');
-            showContent('landing');
-        }
+        function showVendedorSection(section) { const content = document.getElementById('vendedor-content'); if (section === 'clientes') { content.innerHTML = `<h3 class="section-title">👥 Mis Clientes</h3><div class="table-container"><table><thead><tr><th>Nombre</th><th>Teléfono</th><th>Dirección</th><th>Descuento</th><th>Acciones</th></tr></thead><tbody><tr><td>Negocio A</td><td>555-1234</td><td>Calle 1</td><td>5%</td><td><button type="button" class="btn btn-secondary btn-small" onclick="eliminarCliente()">❌</button></td></tr><tr><td>Negocio B</td><td>555-5678</td><td>Calle 2</td><td>10%</td><td><button type="button" class="btn btn-secondary btn-small" onclick="eliminarCliente()">❌</button></td></tr></tbody></table></div>`; } else if (section === 'agregar-cliente') { content.innerHTML = `<h3 class="section-title">➕ Agregar Cliente</h3><form onsubmit="agregarCliente(event)"><div class="form-group"><label>Nombre:</label><input type="text" required></div><div class="form-group"><label>Teléfono:</label><input type="tel" required></div><div class="form-group"><label>Dirección:</label><input type="text" required></div><div class="form-group"><label>Google Maps Link:</label><input type="text" placeholder="https://maps.google.com/..." required></div><button type="submit" class="btn">Agregar</button></form>`; } else if (section === 'pedidos') { content.innerHTML = `<h3 class="section-title">📦 Pedidos Recibidos</h3><div class="table-container"><table><thead><tr><th>Pedido</th><th>Cliente</th><th>Tipo</th><th>Total</th><th>Fecha</th></tr></thead><tbody>${pedidos.length === 0 ? '<tr><td colspan="5">No hay pedidos</td></tr>' : pedidos.map(p => `<tr><td>${p.numero}</td><td>${p.nombre}</td><td>${p.tipoEntrega === 'domicilio' ? '🚚' : '🏪'}</td><td>$${p.total}</td><td>${p.fecha}</td></tr>`).join('')}</tbody></table></div>`; } else if (section === 'descuentos') { content.innerHTML = `<h3 class="section-title">🏷️ Proponer Descuento</h3><form onsubmit="proponerDescuento(event)"><div class="form-group"><label>Cliente:</label><select required><option>Seleccionar</option><option>Negocio A</option></select></div><div class="dos-columnas"><div class="form-group"><label>Porcentaje:</label><input type="number" min="1" max="100" required></div><div class="form-group"><label>Tipo:</label><select id="desc-tipo" onchange="actualizarProductos()" required><option value="general">General</option><option value="producto">Por Producto</option></select></div></div><div id="prod-descto" style="display:none;">${productos.map(p => `<div class="form-group"><label>${p.nombre}</label><input type="number" min="0" max="100" placeholder="%"></div>`).join('')}</div><div class="form-group"><label>Justificación:</label><textarea required></textarea></div><button type="submit" class="btn">📤 Enviar</button></form>`; } else if (section === 'notas') { content.innerHTML = `<h3 class="section-title">📝 Generar Nota</h3><form onsubmit="generarNota(event)"><div class="form-group"><label>Pedido:</label><select required><option>Elegir</option>${pedidos.map(p => `<option>${p.numero} - ${p.nombre}</option>`).join('')}</select></div><div class="form-group"><label>Notas:</label><textarea></textarea></div><button type="submit" class="btn">📄 Generar</button></form>`; } else if (section === 'facturas') { content.innerHTML = `<h3 class="section-title">🧾 Generar Factura</h3><form onsubmit="generarFactura(event)"><div class="form-group"><label>Pedido:</label><select required><option>Elegir</option>${pedidos.map(p => `<option>${p.numero} - ${p.nombre}</option>`).join('')}</select></div><div class="form-group"><label>IVA 16%:</label><select><option value="no">No</option><option value="si">Sí</option></select></div><div class="form-group"><label>Notas:</label><textarea></textarea></div><button type="submit" class="btn btn-success">✅ Generar</button></form>`; } }
+        function actualizarProductos() { document.getElementById('prod-descto').style.display = document.getElementById('desc-tipo').value === 'producto' ? 'block' : 'none'; }
+        function agregarCliente(event) { event.preventDefault(); mostrarNotification('✅ Cliente agregado'); }
+        function eliminarCliente() { mostrarNotification('❌ Cliente eliminado'); }
+        function proponerDescuento(event) { event.preventDefault(); mostrarNotification('✅ Descuento propuesto'); }
+        function generarNota(event) { event.preventDefault(); mostrarNotification('✅ Nota generada'); }
+        function generarFactura(event) { event.preventDefault(); mostrarNotification('✅ Factura generada'); }
         
-        function guestCheckout() {
-            usuarioActual = { nombre: 'Invitado' };
-            document.getElementById('carrito-btn').style.display = 'flex';
-            mostrarProductos();
-        }
-
-        // LOGIN
-        function handleLogin(event) {
-            event.preventDefault();
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-
-            if (username === admin.usuario && password === admin.password) {
-                usuarioActual = admin;
-                updateNavbar();
-                showContent('admin-dashboard');
-                mostrarNotification('✅ Bienvenido Administrador');
-            } else {
-                const v = vendedores.find(v => v.usuario === username && v.password === password);
-                if (v) {
-                    usuarioActual = v;
-                    updateNavbar();
-                    showContent('vendedor-dashboard');
-                    mostrarNotification('✅ Bienvenido ' + v.nombre);
-                } else {
-                    mostrarNotification('❌ Credenciales incorrectas', true);
-                }
-            }
-            document.getElementById('username').value = '';
-            document.getElementById('password').value = '';
-        }
-
-        function logout() {
-            usuarioActual = null;
-            carrito = [];
-            colorSeleccionado = {};
-            document.getElementById('carrito-btn').style.display = 'none';
-            showContent('landing');
-            updateNavbar();
-            mostrarNotification('👋 Sesión cerrada');
-        }
-
-        function updateNavbar() {
-            const navbar = document.getElementById('navbar-user');
-            navbar.innerHTML = usuarioActual ? `<span style="color: white;">${usuarioActual.nombre}</span>` : '';
-        }
-
-        // PRODUCTOS
-        function mostrarProductos() {
-            const grid = document.getElementById('productos-grid');
-            grid.innerHTML = productos.map(p => `
-                <div class="product-card">
-                    <div class="product-image" style="background: linear-gradient(135deg, #003f7f 0%, #${p.tipo === 'tambo' ? 'F97316' : 'DC2626'} 100%);">
-                        ${p.tipo === 'tambo' ? '🛢️' : '💧'}
-                    </div>
-                    <div class="product-info">
-                        <div class="product-name">${p.nombre}</div>
-                        <div class="product-capacity">Capacidad: ${p.capacidad} litros</div>
-                        <div class="product-price">$${p.precio}</div>
-                        
-                        <div class="color-selector">
-                            <div class="color-label">Color:</div>
-                            <div class="color-options" id="colores-${p.id}">
-                                ${Object.entries(p.colores).map(([nombre, hex]) => `
-                                    <button type="button" class="color-btn" style="background-color: ${hex}; border-color: #ddd;" title="${nombre}" onclick="selectColor(${p.id}, '${nombre}')" id="color-${p.id}-${nombre}"></button>
-                                `).join('')}
-                            </div>
-                        </div>
-
-                        <div class="quantity-selector">
-                            <button type="button" class="quantity-btn" onclick="cambiarCantidad(${p.id}, -1)">-</button>
-                            <input type="number" class="quantity-input" id="qty-${p.id}" value="1" min="1">
-                            <button type="button" class="quantity-btn" onclick="cambiarCantidad(${p.id}, 1)">+</button>
-                        </div>
-
-                        <button type="button" class="btn" style="width: 100%;" onclick="agregarAlCarrito(${p.id})">➕ Agregar al Carrito</button>
-                    </div>
-                </div>
-            `).join('');
-            showContent('comprador-dashboard');
-        }
-
-        function selectColor(productId, colorNombre) {
-            colorSeleccionado[productId] = colorNombre;
-            document.querySelectorAll(`#colores-${productId} .color-btn`).forEach(btn => btn.classList.remove('selected'));
-            document.getElementById(`color-${productId}-${colorNombre}`).classList.add('selected');
-            mostrarNotification('✅ Color: ' + colorNombre);
-        }
-
-        function cambiarCantidad(productId, delta) {
-            const input = document.getElementById(`qty-${productId}`);
-            let valor = parseInt(input.value) + delta;
-            if (valor < 1) valor = 1;
-            input.value = valor;
-        }
-
-        function agregarAlCarrito(productId) {
-            const producto = productos.find(p => p.id === productId);
-            const cantidad = parseInt(document.getElementById(`qty-${productId}`).value);
-            const color = colorSeleccionado[productId] || 'blanco';
-
-            const item = {
-                id: productId + '_' + color + '_' + Date.now(),
-                productoId: productId,
-                producto: producto.nombre,
-                precio: producto.precio,
-                cantidad: cantidad,
-                color: color,
-                subtotal: producto.precio * cantidad
-            };
-
-            carrito.push(item);
-            document.getElementById('contador').textContent = carrito.length;
-            mostrarNotification(`✅ ${cantidad}x ${producto.nombre} agregado`);
-            document.getElementById(`qty-${productId}`).value = 1;
-            delete colorSeleccionado[productId];
-        }
-
-        function abrirCarrito() {
-            const modal = document.getElementById('carrito-modal');
-            const itemsHTML = carrito.length === 0 ? '<p>Tu carrito está vacío</p>' : `
-                <table>
-                    <thead><tr><th>Producto</th><th>Color</th><th>Cant</th><th>Precio</th><th>Subtotal</th><th></th></tr></thead>
-                    <tbody>
-                        ${carrito.map((item, idx) => `
-                            <tr>
-                                <td>${item.producto}</td>
-                                <td>${item.color}</td>
-                                <td>${item.cantidad}</td>
-                                <td>$${item.precio}</td>
-                                <td>$${item.subtotal}</td>
-                                <td><button type="button" class="btn btn-secondary btn-small" onclick="eliminarDelCarrito(${idx})">❌</button></td>
-                            </tr>
-                        `).join('')}
-                    </tbody>
-                </table>
-            `;
-            document.getElementById('carrito-items').innerHTML = itemsHTML;
-            const total = carrito.reduce((sum, item) => sum + item.subtotal, 0);
-            document.getElementById('carrito-total').innerHTML = `Total: $${total}`;
-            modal.classList.add('active');
-        }
-
-        function cerrarCarrito() {
-            document.getElementById('carrito-modal').classList.remove('active');
-        }
-
-        function eliminarDelCarrito(idx) {
-            carrito.splice(idx, 1);
-            document.getElementById('contador').textContent = carrito.length;
-            abrirCarrito();
-            mostrarNotification('❌ Producto eliminado');
-        }
-
-        function abrirFormularioPedido() {
-            cerrarCarrito();
-            const total = carrito.reduce((sum, item) => sum + item.subtotal, 0);
-            document.getElementById('total-pedido').innerHTML = `Total: $${total}`;
-            document.getElementById('pedido-modal').classList.add('active');
-        }
-
-        function cerrarPedido() {
-            document.getElementById('pedido-modal').classList.remove('active');
-        }
-
-        function realizarPedido(event) {
-            event.preventDefault();
-            if (carrito.length === 0) {
-                mostrarNotification('El carrito está vacío', true);
-                return;
-            }
-
-            const nombre = document.getElementById('nombre-pedido').value;
-            const direccion = document.getElementById('direccion-pedido').value;
-            const telefono = document.getElementById('telefono-pedido').value;
-            const tipoEntrega = document.getElementById('tipo-entrega').value;
-            const notas = document.getElementById('notas-pedido').value;
-            const total = carrito.reduce((sum, item) => sum + item.subtotal, 0);
-            const numeroPedido = '#' + Math.random().toString(36).substr(2, 9).toUpperCase();
-
-            const pedido = {
-                numero: numeroPedido,
-                nombre: nombre,
-                direccion: direccion,
-                telefono: telefono,
-                tipoEntrega: tipoEntrega,
-                notas: notas,
-                items: [...carrito],
-                total: total,
-                fecha: new Date().toLocaleDateString()
-            };
-
-            pedidos.push(pedido);
-            mostrarNotification(`✅ ¡Pedido realizado! ${numeroPedido}\nTotal: $${total}\nEntrega: ${tipoEntrega === 'domicilio' ? 'A domicilio' : 'Recoger en tienda'}`);
-            carrito = [];
-            document.getElementById('contador').textContent = 0;
-            cerrarPedido();
-            document.getElementById('nombre-pedido').value = '';
-            document.getElementById('direccion-pedido').value = '';
-            document.getElementById('telefono-pedido').value = '';
-            document.getElementById('notas-pedido').value = '';
-            mostrarProductos();
-        }
-
-        // VENDEDOR SECTIONS
-        function showVendedorSection(section) {
-            const content = document.getElementById('vendedor-content');
-            
-            if (section === 'clientes') {
-                content.innerHTML = `
-                    <h3 class="section-title">👥 Mis Clientes</h3>
-                    <table>
-                        <thead><tr><th>Nombre</th><th>Teléfono</th><th>Dirección</th><th>Descuento</th><th>Acciones</th></tr></thead>
-                        <tbody>
-                            <tr><td>Negocio A</td><td>555-1234</td><td>Calle 1</td><td>5%</td><td><button type="button" class="btn btn-secondary btn-small" onclick="eliminarCliente()">Eliminar</button></td></tr>
-                            <tr><td>Negocio B</td><td>555-5678</td><td>Calle 2</td><td>10%</td><td><button type="button" class="btn btn-secondary btn-small" onclick="eliminarCliente()">Eliminar</button></td></tr>
-                        </tbody>
-                    </table>
-                `;
-            } else if (section === 'agregar-cliente') {
-                content.innerHTML = `
-                    <h3 class="section-title">➕ Agregar Nuevo Cliente</h3>
-                    <form onsubmit="agregarCliente(event)">
-                        <div class="form-group">
-                            <label>Nombre del Negocio:</label>
-                            <input type="text" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Teléfono:</label>
-                            <input type="tel" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Dirección:</label>
-                            <input type="text" required>
-                        </div>
-                        <div class="button-group">
-                            <button type="submit" class="btn">Agregar Cliente</button>
-                        </div>
-                    </form>
-                `;
-            } else if (section === 'pedidos') {
-                content.innerHTML = `
-                    <h3 class="section-title">📦 Pedidos Recibidos</h3>
-                    <table>
-                        <thead><tr><th>Pedido</th><th>Cliente</th><th>Dirección</th><th>Teléfono</th><th>Tipo</th><th>Total</th><th>Fecha</th></tr></thead>
-                        <tbody>
-                            ${pedidos.map(p => `
-                                <tr>
-                                    <td>${p.numero}</td>
-                                    <td>${p.nombre}</td>
-                                    <td>${p.direccion}</td>
-                                    <td>${p.telefono}</td>
-                                    <td>${p.tipoEntrega === 'domicilio' ? '🚚 Domicilio' : '🏪 Tienda'}</td>
-                                    <td>$${p.total}</td>
-                                    <td>${p.fecha}</td>
-                                </tr>
-                            `).join('')}
-                        </tbody>
-                    </table>
-                `;
-            } else if (section === 'descuentos') {
-                content.innerHTML = `
-                    <h3 class="section-title">🏷️ Proponer Descuento</h3>
-                    <form onsubmit="proponerDescuento(event)">
-                        <div class="form-group">
-                            <label>Cliente:</label>
-                            <select required>
-                                <option>Seleccionar...</option>
-                                <option>Negocio A</option>
-                                <option>Negocio B</option>
-                            </select>
-                        </div>
-                        <div class="dos-columnas">
-                            <div class="form-group">
-                                <label>Porcentaje de Descuento (%):</label>
-                                <input type="number" min="1" max="100" placeholder="Ej: 10" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Tipo:</label>
-                                <select required>
-                                    <option>General (Todos los productos)</option>
-                                    <option>Por Producto Específico</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Justificación:</label>
-                            <textarea required></textarea>
-                        </div>
-                        <button type="submit" class="btn">📤 Enviar Propuesta</button>
-                    </form>
-                `;
-            } else if (section === 'notas') {
-                content.innerHTML = `
-                    <h3 class="section-title">📝 Generar Nota</h3>
-                    <p class="info-box">Las notas se generan basadas en los pedidos recibidos</p>
-                    <form onsubmit="generarNota(event)">
-                        <div class="form-group">
-                            <label>Seleccionar Pedido:</label>
-                            <select required>
-                                <option>Elegir pedido...</option>
-                                ${pedidos.map(p => `<option value="${p.numero}">${p.numero} - ${p.nombre} - $${p.total}</option>`).join('')}
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Notas Adicionales:</label>
-                            <textarea></textarea>
-                        </div>
-                        <button type="submit" class="btn">📄 Generar Nota</button>
-                    </form>
-                `;
-            } else if (section === 'facturas') {
-                content.innerHTML = `
-                    <h3 class="section-title">🧾 Generar Factura</h3>
-                    <form onsubmit="generarFactura(event)">
-                        <div class="form-group">
-                            <label>Seleccionar Pedido:</label>
-                            <select required>
-                                <option>Elegir pedido...</option>
-                                ${pedidos.map(p => `<option value="${p.numero}">${p.numero} - ${p.nombre} - $${p.total}</option>`).join('')}
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>¿Incluir IVA 16%?</label>
-                            <select required>
-                                <option value="no">No</option>
-                                <option value="si">Sí</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Notas (opcional):</label>
-                            <textarea></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-success">✅ Generar Factura</button>
-                    </form>
-                `;
-            }
-        }
-
-        function agregarCliente(event) {
-            event.preventDefault();
-            mostrarNotification('✅ Cliente agregado exitosamente');
-            showVendedorSection('clientes');
-        }
-
-        function eliminarCliente() {
-            mostrarNotification('❌ Cliente eliminado');
-        }
-
-        function proponerDescuento(event) {
-            event.preventDefault();
-            mostrarNotification('✅ Propuesta de descuento enviada a administrador');
-            showVendedorSection('descuentos');
-        }
-
-        function generarNota(event) {
-            event.preventDefault();
-            mostrarNotification('✅ Nota generada correctamente');
-        }
-
-        function generarFactura(event) {
-            event.preventDefault();
-            mostrarNotification('✅ Factura generada y guardada');
-        }
-
-        // ADMIN SECTIONS
-        function showAdminSection(section) {
-            const content = document.getElementById('admin-content');
-            
-            if (section === 'productos') {
-                content.innerHTML = `
-                    <h3 class="section-title">📦 Gestión de Productos</h3>
-                    <table>
-                        <thead><tr><th>Producto</th><th>Precio</th><th>Acciones</th></tr></thead>
-                        <tbody>
-                            ${productos.map(p => `
-                                <tr>
-                                    <td>${p.nombre}</td>
-                                    <td>$${p.precio}</td>
-                                    <td>
-                                        <button type="button" class="btn btn-small" onclick="editarPrecio(${p.id})">✏️ Editar</button>
-                                        <button type="button" class="btn btn-secondary btn-small" onclick="eliminarProducto()">❌ Eliminar</button>
-                                    </td>
-                                </tr>
-                            `).join('')}
-                        </tbody>
-                    </table>
-                `;
-            } else if (section === 'descuentos') {
-                content.innerHTML = `
-                    <h3 class="section-title">✅ Solicitudes de Descuentos</h3>
-                    <p class="info-box">✓ No hay solicitudes pendientes</p>
-                    <h4 style="color: #003f7f; margin-top: 2rem;">Descuentos Aprobados:</h4>
-                    <table style="margin-top: 1rem;">
-                        <thead><tr><th>Vendedor</th><th>Cliente</th><th>Descuento</th><th>Estado</th><th>Acciones</th></tr></thead>
-                        <tbody>
-                            <tr>
-                                <td>Husai M.</td>
-                                <td>Negocio A</td>
-                                <td>5%</td>
-                                <td>✅ Aprobado</td>
-                                <td><button type="button" class="btn btn-secondary btn-small" onclick="eliminarDescuento()">❌</button></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                `;
-            } else if (section === 'pedidos') {
-                content.innerHTML = `
-                    <h3 class="section-title">📦 Todos los Pedidos</h3>
-                    <table>
-                        <thead><tr><th>Pedido</th><th>Cliente</th><th>Total</th><th>Tipo</th><th>Fecha</th><th>Acciones</th></tr></thead>
-                        <tbody>
-                            ${pedidos.map(p => `
-                                <tr>
-                                    <td>${p.numero}</td>
-                                    <td>${p.nombre}</td>
-                                    <td>$${p.total}</td>
-                                    <td>${p.tipoEntrega === 'domicilio' ? '🚚' : '🏪'}</td>
-                                    <td>${p.fecha}</td>
-                                    <td><button type="button" class="btn btn-secondary btn-small" onclick="eliminarPedido()">❌</button></td>
-                                </tr>
-                            `).join('')}
-                        </tbody>
-                    </table>
-                `;
-            } else if (section === 'clientes') {
-                content.innerHTML = `
-                    <h3 class="section-title">👥 Clientes Registrados</h3>
-                    <table>
-                        <thead><tr><th>Nombre</th><th>Teléfono</th><th>Dirección</th><th>Vendedor</th><th>Acciones</th></tr></thead>
-                        <tbody>
-                            <tr><td>Negocio A</td><td>555-1234</td><td>Calle 1</td><td>Husai M.</td><td><button type="button" class="btn btn-secondary btn-small" onclick="eliminarClienteAdmin()">❌</button></td></tr>
-                        </tbody>
-                    </table>
-                `;
-            } else if (section === 'ventas') {
-                content.innerHTML = `
-                    <h3 class="section-title">📊 Ventas por Vendedor</h3>
-                    <table>
-                        <thead><tr><th>Vendedor</th><th>Total Ventas</th><th>Clientes</th><th>Pedidos</th></tr></thead>
-                        <tbody>
-                            <tr><td>Husai M.</td><td>$12,500</td><td>8</td><td>15</td></tr>
-                            <tr><td>Pedro D.</td><td>$18,300</td><td>12</td><td>22</td></tr>
-                            <tr><td>Fernando O.</td><td>$9,800</td><td>6</td><td>11</td></tr>
-                            <tr><td>Isidro G.</td><td>$15,200</td><td>10</td><td>18</td></tr>
-                        </tbody>
-                    </table>
-                `;
-            } else if (section === 'reportes') {
-                content.innerHTML = `
-                    <h3 class="section-title">📈 Reportes</h3>
-                    <div class="info-box">
-                        <p><strong>Total Ventas (Este Mes):</strong> $55,800</p>
-                        <p><strong>Promedio de Venta:</strong> $1,548</p>
-                        <p><strong>Producto Más Vendido:</strong> Tinaco 750 lt</p>
-                    </div>
-                    <button type="button" class="btn">📄 Descargar PDF</button>
-                    <button type="button" class="btn btn-secondary">📊 Descargar Excel</button>
-                `;
-            }
-        }
-
-        function editarPrecio(id) {
-            const p = productos.find(x => x.id === id);
-            const nuevo = prompt(`Nuevo precio para ${p.nombre}:\nPrecio actual: $${p.precio}`, p.precio);
-            if (nuevo && !isNaN(nuevo)) {
-                p.precio = parseFloat(nuevo);
-                mostrarNotification('✅ Precio actualizado');
-                showAdminSection('productos');
-            }
-        }
-
-        function eliminarProducto() { mostrarNotification('❌ Producto eliminado'); }
-        function eliminarDescuento() { mostrarNotification('❌ Descuento eliminado'); }
-        function eliminarPedido() { mostrarNotification('❌ Pedido eliminado'); }
+        function showAdminSection(section) { const content = document.getElementById('admin-content'); if (section === 'productos') { content.innerHTML = `<h3 class="section-title">📦 Gestión de Productos</h3><div class="table-container"><table><thead><tr><th>Producto</th><th>Precio</th><th>Acciones</th></tr></thead><tbody>${productos.map(p => `<tr><td>${p.nombre}</td><td>$${p.precio}</td><td><button type="button" class="btn btn-small" onclick="editarPrecio(${p.id})">✏️</button><button type="button" class="btn btn-secondary btn-small" onclick="eliminarProductoAdmin()">❌</button></td></tr>`).join('')}</tbody></table></div>`; } else if (section === 'descuentos') { content.innerHTML = `<h3 class="section-title">✅ Descuentos</h3><p>✓ No hay solicitudes pendientes</p>`; } else if (section === 'descuento-directo') { content.innerHTML = `<h3 class="section-title">🎁 Otorgar Descuento</h3><form onsubmit="aplicarDescuentoDirecto(event)"><div class="form-group"><label>Cliente:</label><select required><option>Seleccionar</option></select></div><div class="form-group"><label>Porcentaje:</label><input type="number" min="0" max="100" required></div><button type="submit" class="btn btn-success">Aplicar</button></form>`; } else if (section === 'ventas') { content.innerHTML = `<h3 class="section-title">📊 Ventas</h3><div class="table-container"><table><thead><tr><th>Vendedor</th><th>Total</th><th>Clientes</th><th>Pedidos</th><th>Acciones</th></tr></thead><tbody><tr><td>Husai M.</td><td>$12,500</td><td>8</td><td>15</td><td><button type="button" class="btn btn-secondary btn-small" onclick="eliminarVenta()">❌</button></td></tr></tbody></table></div>`; } else if (section === 'pedidos') { content.innerHTML = `<h3 class="section-title">📦 Todos los Pedidos</h3><div class="table-container"><table><thead><tr><th>Pedido</th><th>Cliente</th><th>Total</th><th>Tipo</th><th>Fecha</th><th>Acciones</th></tr></thead><tbody>${pedidos.length === 0 ? '<tr><td colspan="6">No hay pedidos</td></tr>' : pedidos.map(p => `<tr><td>${p.numero}</td><td>${p.nombre}</td><td>$${p.total}</td><td>${p.tipoEntrega}</td><td>${p.fecha}</td><td><button type="button" class="btn btn-secondary btn-small" onclick="eliminarPedidoAdmin()">❌</button></td></tr>`).join('')}</tbody></table></div>`; } else if (section === 'clientes') { content.innerHTML = `<h3 class="section-title">👥 Clientes</h3><div class="table-container"><table><thead><tr><th>Nombre</th><th>Teléfono</th><th>Dirección</th><th>Vendedor</th><th>Acciones</th></tr></thead><tbody><tr><td>Negocio A</td><td>555-1234</td><td>Calle 1</td><td>Husai</td><td><button type="button" class="btn btn-secondary btn-small" onclick="eliminarClienteAdmin()">❌</button></td></tr></tbody></table></div>`; } else if (section === 'reportes') { content.innerHTML = `<h3 class="section-title">📈 Reportes</h3><div class="info-box"><p><strong>Total Ventas:</strong> $${pedidos.reduce((s, p) => s + p.total, 0)}</p><p><strong>Pedidos:</strong> ${pedidos.length}</p></div>`; } }
+        function editarPrecio(id) { const p = productos.find(x => x.id === id); const nuevo = prompt('Nuevo precio:', p.precio); if (nuevo && !isNaN(nuevo)) { p.precio = parseFloat(nuevo); mostrarNotification('✅ Precio actualizado'); showAdminSection('productos'); } }
+        function aplicarDescuentoDirecto(event) { event.preventDefault(); mostrarNotification('✅ Descuento aplicado'); }
+        function eliminarProductoAdmin() { mostrarNotification('❌ Eliminado'); }
+        function eliminarVenta() { mostrarNotification('❌ Venta eliminada'); }
+        function eliminarPedidoAdmin() { mostrarNotification('❌ Pedido eliminado'); }
         function eliminarClienteAdmin() { mostrarNotification('❌ Cliente eliminado'); }
-
-        // NOTIFICACIONES
-        function mostrarNotification(msg, esError = false) {
-            const n = document.createElement('div');
-            n.className = 'notification' + (esError ? ' error' : '');
-            n.textContent = msg;
-            document.body.appendChild(n);
-            setTimeout(() => n.remove(), 3000);
-        }
-
+        function mostrarNotification(msg, esError = false) { const n = document.createElement('div'); n.className = 'notification' + (esError ? ' error' : ''); n.textContent = msg; document.body.appendChild(n); setTimeout(() => n.remove(), 3000); }
+        if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js').catch(() => {}); }
         updateNavbar();
     </script>
 </body>
