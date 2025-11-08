@@ -1,2676 +1,614 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#21808d" />
-  <title>Tinacos Plastinova - Soluciones de Almacenamiento</title>
-  <link rel="manifest" href="manifest.json" />
-  <link rel="icon" type="image/x-icon" href="logo-tinacos.jpg" />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&display=swap" rel="stylesheet" />
-  <style>
-    /* PERPLEXITY DESIGN SYSTEM */
-    :root {
-      /* Primitive Color Tokens */
-      --color-white: rgba(255, 255, 255, 1);
-      --color-black: rgba(0, 0, 0, 1);
-      --color-cream-50: rgba(252, 252, 249, 1);
-      --color-cream-100: rgba(255, 255, 253, 1);
-      --color-gray-200: rgba(245, 245, 245, 1);
-      --color-gray-300: rgba(167, 169, 169, 1);
-      --color-gray-400: rgba(119, 124, 124, 1);
-      --color-slate-500: rgba(98, 108, 113, 1);
-      --color-brown-600: rgba(94, 82, 64, 1);
-      --color-charcoal-700: rgba(31, 33, 33, 1);
-      --color-charcoal-800: rgba(38, 40, 40, 1);
-      --color-slate-900: rgba(19, 52, 59, 1);
-      --color-teal-300: rgba(50, 184, 198, 1);
-      --color-teal-400: rgba(45, 166, 178, 1);
-      --color-teal-500: rgba(33, 128, 141, 1);
-      --color-teal-600: rgba(29, 116, 128, 1);
-      --color-teal-700: rgba(26, 104, 115, 1);
-      --color-teal-800: rgba(41, 150, 161, 1);
-      --color-red-400: rgba(255, 84, 89, 1);
-      --color-red-500: rgba(192, 21, 47, 1);
-      --color-orange-400: rgba(230, 129, 97, 1);
-      --color-orange-500: rgba(168, 75, 47, 1);
-
-      --color-brown-600-rgb: 94, 82, 64;
-      --color-teal-500-rgb: 33, 128, 141;
-      --color-slate-900-rgb: 19, 52, 59;
-      --color-slate-500-rgb: 98, 108, 113;
-      --color-red-500-rgb: 192, 21, 47;
-      --color-red-400-rgb: 255, 84, 89;
-      --color-orange-500-rgb: 168, 75, 47;
-      --color-orange-400-rgb: 230, 129, 97;
-
-      --color-bg-1: rgba(59, 130, 246, 0.08);
-      --color-bg-2: rgba(245, 158, 11, 0.08);
-      --color-bg-3: rgba(34, 197, 94, 0.08);
-      --color-bg-4: rgba(239, 68, 68, 0.08);
-      --color-bg-5: rgba(147, 51, 234, 0.08);
-      --color-bg-6: rgba(249, 115, 22, 0.08);
-      --color-bg-7: rgba(236, 72, 153, 0.08);
-      --color-bg-8: rgba(6, 182, 212, 0.08);
-
-      --color-background: var(--color-cream-50);
-      --color-surface: var(--color-cream-100);
-      --color-text: var(--color-slate-900);
-      --color-text-secondary: var(--color-slate-500);
-      --color-primary: var(--color-teal-500);
-      --color-primary-hover: var(--color-teal-600);
-      --color-primary-active: var(--color-teal-700);
-      --color-secondary: rgba(var(--color-brown-600-rgb), 0.12);
-      --color-secondary-hover: rgba(var(--color-brown-600-rgb), 0.2);
-      --color-secondary-active: rgba(var(--color-brown-600-rgb), 0.25);
-      --color-border: rgba(var(--color-brown-600-rgb), 0.2);
-      --color-btn-primary-text: var(--color-cream-50);
-      --color-card-border: rgba(var(--color-brown-600-rgb), 0.12);
-      --color-card-border-inner: rgba(var(--color-brown-600-rgb), 0.12);
-      --color-error: var(--color-red-500);
-      --color-success: var(--color-teal-500);
-      --color-warning: var(--color-orange-500);
-      --color-info: var(--color-slate-500);
-      --color-focus-ring: rgba(var(--color-teal-500-rgb), 0.4);
-      --color-select-caret: rgba(var(--color-slate-900-rgb), 0.8);
-
-      --focus-ring: 0 0 0 3px var(--color-focus-ring);
-      --focus-outline: 2px solid var(--color-primary);
-      --status-bg-opacity: 0.15;
-      --status-border-opacity: 0.25;
-
-      --color-success-rgb: 33, 128, 141;
-      --color-error-rgb: 192, 21, 47;
-      --color-warning-rgb: 168, 75, 47;
-      --color-info-rgb: 98, 108, 113;
-
-      --font-family-base: 'FKGroteskNeue', 'Geist', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      --font-size-xs: 11px;
-      --font-size-sm: 12px;
-      --font-size-base: 14px;
-      --font-size-md: 14px;
-      --font-size-lg: 16px;
-      --font-size-xl: 18px;
-      --font-size-2xl: 20px;
-      --font-size-3xl: 24px;
-      --font-size-4xl: 30px;
-      --font-weight-normal: 400;
-      --font-weight-medium: 500;
-      --font-weight-semibold: 550;
-      --font-weight-bold: 600;
-      --line-height-tight: 1.2;
-      --line-height-normal: 1.5;
-      --letter-spacing-tight: -0.01em;
-
-      --space-0: 0;
-      --space-1: 1px;
-      --space-2: 2px;
-      --space-4: 4px;
-      --space-6: 6px;
-      --space-8: 8px;
-      --space-10: 10px;
-      --space-12: 12px;
-      --space-16: 16px;
-      --space-20: 20px;
-      --space-24: 24px;
-      --space-32: 32px;
-
-      --radius-sm: 6px;
-      --radius-base: 8px;
-      --radius-md: 10px;
-      --radius-lg: 12px;
-      --radius-full: 9999px;
-
-      --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.02);
-      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
-      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
-      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.04), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
-      --shadow-inset-sm: inset 0 1px 0 rgba(255, 255, 255, 0.15), inset 0 -1px 0 rgba(0, 0, 0, 0.03);
-
-      --duration-fast: 150ms;
-      --duration-normal: 250ms;
-      --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --color-gray-400-rgb: 119, 124, 124;
-        --color-teal-300-rgb: 50, 184, 198;
-        --color-gray-300-rgb: 167, 169, 169;
-        --color-gray-200-rgb: 245, 245, 245;
-        --color-bg-1: rgba(29, 78, 216, 0.15);
-        --color-bg-2: rgba(180, 83, 9, 0.15);
-        --color-bg-3: rgba(21, 128, 61, 0.15);
-        --color-bg-4: rgba(185, 28, 28, 0.15);
-        --color-bg-5: rgba(107, 33, 168, 0.15);
-        --color-bg-6: rgba(194, 65, 12, 0.15);
-        --color-bg-7: rgba(190, 24, 93, 0.15);
-        --color-bg-8: rgba(8, 145, 178, 0.15);
-        --color-background: var(--color-charcoal-700);
-        --color-surface: var(--color-charcoal-800);
-        --color-text: var(--color-gray-200);
-        --color-text-secondary: rgba(var(--color-gray-300-rgb), 0.7);
-        --color-primary: var(--color-teal-300);
-        --color-primary-hover: var(--color-teal-400);
-        --color-primary-active: var(--color-teal-800);
-        --color-secondary: rgba(var(--color-gray-400-rgb), 0.15);
-        --color-secondary-hover: rgba(var(--color-gray-400-rgb), 0.25);
-        --color-secondary-active: rgba(var(--color-gray-400-rgb), 0.3);
-        --color-border: rgba(var(--color-gray-400-rgb), 0.3);
-        --color-error: var(--color-red-400);
-        --color-success: var(--color-teal-300);
-        --color-warning: var(--color-orange-400);
-        --color-info: var(--color-gray-300);
-        --color-focus-ring: rgba(var(--color-teal-300-rgb), 0.4);
-        --color-btn-primary-text: var(--color-slate-900);
-        --color-card-border: rgba(var(--color-gray-400-rgb), 0.2);
-        --color-card-border-inner: rgba(var(--color-gray-400-rgb), 0.15);
-        --shadow-inset-sm: inset 0 1px 0 rgba(255, 255, 255, 0.1), inset 0 -1px 0 rgba(0, 0, 0, 0.15);
-        --color-select-caret: rgba(var(--color-gray-200-rgb), 0.8);
-        --color-success-rgb: var(--color-teal-300-rgb);
-        --color-error-rgb: var(--color-red-400-rgb);
-        --color-warning-rgb: var(--color-orange-400-rgb);
-        --color-info-rgb: var(--color-gray-300-rgb);
-      }
-    }
-
-    html {
-      font-size: var(--font-size-base);
-      font-family: var(--font-family-base);
-      line-height: var(--line-height-normal);
-      color: var(--color-text);
-      background-color: var(--color-background);
-      -webkit-font-smoothing: antialiased;
-      box-sizing: border-box;
-    }
-
-    body { margin: 0; padding: 0; }
-    *, *::before, *::after { box-sizing: inherit; }
-
-    h1, h2, h3, h4, h5, h6 {
-      margin: 0;
-      font-weight: var(--font-weight-semibold);
-      line-height: var(--line-height-tight);
-      color: var(--color-text);
-      letter-spacing: var(--letter-spacing-tight);
-    }
-    h1 { font-size: var(--font-size-4xl); }
-    h2 { font-size: var(--font-size-3xl); }
-    h3 { font-size: var(--font-size-2xl); }
-    p { margin: 0 0 var(--space-16) 0; }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: var(--space-8) var(--space-16);
-      border-radius: var(--radius-base);
-      font-size: var(--font-size-base);
-      font-weight: 500;
-      line-height: 1.5;
-      cursor: pointer;
-      transition: all var(--duration-normal) var(--ease-standard);
-      border: none;
-      text-decoration: none;
-    }
-    .btn:focus-visible { outline: none; box-shadow: var(--focus-ring); }
-    .btn--primary { background: var(--color-primary); color: var(--color-btn-primary-text); }
-    .btn--primary:hover { background: var(--color-primary-hover); }
-    .btn--primary:active { background: var(--color-primary-active); }
-    .btn--secondary { background: var(--color-secondary); color: var(--color-text); }
-    .btn--secondary:hover { background: var(--color-secondary-hover); }
-    .btn--secondary:active { background: var(--color-secondary-active); }
-    .btn--outline { background: transparent; border: 1px solid var(--color-border); color: var(--color-text); }
-    .btn--outline:hover { background: var(--color-secondary); }
-    .btn--sm { padding: var(--space-4) var(--space-12); font-size: var(--font-size-sm); border-radius: var(--radius-sm); }
-    .btn--lg { padding: var(--space-10) var(--space-20); font-size: var(--font-size-lg); border-radius: var(--radius-md); }
-    .btn--full-width { width: 100%; }
-    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-
-    .form-control {
-      display: block;
-      width: 100%;
-      padding: var(--space-8) var(--space-12);
-      font-size: var(--font-size-md);
-      line-height: 1.5;
-      color: var(--color-text);
-      background-color: var(--color-surface);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-base);
-      transition: border-color var(--duration-fast) var(--ease-standard), box-shadow var(--duration-fast) var(--ease-standard);
-    }
-    .form-control:focus { border-color: var(--color-primary); outline: var(--focus-outline); }
-    .form-label { display: block; margin-bottom: var(--space-8); font-weight: var(--font-weight-medium); font-size: var(--font-size-sm); }
-    .form-group { margin-bottom: var(--space-16); }
-
-    .card {
-      background-color: var(--color-surface);
-      border-radius: var(--radius-lg);
-      border: 1px solid var(--color-card-border);
-      box-shadow: var(--shadow-sm);
-      overflow: hidden;
-      transition: box-shadow var(--duration-normal) var(--ease-standard);
-    }
-    .card:hover { box-shadow: var(--shadow-md); }
-    .card__body { padding: var(--space-16); }
-
-    .status {
-      display: inline-flex;
-      align-items: center;
-      padding: var(--space-6) var(--space-12);
-      border-radius: var(--radius-full);
-      font-weight: var(--font-weight-medium);
-      font-size: var(--font-size-sm);
-    }
-    .status--success { background-color: rgba(var(--color-success-rgb), var(--status-bg-opacity)); color: var(--color-success); border: 1px solid rgba(var(--color-success-rgb), var(--status-border-opacity)); }
-    .status--error { background-color: rgba(var(--color-error-rgb), var(--status-bg-opacity)); color: var(--color-error); border: 1px solid rgba(var(--color-error-rgb), var(--status-border-opacity)); }
-    .status--warning { background-color: rgba(var(--color-warning-rgb), var(--status-bg-opacity)); color: var(--color-warning); border: 1px solid rgba(var(--color-warning-rgb), var(--status-border-opacity)); }
-    .status--info { background-color: rgba(var(--color-info-rgb), var(--status-bg-opacity)); color: var(--color-info); border: 1px solid rgba(var(--color-info-rgb), var(--status-border-opacity)); }
-
-    .container { width: 100%; margin: 0 auto; padding: 0 var(--space-16); }
-    @media (min-width: 640px) { .container { max-width: 640px; } }
-    @media (min-width: 768px) { .container { max-width: 768px; } }
-    @media (min-width: 1024px) { .container { max-width: 1024px; } }
-    @media (min-width: 1280px) { .container { max-width: 1280px; } }
-
-    .flex { display: flex; }
-    .flex-col { flex-direction: column; }
-    .items-center { align-items: center; }
-    .justify-center { justify-content: center; }
-    .justify-between { justify-content: space-between; }
-    .gap-4 { gap: var(--space-4); }
-    .gap-8 { gap: var(--space-8); }
-    .gap-16 { gap: var(--space-16); }
-    .m-0 { margin: 0; }
-    .mt-8 { margin-top: var(--space-8); }
-    .mb-8 { margin-bottom: var(--space-8); }
-    .my-8 { margin-top: var(--space-8); margin-bottom: var(--space-8); }
-    .p-0 { padding: 0; }
-    .py-8 { padding-top: var(--space-8); padding-bottom: var(--space-8); }
-    .px-8 { padding-left: var(--space-8); padding-right: var(--space-8); }
-    .py-16 { padding-top: var(--space-16); padding-bottom: var(--space-16); }
-    .px-16 { padding-left: var(--space-16); padding-right: var(--space-16); }
-    .block { display: block; }
-    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border-width: 0; }
-    :focus-visible { outline: var(--focus-outline); outline-offset: 2px; }
-    /* END DESIGN SYSTEM */
-    
-    /* CUSTOM APP STYLES */
-    
-    /* Animaciones y efectos */
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes slideIn {
-      from { opacity: 0; transform: translateX(-30px); }
-      to { opacity: 1; transform: translateX(0); }
-    }
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-    }
-    @keyframes shimmer {
-      0% { background-position: -1000px 0; }
-      100% { background-position: 1000px 0; }
-    }
-    
-    .fade-in { animation: fadeIn 0.6s ease-out forwards; }
-    .slide-in { animation: slideIn 0.5s ease-out forwards; }
-    
-    /* Hero Section */
-    .hero {
-      background: linear-gradient(135deg, #003f7f 0%, var(--color-primary) 50%, var(--color-teal-700) 100%);
-      color: white;
-      padding: 60px 24px;
-      text-align: center;
-      border-radius: var(--radius-lg);
-      margin: 24px 0;
-      box-shadow: var(--shadow-lg);
-      position: relative;
-      overflow: hidden;
-    }
-    @media (max-width: 600px) {
-      .hero {
-        padding: 40px 16px;
-      }
-      .hero img {
-        height: 56px !important;
-      }
-    }
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      right: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-      animation: pulse 4s ease-in-out infinite;
-    }
-    .hero h1 {
-      font-size: clamp(28px, 5vw, 42px);
-      margin-bottom: 16px;
-      font-weight: 600;
-      position: relative;
-      z-index: 1;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    .hero p {
-      font-size: clamp(16px, 3vw, 20px);
-      margin-bottom: 24px;
-      opacity: 0.95;
-      position: relative;
-      z-index: 1;
-    }
-    .hero-buttons {
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-      flex-wrap: wrap;
-      position: relative;
-      z-index: 1;
-    }
-    .hero-buttons .btn {
-      background: white;
-      color: var(--color-primary);
-      font-weight: 600;
-      padding: 12px 32px;
-      font-size: 16px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      transition: all 0.3s ease;
-    }
-    .hero-buttons .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-    }
-    .hero-buttons .btn--secondary {
-      background: rgba(255,255,255,0.2);
-      color: white;
-      backdrop-filter: blur(10px);
-    }
-    .hero-buttons .btn--secondary:hover {
-      background: rgba(255,255,255,0.3);
-    }
-    .auth-card {
-      max-width: 440px;
-      margin: 48px auto 0 auto;
-      box-shadow: var(--shadow-lg);
-      border: none;
-      animation: fadeIn 0.5s ease-out;
-    }
-    .auth-card .card__body {
-      padding: 32px;
-    }
-    .auth-card h2, .auth-card h3 {
-      color: var(--color-primary);
-      margin-bottom: 24px;
-      text-align: center;
-      font-size: 28px;
-    }
-    .product-card {
-      margin-bottom: var(--space-16);
-      border-radius: var(--radius-lg);
-      transition: all 0.3s ease;
-      border: none;
-      background: var(--color-surface);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-      overflow: hidden;
-    }
-    .product-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 12px 24px rgba(0,0,0,0.12);
-    }
-    .product-card__img {
-      width: 100%;
-      height: 240px;
-      background: linear-gradient(135deg, var(--color-bg-1) 0%, var(--color-bg-2) 100%);
-      border-radius: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 0;
-      position: relative;
-      overflow: hidden;
-    }
-    .product-card__img::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.05) 100%);
-    }
-    .product-card__img img {
-      max-width: 85%;
-      max-height: 85%;
-      object-fit: contain;
-      transition: transform 0.3s ease;
-      position: relative;
-      z-index: 1;
-    }
-    .product-card:hover .product-card__img img {
-      transform: scale(1.1);
-    }
-    .product-card__body {
-      padding: 20px !important;
-    }
-    .product-name {
-      font-size: 18px;
-      font-weight: 600;
-      color: var(--color-text);
-      margin-bottom: 8px;
-    }
-    .product-price {
-      font-size: 24px;
-      font-weight: 700;
-      color: var(--color-primary);
-      margin-bottom: 12px;
-    }
-    .color-circle {
-      display: inline-block;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      margin: 0 4px;
-      border: 2px solid var(--color-border);
-      background: var(--color-bg-2);
-      vertical-align: middle;
-      transition: all 0.2s ease;
-      cursor: pointer;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    .color-circle:hover {
-      transform: scale(1.2);
-      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-    }
-    .colors-container {
-      margin: 12px 0;
-      padding: 8px;
-      background: var(--color-bg-1);
-      border-radius: var(--radius-sm);
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 4px;
-    }
-    .catalog-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 24px;
-      margin-top: 32px;
-    }
-    @media (min-width: 600px) {
-      .catalog-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
-    @media (min-width: 900px) {
-      .catalog-grid {
-        grid-template-columns: 1fr 1fr 1fr;
-      }
-    }
-    .appbar {
-      width: 100%;
-      background: linear-gradient(135deg, var(--color-surface) 0%, var(--color-bg-1) 100%);
-      border-bottom: 1px solid var(--color-border);
-      padding: 14px 16px;
-      font-size: 20px;
-      font-weight: 600;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-      letter-spacing: 0.03em;
-      color: var(--color-primary);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      backdrop-filter: blur(10px);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    @media (max-width: 600px) {
-      .appbar {
-        padding: 12px 12px;
-        font-size: 16px;
-      }
-      .appbar img {
-        height: 36px !important;
-      }
-      .appbar .btn--sm {
-        padding: 6px 10px !important;
-        font-size: 12px !important;
-      }
-    }
-    .appbar-emoji {
-      font-size: 24px;
-      margin-right: 8px;
-    }
-    .hidden { display: none !important; }
-    
-    /* Notificaciones toast */
-    .toast {
-      position: fixed;
-      top: 80px;
-      right: 20px;
-      background: var(--color-primary);
-      color: white;
-      padding: 16px 24px;
-      border-radius: var(--radius-lg);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-      z-index: 1000;
-      animation: slideIn 0.3s ease-out;
-      font-weight: 500;
-      max-width: 300px;
-    }
-    .toast.success { background: var(--color-success); }
-    .toast.error { background: var(--color-error); }
-    .toast.warning { background: var(--color-warning); }
-    
-    /* Badge contador */
-    .badge {
-      display: inline-block;
-      background: var(--color-error);
-      color: white;
-      font-size: 11px;
-      font-weight: 600;
-      padding: 2px 6px;
-      border-radius: var(--radius-full);
-      margin-left: 6px;
-      min-width: 18px;
-      text-align: center;
-      animation: pulse 2s ease-in-out infinite;
-    }
-    
-    /* Mejoras de botones */
-    .btn {
-      position: relative;
-      overflow: hidden;
-    }
-    .btn::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 0;
-      height: 0;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.3);
-      transform: translate(-50%, -50%);
-      transition: width 0.6s, height 0.6s;
-    }
-    .btn:active::after {
-      width: 300px;
-      height: 300px;
-    }
-    
-    /* Tarjetas mejoradas */
-    .info-card {
-      background: var(--color-surface);
-      border-radius: var(--radius-lg);
-      padding: 20px;
-      margin: 16px 0;
-      border: 1px solid var(--color-card-border);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-      transition: all 0.3s ease;
-    }
-    .info-card:hover {
-      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-      transform: translateY(-2px);
-    }
-    
-    /* Dashboard KPIs */
-    .kpi-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 16px;
-      margin: 24px 0;
-    }
-    .kpi-card {
-      background: linear-gradient(135deg, var(--color-bg-1) 0%, var(--color-bg-2) 100%);
-      border-radius: var(--radius-lg);
-      padding: 24px;
-      text-align: center;
-      border: none;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-      transition: transform 0.3s ease;
-    }
-    .kpi-card:hover {
-      transform: translateY(-4px);
-    }
-    .kpi-value {
-      font-size: 32px;
-      font-weight: 700;
-      color: var(--color-primary);
-      margin: 8px 0;
-    }
-    .kpi-label {
-      font-size: 14px;
-      color: var(--color-text-secondary);
-      font-weight: 500;
-    }
-    
-    /* Loading spinner */
-    .spinner {
-      width: 40px;
-      height: 40px;
-      border: 4px solid var(--color-border);
-      border-top-color: var(--color-primary);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin: 20px auto;
-    }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-    
-    /* Filtros visuales */
-    .filter-chips {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin: 16px 0;
-    }
-    .chip {
-      background: var(--color-secondary);
-      color: var(--color-text);
-      padding: 8px 16px;
-      border-radius: var(--radius-full);
-      font-size: 14px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      border: 1px solid transparent;
-    }
-    .chip:hover {
-      background: var(--color-secondary-hover);
-      transform: translateY(-2px);
-    }
-    .chip.active {
-      background: var(--color-primary);
-      color: white;
-      border-color: var(--color-primary);
-    }
-    
-    /* Modal system */
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(4px);
-      z-index: 1000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      animation: fadeIn 0.2s ease-out;
-    }
-    .modal-content {
-      background: var(--color-surface);
-      border-radius: var(--radius-lg);
-      max-width: 500px;
-      width: 100%;
-      max-height: 90vh;
-      overflow-y: auto;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-      animation: slideIn 0.3s ease-out;
-    }
-    .modal-header {
-      padding: 20px 24px;
-      border-bottom: 1px solid var(--color-border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .modal-body {
-      padding: 24px;
-    }
-    .modal-close {
-      background: none;
-      border: none;
-      font-size: 24px;
-      cursor: pointer;
-      color: var(--color-text-secondary);
-      padding: 0;
-      width: 32px;
-      height: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: var(--radius-sm);
-      transition: all 0.2s ease;
-    }
-    .modal-close:hover {
-      background: var(--color-secondary);
-      color: var(--color-text);
-    }
-    
-    /* Timeline de pedidos */
-    .timeline {
-      position: relative;
-      padding: 20px 0;
-    }
-    .timeline-item {
-      position: relative;
-      padding-left: 40px;
-      padding-bottom: 24px;
-    }
-    .timeline-item::before {
-      content: '';
-      position: absolute;
-      left: 10px;
-      top: 0;
-      bottom: -24px;
-      width: 2px;
-      background: var(--color-border);
-    }
-    .timeline-item:last-child::before {
-      display: none;
-    }
-    .timeline-dot {
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background: var(--color-primary);
-      border: 3px solid var(--color-surface);
-      box-shadow: 0 0 0 3px var(--color-border);
-    }
-    .timeline-dot.completed {
-      background: var(--color-success);
-    }
-    
-    /* Form improvements */
-    .form-control {
-      transition: all 0.3s ease;
-    }
-    .form-control:hover {
-      border-color: var(--color-primary);
-    }
-    
-    /* Section headers */
-    .section-header {
-      margin: 32px 0 24px 0;
-      padding-bottom: 12px;
-      border-bottom: 2px solid var(--color-border);
-    }
-    .section-header h2 {
-      color: var(--color-primary);
-      font-size: 28px;
-      font-weight: 600;
-    }
-    .section-header p {
-      color: var(--color-text-secondary);
-      margin-top: 8px;
-      font-size: 16px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#003f7f">
+    <meta name="description" content="Plataforma de ventas de tinacos y tambores Plastinova">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="logo-tinacos.jpg">
+    <title>Tinacos Plastinova - Ventas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            color: #1e293b;
+        }
+        
+        .navbar {
+            background: linear-gradient(135deg, #003f7f 0%, #1e3a8a 100%);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .navbar-logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            object-fit: contain;
+        }
+        
+        .navbar-right {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .content {
+            display: none;
+        }
+        
+        .content.active {
+            display: block;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #003f7f 0%, #1e3a8a 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            background: linear-gradient(135deg, #1e3a8a 0%, #2e5a9e 100%);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+        }
+        
+        .btn-secondary:hover {
+            background: linear-gradient(135deg, #991b1b 0%, #7f1d1d 100%);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+        
+        .btn-success:hover {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+        }
+        
+        .landing {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+        
+        .hero {
+            background: white;
+            border-radius: 16px;
+            padding: 4rem 2rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #003f7f;
+        }
+        
+        .hero p {
+            font-size: 1.25rem;
+            color: #64748b;
+            margin-bottom: 2rem;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+        
+        .button-group .btn {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #1e293b;
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #003f7f;
+        }
+        
+        .login-form,
+        .register-form {
+            max-width: 400px;
+            margin: 2rem auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .form-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: #003f7f;
+        }
+        
+        .dashboard {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .dashboard h2 {
+            color: #003f7f;
+            margin-bottom: 1.5rem;
+        }
+        
+        .menu {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .menu-item {
+            background: linear-gradient(135deg, #003f7f 0%, #1e3a8a 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border: none;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        
+        .menu-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 12px rgba(0,0,0,0.15);
+            background: linear-gradient(135deg, #1e3a8a 0%, #2e5a9e 100%);
+        }
+        
+        .grid-products {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #003f7f 0%, #dc2626 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+        
+        .product-info {
+            padding: 1.5rem;
+        }
+        
+        .product-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #003f7f;
+            margin-bottom: 0.5rem;
+        }
+        
+        .product-price {
+            font-size: 1.75rem;
+            color: #dc2626;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            margin-top: 2rem;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        th {
+            background: linear-gradient(135deg, #003f7f 0%, #1e3a8a 100%);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        tr:hover {
+            background: #f8fafc;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #10b981;
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            animation: slideIn 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .notification.error {
+            background: #dc2626;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .logout-btn {
+            background: #dc2626;
+        }
+        
+        .logout-btn:hover {
+            background: #991b1b;
+        }
+        
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            .button-group .btn {
+                width: 100%;
+            }
+            
+            .grid-products {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-  <header class="appbar flex items-center justify-between" style="gap:20px;padding-left:var(--space-16);padding-right:var(--space-16);">
-  <div class="flex items-center gap-8">
-    <img src="logo-tinacos.jpg" alt="Logo Tinacos Plastinova" style="height:44px;width:auto;border-radius:10px;background:white;box-shadow:0 1px 6px rgba(0,0,0,0.08);padding:3px;margin-right:12px;object-fit:contain;" />
-    <span class="appbar-emoji" style="font-size:26px;">💧</span>
-    <span style="font-weight:700;font-size:1.18em;color:var(--color-primary);letter-spacing:0.01em;font-family:'Montserrat',Inter,sans-serif;">Tinacos Plastinova</span>
-  </div>
-  <button class="btn btn--primary btn--sm" style="font-size:14px;box-shadow:0 2px 8px rgba(0,63,127,0.13);" onclick="mostrarLogin()">Iniciar sesión</button>
-</header>
-  <div class="container">
-    <!-- Hero Section -->
-    <div id="hero-section" class="hero" style="padding-top:44px;">
-  <img src="logo-tinacos.jpg" alt="Logo Tinacos Plastinova" style="height:72px;width:auto;margin-bottom:18px;background:white;border-radius:16px;box-shadow:0 2px 10px rgba(0,63,127,0.10);object-fit:contain;" />
-      <h1>Soluciones Profesionales de Almacenamiento</h1>
-      <p>Tinacos y tambos de la más alta calidad para tu hogar o negocio</p>
-      <div class="hero-buttons">
-        <button class="btn" onclick="mostrarRegistro()">Comenzar</button>
-        <button class="btn btn--secondary" onclick="mostrarLogin()">Acceso Vendedores</button>
-      </div>
-    </div>
-    
-    <!-- Pantalla de autenticación y registro -->
-    <div id="auth-section" class="card auth-card hidden">
-      <div class="card__body">
-        <h2>Registro de Cliente</h2>
-        <form id="register-form" autocomplete="off">
-          <div class="form-group">
-            <label for="register-nombre" class="form-label">Nombre de negocio o persona</label>
-            <input class="form-control" id="register-nombre" name="nombre" required autocomplete="off" />
-          </div>
-          <div class="form-group">
-            <label for="register-tel" class="form-label">Teléfono</label>
-            <input class="form-control" id="register-tel" name="telefono" type="tel" required maxlength="15" />
-          </div>
-          <div class="form-group">
-            <label for="register-dir" class="form-label">Dirección</label>
-            <input class="form-control" id="register-dir" name="direccion" required />
-          </div>
-          <div class="form-group">
-            <label for="register-vendedor" class="form-label">Seleccione su vendedor</label>
-            <select class="form-control" id="register-vendedor" name="vendedor" required>
-              <option value="">Seleccionar...</option>
-              <option value="Husai M.">Husai M. - Tel: 7775146927</option>
-              <option value="Pedro D.">Pedro D. - Tel: 7775347617</option>
-              <option value="Fernando O.">Fernando O. - Tel: 5613420821</option>
-              <option value="Isidro G.">Isidro G. - Tel: 7771636393</option>
-            </select>
-          </div>
-          <button class="btn btn--primary btn--full-width mt-8" type="submit">Crear mi cuenta</button>
-        </form>
-        <div class="py-8 flex flex-col items-center justify-center gap-8">
-          <button class="btn btn--secondary btn--full-width" id="btn-invitado">Continuar como invitado</button>
-          <button class="btn btn--outline" id="btn-volver-hero">Volver</button>
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <img src="logo-tinacos.jpg" alt="Logo" class="navbar-logo" onerror="this.style.display='none'">
+            <span>Tinacos Plastinova</span>
         </div>
-      </div>
-    </div>
-    <!-- Pantalla de login vendedor/admin principal-->
-    <div id="login-section" class="card auth-card hidden">
-      <div class="card__body">
-        <img src="logo-tinacos.jpg" alt="Logo Tinacos Plastinova" style="height:58px;width:auto;display:block;margin:0 auto 14px auto;background:white;border-radius:12px;box-shadow:0 1px 6px rgba(0,63,127,0.12);object-fit:contain;" />
-        <h3>Acceso al sistema</h3>
-        <form id="login-form" autocomplete="off" style="margin-bottom:10px;">
-          <div class="form-group">
-            <label for="login-user" class="form-label">Usuario</label>
-            <input class="form-control" id="login-user" name="usuario" required autocomplete="username" />
-          </div>
-          <div class="form-group">
-            <label for="login-pass" class="form-label">Contraseña</label>
-            <input class="form-control" id="login-pass" type="password" name="password" required autocomplete="current-password" />
-          </div>
-          <div class="flex justify-between items-center gap-4 mb-8">
-            <label style="font-size:13px;color:var(--color-text-secondary);display:flex;align-items:center;gap:8px;">
-              <input type="checkbox" id="login-recordar" style="accent-color:var(--color-primary);margin-right:8px;" />Recordar sesión
-            </label>
-            <a href="#" onclick="olvidoPass();event.preventDefault();" style="font-size:13px;color:var(--color-primary);text-decoration:underline;">¿Olvidaste tu contraseña?</a>
-          </div>
-          <button class="btn btn--primary btn--full-width mt-8" style="transition:transform .13s;" type="submit">Entrar</button>
-        </form>
-        <div class="py-8 flex items-center justify-center">
-          <button class="btn btn--outline btn--full-width" id="btn-back-auth">Volver</button>
-        </div>
-        <div style="display:flex;align-items:center;justify-content:center;text-align:center;padding:12px 0 0 0;">
-          <div style="flex:1;height:1px;background:var(--color-border);margin-right:8px;"></div>
-          <span style="color:var(--color-text-secondary);font-size:13px;font-weight:500;">o</span>
-          <div style="flex:1;height:1px;background:var(--color-border);margin-left:8px;"></div>
-        </div>
-        <button class="btn btn--secondary btn--full-width mt-8" onclick="mostrarRegistro()">Comprar como invitado</button>
-      </div>
-    </div>
-    <!-- Pantalla catálogo y navegación app -->
-    <div id="main-section" class="hidden">
-      <!-- Navegación dinámica: comprador, vendedor, admin... -->
-      <div id="nav-bar" class="flex gap-8 my-8"></div>
-      <div id="content-section"></div>
-    </div>
-  </div>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script>
-    // DATOS BASICOS
-    const PRODUCTOS = [
-      { id:1, nombre:"Tambo 235 lt", precio:520, precioInicial:520, colores:["beige","blanco","negro","azul","rojo","verde","naranja","rojo con blanco","azul con blanco","melón","verde con blanco","granito"] },
-      { id:2, nombre:"Tinaco 750 lt", precio:1400, precioInicial:1400, colores:["beige","blanco","negro","rojo","verde","naranja","café","granito"] },
-      { id:3, nombre:"Tinaco 1100 lt", precio:1500, precioInicial:1500, colores:["beige","blanco","negro","rojo","verde","naranja","café","granito"] },
-      { id:4, nombre:"Tinaco 1200 lt", precio:1600, precioInicial:1600, colores:["beige","blanco","negro","rojo","verde","naranja","café","granito"] }
-    ];
-    const VENDEDORES = [
-      { usuario:'husai.mendez', password:'Husai2024*', mostrar:"Husai M.", nombre_completo: "Husai Méndez", telefono:'7775146927' },
-      { usuario:'pedro.delgado', password:'Pedro2024*', mostrar:"Pedro D.", nombre_completo: "Pedro Delgado Armenta", telefono:'7775347617' },
-      { usuario:'fernando.ocampo', password:'Fernando2024*', mostrar:"Fernando O.", nombre_completo: "Fernando Ocampo López", telefono:'5613420821' },
-      { usuario:'isidro.gonzalez', password:'Isidro2024*', mostrar:"Isidro G.", nombre_completo: "Isidro González Aguirre", telefono:'7771636393' }
-    ];
-    const ADMIN = { usuario:'admin.plastinova', password:'Admin2024*Plastinova', nombre:'Administrador', correo:'tinacos-plastinova@outlook.com', telefono:'5636259982' };
-    const ROLES = ["comprador","vendedor","administrador"];
+        <div class="navbar-right" id="navbar-right"></div>
+    </nav>
 
-    // ESTADO BACKEND (IN MEMORIA, SOLO DEMO)
-    // Persiste solo en memoria mientras dure la sesión/browser
-    let estado = {
-      user: null, // Ejemplo: {rol, nombre, vendedor_asignado, ...}
-      users: [], // [{tipo, datos...}]
-      pedidos: [], // list of pedidos
-      descuentos: {}, // {'usuario-vendedor': descuento}
-      solicitudesDescuento: [], // {id, vendedor, cliente, producto, porcentaje, justificacion, estado, fecha}
-      descuentosActivos: [], // {id, cliente, tipo, porcentaje, producto, fechaInicio, fechaExpiracion, otorgadoPor, notas}
-      historialPrecios: [], // {producto, precioAnterior, precioNuevo, fecha, modificadoPor}
-      notas: [], // {id, pedidoId, factura, nota}
-      mensajes: [], // {de, para, msg, fecha}
-      fotos: {}, // {producto: [urls]}
-      ventas: [] // {vendedor, fecha, total}
-    };
+    <!-- Landing Page -->
+    <div id="landing" class="content active">
+        <div class="container">
+            <div class="hero">
+                <h1>🏪 Tinacos Plastinova</h1>
+                <p>Plataforma profesional de ventas de tinacos y tambores</p>
+                <div class="button-group">
+                    <button class="btn" onclick="showLogin()">🔐 Iniciar Sesión</button>
+                    <button class="btn btn-secondary" onclick="showRegister()">📋 Registrarse</button>
+                    <button class="btn btn-success" onclick="guestCheckout()">👤 Comprar como Invitado</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    // ------ UI SÓLO REGISTRO/LOGIN/INVITADO -----------
-    const dom = {
-      heroSection: document.getElementById('hero-section'),
-      authSection: document.getElementById('auth-section'),
-      loginSection: document.getElementById('login-section'),
-      mainSection: document.getElementById('main-section'),
-      contentSection: document.getElementById('content-section'),
-      navBar: document.getElementById('nav-bar')
-    };
-    
-    // Utilidad para mostrar toast
-    function mostrarToast(mensaje, tipo = 'success') {
-      const toast = document.createElement('div');
-      toast.className = `toast ${tipo}`;
-      toast.textContent = mensaje;
-      document.body.appendChild(toast);
-      setTimeout(() => toast.remove(), 3000);
-    }
-    function setViewInicio(){
-      dom.heroSection.classList.remove('hidden');
-      dom.authSection.classList.add('hidden');
-      dom.loginSection.classList.add('hidden');
-      dom.mainSection.classList.add('hidden');
-    }
-    function mostrarRegistro(){
-      dom.heroSection.classList.add('hidden');
-      dom.authSection.classList.remove('hidden');
-      dom.loginSection.classList.add('hidden');
-      dom.mainSection.classList.add('hidden');
-    }
-    function mostrarLogin(){
-      dom.heroSection.classList.add('hidden');
-      dom.authSection.classList.add('hidden');
-      dom.loginSection.classList.remove('hidden');
-      dom.mainSection.classList.add('hidden');
-    }
-    function setViewLogin(){
-      dom.heroSection.classList.add('hidden');
-      dom.authSection.classList.add('hidden');
-      dom.loginSection.classList.remove('hidden');
-      dom.mainSection.classList.add('hidden');
-    }
-    function setViewMain(){
-      dom.heroSection.classList.add('hidden');
-      dom.authSection.classList.add('hidden');
-      dom.loginSection.classList.add('hidden');
-      dom.mainSection.classList.remove('hidden');
-      pintarNav();
-      cargarHome();
-    }
-    // Navegación superior según usuario
-    function pintarNav(){
-      const {user} = estado;
-      let html = '';
-      if(!user) return;
-      html = `<button class='btn btn--outline' onclick='verPerfil()'>👤 Perfil</button><button class='btn btn--outline' onclick='cerrarSesion()'>🚪 Salir</button>`;
-      if(user.rol==='comprador'||user.rol==='invitado'){
-        const totalItems = carrito.reduce((a,x)=>a+x.cant, 0);
-        html += `
-          <button class='btn btn--secondary' onclick='cargarHome()'>📋 Catálogo</button>
-          <button class='btn btn--secondary' onclick='verCarrito()'>🛒 Carrito${totalItems > 0 ? `<span class="badge cart-badge">${totalItems}</span>` : ''}</button>
-          <button class='btn btn--secondary' onclick='verEstatusPedido()'>📦 Mis pedidos</button>`;
-      }
-      if(user.rol==='vendedor'){
-        const pedidosNuevos = estado.pedidos.filter(p=>p.comprador.vendedor===user.mostrar && p.estatus==='Pendiente').length;
-        const misSolicitudes = estado.solicitudesDescuento.filter(s => s.vendedor === user.mostrar && s.estado === 'pendiente').length;
-        const notificaciones = estado.mensajes.filter(m => (m.tipo === 'aprobacion' || m.tipo === 'rechazo') && m.vendedorDestino === user.mostrar).length;
-        html += `
-          <button class='btn btn--secondary' onclick='cargarHome()'>📊 Dashboard</button>
-          <button class='btn btn--secondary' onclick='verPedidosVendedor()'>📦 Pedidos${pedidosNuevos > 0 ? `<span class="badge">${pedidosNuevos}</span>` : ''}</button>
-          <button class='btn btn--secondary' onclick='verMisClientes()'>👥 Clientes</button>
-          <button class='btn btn--secondary' onclick='verMisSolicitudesDescuento()'>💰 Mis Solicitudes${misSolicitudes > 0 ? `<span class="badge">${misSolicitudes}</span>` : ''}</button>
-          <button class='btn btn--secondary' onclick='verNotas()'>📄 Notas</button>
-          <button class='btn btn--secondary' onclick='verMensajes()'>💬 Mensajes${notificaciones > 0 ? `<span class="badge">${notificaciones}</span>` : ''}</button>`;
-      }
-      if(user.rol==='administrador'){
-        const totalMensajes = estado.mensajes.length;
-        const solicitudesPendientes = estado.solicitudesDescuento.filter(s => s.estado === 'pendiente').length;
-        html += `
-          <button class='btn btn--secondary' onclick='cargarHome()'>📊 Dashboard</button>
-          <button class='btn btn--secondary' onclick='verGestionProductos()'>🏷️ Productos</button>
-          <button class='btn btn--secondary' onclick='verSolicitudesDescuento()'>💰 Solicitudes${solicitudesPendientes > 0 ? `<span class="badge">${solicitudesPendientes}</span>` : ''}</button>
-          <button class='btn btn--secondary' onclick='verDescuentosActivos()'>📊 Descuentos</button>
-          <button class='btn btn--secondary' onclick='verTodosLosPedidos()'>📦 Pedidos</button>
-          <button class='btn btn--secondary' onclick='verPanelAdmin()'>⚙️ Admin</button>
-          <button class='btn btn--secondary' onclick='verMensajes()'>💬 Mensajes${totalMensajes > 0 ? `<span class="badge">${totalMensajes}</span>` : ''}</button>`;
-      }
-      dom.navBar.innerHTML = html;
-    }
-    // --- Registro comprador ---
-    document.getElementById('register-form').onsubmit = function(e){
-      e.preventDefault();
-      const data = Object.fromEntries(new FormData(this));
-      const comprador = {
-        rol:'comprador',
-        nombre: data.nombre,
-        telefono: data.telefono,
-        direccion: data.direccion,
-        vendedor: data.vendedor
-      };
-      estado.users.push(comprador);
-      estado.user = comprador;
-      mostrarToast('¡Bienvenido! Tu cuenta ha sido creada exitosamente', 'success');
-      setViewMain();
-    };
-    // Login vendedor/admin con validación de contraseña:
-    document.getElementById('login-form').onsubmit = function(e){
-      e.preventDefault();
-      const u = e.target.usuario.value.toLowerCase().trim();
-      const p = e.target.password.value;
-      let user;
-      
-      if(u === ADMIN.usuario && p === ADMIN.password){
-        user = {rol:'administrador', ...ADMIN, primerLogin: !estado.yaLogueados || !estado.yaLogueados.includes(u)};
-      } else {
-        const vendedor = VENDEDORES.find(v=>v.usuario.toLowerCase() === u);
-        if(vendedor && vendedor.password === p){
-          user = {...vendedor, rol:'vendedor', primerLogin: !estado.yaLogueados || !estado.yaLogueados.includes(u)};
-        }
-      }
-      
-      if(user){
-        if(!estado.yaLogueados) estado.yaLogueados = [];
-        if(!estado.yaLogueados.includes(u)) estado.yaLogueados.push(u);
-        
-        estado.user = user;
-        mostrarToast('¡Bienvenido ' + user.nombre + '!', 'success');
-        
-        if(user.primerLogin){
-          setTimeout(()=>{
-            mostrarToast('🔒 Te recomendamos cambiar tu contraseña en la sección de Perfil', 'info');
-          }, 1500);
-        }
-        
-        setViewMain();
-      } else {
-        mostrarToast('Usuario o contraseña incorrectos', 'error');
-      }
-    };
-    // Botón para login vendedor/admin
-    document.getElementById('btn-back-auth').onclick = setViewInicio;
-    document.getElementById('btn-volver-hero').onclick = setViewInicio;
-    // Comprar como invitado
-    document.getElementById('btn-invitado').onclick = function(){
-      estado.user = { rol:'invitado', nombre:'Invitado' };
-      mostrarToast('Navegando como invitado', 'info');
-      setViewMain();
-    };
-    // -------------------------
-
-    // --- Home según usuario ---
-    function cargarHome(){
-      const u = estado.user;
-      if(u.rol==='comprador'||u.rol==='invitado'){
-        pintarCatalogo();
-      } else if(u.rol==='vendedor'){
-        dashboardVendedor();
-      } else if(u.rol==='administrador'){
-        verVentasAdmin();
-      }
-    }
-    
-    // Dashboard del vendedor con KPIs
-    function dashboardVendedor(){
-      const misPedidos = estado.pedidos.filter(p=>p.comprador.vendedor===estado.user.mostrar);
-      const misClientes = estado.users.filter(u=>u.vendedor===estado.user.mostrar);
-      const pedidosPendientes = misPedidos.filter(p=>p.estatus==='Pendiente').length;
-      const totalVentas = misPedidos.reduce((acc,p)=>{
-        return acc + p.items.reduce((a,it)=>{
-          let prod = PRODUCTOS.find(pr=>pr.nombre===it.prod);
-          return a + prod.precio*it.cant;
-        },0);
-      },0);
-      const ticketPromedio = misPedidos.length > 0 ? Math.round(totalVentas / misPedidos.length) : 0;
-      
-      let html = `<div class="section-header fade-in"><h2>👋 Hola, ${estado.user.nombre_completo || estado.user.mostrar}</h2><p>Resumen de tu actividad comercial</p></div>`;
-      
-      html += `<div class='kpi-grid slide-in'>
-        <div class='kpi-card' style='background:linear-gradient(135deg, var(--color-bg-1), var(--color-bg-3));'>
-          <div class='kpi-label'>Ventas Totales</div>
-          <div class='kpi-value'>$${totalVentas.toLocaleString()}</div>
-        </div>
-        <div class='kpi-card' style='background:linear-gradient(135deg, var(--color-bg-2), var(--color-bg-4));'>
-          <div class='kpi-label'>Pedidos</div>
-          <div class='kpi-value'>${misPedidos.length}</div>
-        </div>
-        <div class='kpi-card' style='background:linear-gradient(135deg, var(--color-bg-5), var(--color-bg-7));'>
-          <div class='kpi-label'>Clientes</div>
-          <div class='kpi-value'>${misClientes.length}</div>
-        </div>
-        <div class='kpi-card' style='background:linear-gradient(135deg, var(--color-bg-6), var(--color-bg-8));'>
-          <div class='kpi-label'>Ticket Promedio</div>
-          <div class='kpi-value'>$${ticketPromedio.toLocaleString()}</div>
-        </div>
-      </div>`;
-      
-      if(pedidosPendientes > 0){
-        html += `<div class='info-card' style='background:var(--color-bg-2);border-left:4px solid var(--color-warning);margin-top:24px;'>
-          <div style='font-size:18px;font-weight:600;margin-bottom:8px;'>⚠️ Tienes ${pedidosPendientes} pedido${pedidosPendientes>1?'s':''} pendiente${pedidosPendientes>1?'s':''}</div>
-          <button class='btn btn--primary' onclick='verPedidosVendedor()'>Ver pedidos pendientes</button>
-        </div>`;
-      }
-      
-      html += `<div style='margin-top:32px;'><h3 style='margin-bottom:16px;'>Acciones rápidas</h3></div>`;
-      html += `<div class='kpi-grid'>
-        <div class='kpi-card' onclick='verPedidosVendedor()' style='cursor:pointer;'>
-          <div style='font-size:36px;margin-bottom:8px;'>📦</div>
-          <div class='kpi-label'>Gestionar pedidos</div>
-        </div>
-        <div class='kpi-card' onclick='verMisClientes()' style='cursor:pointer;'>
-          <div style='font-size:36px;margin-bottom:8px;'>👥</div>
-          <div class='kpi-label'>Ver clientes</div>
-        </div>
-        <div class='kpi-card' onclick='registrarNuevoComprador()' style='cursor:pointer;'>
-          <div style='font-size:36px;margin-bottom:8px;'>➕</div>
-          <div class='kpi-label'>Nuevo cliente</div>
-        </div>
-        <div class='kpi-card' onclick='verNotas()' style='cursor:pointer;'>
-          <div style='font-size:36px;margin-bottom:8px;'>📄</div>
-          <div class='kpi-label'>Ver documentos</div>
-        </div>
-      </div>`;
-      
-      dom.contentSection.innerHTML = html;
-    }
-    // --- Catálogo para compradores/invitados ---
-    function pintarCatalogo(){
-      let html = `<h2>Catálogo de productos</h2>`;
-      html += `<div class="catalog-grid">`;
-      for(const prod of PRODUCTOS){
-        html += `<div class="card product-card">
-          <div class="card__body flex flex-col items-center">
-            <div class="product-card__img">
-              <!-- Imagen por admin, placeholder aquí -->
-              <span style='font-size:2rem;'>📷</span>
-            </div>
-            <div style="font-size:1.12rem;font-weight:550;">${prod.nombre}</div>
-            <div style="color:var(--color-primary);margin-bottom:4px;font-size:1.08rem;">$${prod.precio} MXN</div>
-            <div>Colores: ${prod.colores.map(c=>`<span class='color-circle' title='${c}'></span>`).join('')}</div>
-            <button class="btn btn--primary mt-8" onclick='agregarAlCarrito("${prod.nombre}")'>Agregar</button>
-          </div>
-        </div>`;
-      }
-      html += `</div>`;
-      dom.contentSection.innerHTML = html;
-    }
-    // --- Carrito de compra / Pedido ---
-    let carrito = [];
-    function agregarAlCarrito(prod){
-      let item = carrito.find(x=>x.prod===prod);
-      if(item) item.cant++;
-      else carrito.push({prod, cant:1, color:null});
-      mostrarToast('✅ Producto agregado al carrito', 'success');
-      actualizarBadgeCarrito();
-    }
-    
-    function actualizarBadgeCarrito(){
-      const total = carrito.reduce((a,x)=>a+x.cant, 0);
-      const badges = document.querySelectorAll('.cart-badge');
-      badges.forEach(b => b.textContent = total);
-    }
-    function verCarrito(){
-      if(carrito.length===0){ 
-        dom.contentSection.innerHTML = `<div class="fade-in" style="text-align:center;padding:60px 20px;">
-          <div style="font-size:64px;margin-bottom:16px;">🛒</div>
-          <h3 style="color:var(--color-text-secondary);">Tu carrito está vacío</h3>
-          <p style="color:var(--color-text-secondary);margin:16px 0;">Agrega productos del catálogo para comenzar</p>
-          <button class="btn btn--primary" onclick="cargarHome()">Ver productos</button>
-        </div>`; 
-        return; 
-      }
-      let html = '<div class="section-header"><h2>Tu Carrito de Compras</h2></div><form id="carrito-form">';
-      carrito.forEach((item,i)=>{
-        const p = PRODUCTOS.find(p=>p.nombre===item.prod);
-        let coloresOpts = p.colores.map(c=>`<option value='${c}'${item.color===c?' selected':''}>${c}</option>`).join('');
-        html += `<div class='info-card'>
-            <b>${item.prod}</b> ($${p.precio})
-            <label>Color:
-              <select name='color-${i}' class='form-control'>${coloresOpts}</select>
-            </label>
-            <label>Cantidad:
-              <input name='cant-${i}' type='number' value='${item.cant}' min='1' max='100' class='form-control' style='width:70px;' />
-            </label>
-            <button type='button' class='btn btn--outline btn--sm' onclick='eliminarDelCarrito(${i})'>🗑️ Eliminar</button>
-          </div>`;
-      });
-      // Calcular totales con descuentos (puede ser por producto)
-      let subtotal = 0;
-      let totalDescuento = 0;
-      let detalleDescuentos = [];
-      
-      carrito.forEach(item => {
-        const p = PRODUCTOS.find(pr => pr.nombre === item.prod);
-        const precioItem = p.precio * item.cant;
-        const descuentoItem = obtenerDescuentoComprador(item.prod);
-        const descuentoMonto = Math.round(precioItem * descuentoItem / 100);
-        
-        subtotal += precioItem;
-        totalDescuento += descuentoMonto;
-        
-        if(descuentoItem > 0){
-          detalleDescuentos.push({prod: item.prod, desc: descuentoItem});
-        }
-      });
-      
-      let totalDesc = subtotal - totalDescuento;
-      let descuentoPromedio = subtotal > 0 ? Math.round((totalDescuento / subtotal) * 100) : 0;
-      html += `<div class='info-card' style='background:var(--color-bg-1);'>
-        <div style='font-size:16px;margin-bottom:8px;'><b>Subtotal:</b> <span style='float:right;'>$${subtotal.toLocaleString()}</span></div>`;
-      
-      if(totalDescuento > 0){
-        html += `<div style='font-size:16px;margin-bottom:8px;color:var(--color-success);'><b>Descuento${descuentoPromedio > 0 ? ` (${descuentoPromedio}% prom.)` : ''}:</b> <span style='float:right;'>-$${totalDescuento.toLocaleString()}</span></div>`;
-        if(detalleDescuentos.length > 0){
-          html += `<div style='font-size:12px;color:var(--color-text-secondary);margin-bottom:8px;padding-left:12px;'>`;
-          for(const det of detalleDescuentos){
-            html += `• ${det.prod}: ${det.desc}%<br>`;
-          }
-          html += `</div>`;
-        }
-      }
-      
-      html += `<div style='font-size:24px;font-weight:700;color:var(--color-primary);padding-top:12px;border-top:2px solid var(--color-border);'><b>Total:</b> <span style='float:right;'>$${totalDesc.toLocaleString()}</span></div>
-      </div>`;
-      <button class='btn btn--primary btn--full-width mt-8' type='submit' style='font-size:18px;padding:14px;'>💳 Confirmar pedido</button>
-      </form>`;
-      dom.contentSection.innerHTML = html;
-      document.getElementById('carrito-form').onsubmit = confirmarPedido;
-    }
-    function eliminarDelCarrito(idx){
-      carrito.splice(idx,1);
-      mostrarToast('Producto eliminado del carrito', 'warning');
-      actualizarBadgeCarrito();
-      verCarrito();
-    }
-    function obtenerDescuentoComprador(productoNombre = null){
-      const u = estado.user;
-      if(!u) return 0;
-      if(u.rol==='invitado') return 0;
-      
-      // Buscar descuentos activos para este cliente
-      const descuentosCliente = estado.descuentosActivos.filter(d => 
-        d.activo && 
-        d.clienteTelefono === u.telefono &&
-        (!d.fechaExpiracion || new Date(d.fechaExpiracion) > new Date())
-      );
-      
-      if(descuentosCliente.length === 0){
-        // Fallback al sistema antiguo
-        let clave = (u.telefono||u.nombre)+ '-' + u.vendedor;
-        return estado.descuentos[clave] || 0;
-      }
-      
-      // Si se especifica producto, buscar descuento específico
-      if(productoNombre){
-        const descuentoProducto = descuentosCliente.find(d => d.tipo === 'producto' && d.producto === productoNombre);
-        if(descuentoProducto) return descuentoProducto.porcentaje;
-      }
-      
-      // Si no, buscar descuento general
-      const descuentoGeneral = descuentosCliente.find(d => d.tipo === 'general');
-      if(descuentoGeneral) return descuentoGeneral.porcentaje;
-      
-      // Si hay descuentos pero no aplicables, usar el sistema antiguo
-      let clave = (u.telefono||u.nombre)+ '-' + u.vendedor;
-      return estado.descuentos[clave] || 0;
-    }
-    function confirmarPedido(e){
-      e.preventDefault();
-      // Actualiza info de color/cantidades
-      carrito.forEach((item,i)=>{
-        const color = e.target[`color-${i}`].value;
-        const cant = Number(e.target[`cant-${i}`].value);
-        item.color = color;
-        item.cant = cant;
-      });
-      // Simula generar pedido
-      const pedido = {
-        comprador: {...estado.user},
-        items:[...carrito],
-        estatus:'Pendiente',
-        fecha: new Date().toISOString(),
-        id: 'P'+(Math.random()+'').slice(2,10)
-      };
-      estado.pedidos.push(pedido);
-      carrito = [];
-      mostrarToast('✅ ¡Pedido confirmado exitosamente!', 'success');
-      actualizarBadgeCarrito();
-      setTimeout(() => verEstatusPedido(), 500);
-    }
-    // --- Estatus pedidos comprador ---
-    function verEstatusPedido(){
-      let pedidos = estado.pedidos.filter(p=>{
-        if(estado.user.rol==='invitado') return false;
-        return p.comprador.telefono===estado.user.telefono;
-      });
-      if(pedidos.length===0){
-        dom.contentSection.innerHTML = `<div class="fade-in" style="text-align:center;padding:60px 20px;">
-          <div style="font-size:64px;margin-bottom:16px;">📦</div>
-          <h3 style="color:var(--color-text-secondary);">No tienes pedidos aún</h3>
-          <p style="color:var(--color-text-secondary);margin:16px 0;">Tus pedidos aparecerán aquí una vez que realices tu primera compra</p>
-          <button class="btn btn--primary" onclick="cargarHome()">Explorar productos</button>
-        </div>`;
-        return;
-      }
-      let html = '<div class="section-header"><h2>Mis Pedidos</h2><p>Seguimiento de tus compras</p></div>';
-      for(const p of pedidos){
-        const estatusColor = p.estatus==='Pendiente' ? 'warning' : p.estatus==='Entregado' ? 'success' : 'info';
-        html += `<div class='info-card'>
-          <div style='display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;'>
-            <b style='font-size:18px;'>Pedido #${p.id}</b>
-            <span class='status status--${estatusColor}'>${p.estatus}</span>
-          </div>
-          <div style='color:var(--color-text-secondary);font-size:14px;margin-bottom:12px;'>
-            📅 ${new Date(p.fecha).toLocaleDateString('es-MX', {year:'numeric',month:'long',day:'numeric'})}
-          </div>
-          <div style='padding:12px;background:var(--color-bg-1);border-radius:var(--radius-sm);'>
-            ${p.items.map(i=>`<div style='margin:4px 0;'>📦 ${i.cant} x ${i.prod} <span style='color:var(--color-text-secondary);'>(${i.color})</span></div>`).join('')}
-          </div>
-        </div>`;
-      }
-      dom.contentSection.innerHTML = html;
-    }
-    // ---- Vendedor: pedidos, clientes, notas ----
-    function verPedidosVendedor(){
-      let pedidos = estado.pedidos.filter(p=> p.comprador.vendedor===estado.user.mostrar);
-      let html = '<div class="section-header"><h2>Pedidos de Clientes</h2><p>Gestiona y procesa los pedidos</p></div>';
-      if(pedidos.length===0){ 
-        html+=`<div style="text-align:center;padding:40px;">
-          <div style="font-size:48px;margin-bottom:16px;">📦</div>
-          <p style="color:var(--color-text-secondary);">No hay pedidos nuevos</p>
-        </div>`; 
-      }
-      for(const p of pedidos){
-        const estatusColor = p.estatus==='Pendiente' ? 'warning' : 'success';
-        const total = p.items.reduce((acc,it)=>{
-          let prod = PRODUCTOS.find(pr=>pr.nombre===it.prod);
-          return acc + prod.precio*it.cant;
-        },0);
-        html += `<div class='info-card'>
-        <div style='display:flex;justify-content:space-between;align-items:start;margin-bottom:12px;'>
-          <div>
-            <div style='font-size:18px;font-weight:600;'>👤 ${p.comprador.nombre}</div>
-            <div style='color:var(--color-text-secondary);font-size:14px;'>📞 ${p.comprador.telefono}</div>
-            <div style='color:var(--color-text-secondary);font-size:14px;'>📍 ${p.comprador.direccion}</div>
-          </div>
-          <span class='status status--${estatusColor}'>${p.estatus}</span>
-        </div>
-        <div style='padding:12px;background:var(--color-bg-1);border-radius:var(--radius-sm);margin:12px 0;'>
-          ${p.items.map(i=>`<div style='margin:6px 0;'>📦 ${i.cant} x ${i.prod} <span style='color:var(--color-text-secondary);'>(${i.color})</span></div>`).join('')}
-        </div>
-        <div style='font-size:18px;font-weight:600;color:var(--color-primary);margin:12px 0;'>Total: $${total.toLocaleString()}</div>
-        <button class='btn btn--primary' onclick='generarNotaFactura("${p.id}")'>📄 Generar nota/factura</button>
-        </div>`;
-      }
-      dom.contentSection.innerHTML = html;
-    }
-    function verMisClientes(){
-      let clientes = estado.users.filter(u=>u.vendedor === estado.user.mostrar);
-      let html = '<div class="section-header"><h2>Mis Clientes</h2><p>Administra tu cartera de compradores</p></div>';
-      html += `<button class='btn btn--primary mb-8' onclick='registrarNuevoComprador()'>➕ Registrar nuevo cliente</button>`;
-      
-      if(clientes.length===0) {
-        html+=`<div style="text-align:center;padding:40px;">
-          <div style="font-size:48px;margin-bottom:16px;">👥</div>
-          <p style="color:var(--color-text-secondary);">No tienes clientes registrados aún</p>
-        </div>`;
-      }
-      
-      for(const c of clientes){
-        const clave = c.telefono + '-' + estado.user.mostrar;
-        const descuento = estado.descuentos[clave] || 0;
-        html += `<div class='info-card'>
-          <div style='display:flex;justify-content:space-between;align-items:start;'>
-            <div style='flex:1;'>
-              <div style='font-size:18px;font-weight:600;margin-bottom:8px;'>👤 ${c.nombre}</div>
-              <div style='color:var(--color-text-secondary);font-size:14px;margin-bottom:4px;'>📞 ${c.telefono}</div>
-              <div style='color:var(--color-text-secondary);font-size:14px;margin-bottom:8px;'>📍 ${c.direccion}</div>
-              ${descuento > 0 ? `<span class='status status--success'>🏷️ Descuento: ${descuento}%</span>` : ''}
-            </div>
-            <button class='btn btn--secondary btn--sm' onclick='asignarDescuento("${c.telefono}")'>💰 ${descuento > 0 ? 'Editar' : 'Asignar'} descuento</button>
-          </div>
-        </div>`;
-      }
-      dom.contentSection.innerHTML = html;
-    }
-    function asignarDescuento(telefono){
-      const cliente = estado.users.find(u => u.telefono === telefono && u.vendedor === estado.user.mostrar);
-      if(!cliente) return;
-      
-      dom.contentSection.innerHTML = `<div class="section-header"><h2>Proponer Descuento</h2><p>Solicita autorización del administrador</p></div>
-      <div class='info-card' style='max-width:500px;margin:0 auto;'>
-        <div style='background:var(--color-bg-1);padding:16px;border-radius:var(--radius-md);margin-bottom:16px;'>
-          <div style='font-weight:600;margin-bottom:8px;'>Cliente</div>
-          <div style='color:var(--color-text-secondary);'>👤 ${cliente.nombre}</div>
-          <div style='color:var(--color-text-secondary);font-size:13px;'>📞 ${cliente.telefono}</div>
-        </div>
-        <form id='form-solicitar-descuento'>
-          <div class='form-group'>
-            <label class='form-label'>Tipo de descuento</label>
-            <select name='tipo' class='form-control' required>
-              <option value='general'>General para el cliente</option>
-              <option value='producto'>Por producto específico</option>
-            </select>
-          </div>
-          <div class='form-group' id='producto-select' style='display:none;'>
-            <label class='form-label'>Selecciona el producto</label>
-            <select name='producto' class='form-control'>
-              ${PRODUCTOS.map(p => `<option value='${p.nombre}'>${p.nombre}</option>`).join('')}
-            </select>
-          </div>
-          <div class='form-group'>
-            <label class='form-label'>Porcentaje de descuento (%)</label>
-            <input type='number' name='porcentaje' class='form-control' min='1' max='100' required placeholder='Ej: 15' />
-          </div>
-          <div class='form-group'>
-            <label class='form-label'>Justificación del descuento</label>
-            <textarea name='justificacion' class='form-control' rows='3' required placeholder='Explica la razón del descuento...'></textarea>
-          </div>
-          <div style='display:flex;gap:12px;margin-top:24px;'>
-            <button type='submit' class='btn btn--primary' style='flex:1;'>📨 Enviar solicitud</button>
-            <button type='button' class='btn btn--outline' onclick='verMisClientes()'>Cancelar</button>
-          </div>
-        </form>
-      </div>`;
-      
-      document.querySelector('select[name="tipo"]').onchange = function(){
-        document.getElementById('producto-select').style.display = this.value === 'producto' ? 'block' : 'none';
-      };
-      
-      document.getElementById('form-solicitar-descuento').onsubmit = function(e){
-        e.preventDefault();
-        const tipo = this.tipo.value;
-        const porcentaje = Number(this.porcentaje.value);
-        const justificacion = this.justificacion.value.trim();
-        const producto = tipo === 'producto' ? this.producto.value : null;
-        
-        // Validar que no exista una solicitud pendiente para este cliente
-        const tienePendiente = estado.solicitudesDescuento.some(s => 
-          s.clienteTelefono === cliente.telefono && 
-          s.estado === 'pendiente' &&
-          s.vendedor === estado.user.mostrar
-        );
-        
-        if(tienePendiente){
-          mostrarToast('⚠️ Ya existe una solicitud pendiente para este cliente', 'warning');
-          return;
-        }
-        
-        const solicitud = {
-          id: 'SD' + Date.now(),
-          vendedor: estado.user.mostrar,
-          vendedorCompleto: estado.user.nombre_completo,
-          cliente: cliente.nombre,
-          clienteTelefono: cliente.telefono,
-          tipo: tipo,
-          producto: producto,
-          porcentaje: porcentaje,
-          justificacion: justificacion,
-          estado: 'pendiente',
-          fecha: new Date().toISOString()
-        };
-        
-        estado.solicitudesDescuento.push(solicitud);
-        
-        // Notificar al admin
-        estado.mensajes.push({
-          de: estado.user.nombre_completo || estado.user.mostrar,
-          para: 'administrador',
-          msg: `💰 Nueva solicitud de descuento del ${porcentaje}% para el cliente ${cliente.nombre}. Justificación: ${justificacion}`,
-          fecha: new Date().toISOString(),
-          tipo: 'solicitud',
-          vendedorOrigen: estado.user.mostrar
-        });
-        
-        mostrarToast('✅ Solicitud enviada al administrador', 'success');
-        verMisClientes();
-      };
-    }
-    function registrarNuevoComprador(){
-      dom.contentSection.innerHTML = `<div class="section-header"><h2>Registrar Nuevo Cliente</h2></div>
-      <div class='info-card'><form id='form-nuevo-comprador'>
-      <div class='form-group'><label class='form-label'>Nombre del negocio o persona</label><input name='nombre' class='form-control' required placeholder='Ej: Ferretería El Progreso'></div>
-      <div class='form-group'><label class='form-label'>Teléfono</label><input name='telefono' class='form-control' type='tel' required placeholder='Ej: 3331234567'></div>
-      <div class='form-group'><label class='form-label'>Dirección completa</label><input name='direccion' class='form-control' required placeholder='Ej: Calle Principal #123, Col. Centro'></div>
-      <div style='display:flex;gap:12px;margin-top:24px;'>
-        <button class='btn btn--primary' style='flex:1;'>Registrar cliente</button>
-        <button type='button' class='btn btn--outline' onclick='verMisClientes()'>Cancelar</button>
-      </div>
-      </form></div>`;
-      document.getElementById('form-nuevo-comprador').onsubmit = function(e){
-        e.preventDefault();
-        const data = Object.fromEntries(new FormData(this));
-        data.vendedor = estado.user.mostrar;
-        data.rol = 'comprador';
-        estado.users.push(data);
-        mostrarToast('✅ Cliente registrado exitosamente', 'success');
-        verMisClientes();
-      };
-    }
-    // Notas/facturas vendedor
-    function verNotas(){
-      let notas = estado.notas.filter(n=>{
-        let pedido = estado.pedidos.find(p=>p.id===n.pedidoId);
-        return pedido && pedido.comprador.vendedor===estado.user.mostrar;
-      });
-      let html = '<div class="section-header"><h2>Notas y Facturas</h2><p>Historial de documentos generados</p></div>';
-      if(notas.length===0) {
-        html+=`<div style="text-align:center;padding:40px;">
-          <div style="font-size:48px;margin-bottom:16px;">📄</div>
-          <p style="color:var(--color-text-secondary);">No hay notas emitidas aún</p>
-        </div>`;
-      }
-      for(const n of notas){
-        const pedido = estado.pedidos.find(p=>p.id===n.pedidoId);
-        html += `<div class='info-card'>
-        <div style='display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;'>
-          <div>
-            <div style='font-size:18px;font-weight:600;'>📄 Nota ${n.id}</div>
-            <div style='color:var(--color-text-secondary);font-size:14px;'>Pedido #${n.pedidoId}</div>
-            ${pedido ? `<div style='color:var(--color-text-secondary);font-size:14px;'>Cliente: ${pedido.comprador.nombre}</div>` : ''}
-          </div>
-          <span class='status status--${n.factura ? "info" : "success"}'>${n.factura?'🧾 Factura':'📋 Nota'}</span>
-        </div>
-        <div style='font-size:24px;font-weight:700;color:var(--color-primary);'>Total: $${n.nota.total.toLocaleString()}</div>
-        ${n.factura?`<div style='color:var(--color-text-secondary);font-size:14px;margin-top:4px;'>IVA 16% incluido</div>`:''}
-        </div>`;
-      }
-      dom.contentSection.innerHTML = html;
-    }
-    function generarNotaFactura(pedidoId){
-      let pedido = estado.pedidos.find(p=>p.id===pedidoId);
-      let necesitaFactura = confirm('¿Generar factura con IVA (16%)?');
-      let total = pedido.items.reduce((acc,it)=>{
-        let prod = PRODUCTOS.find(p=>p.nombre===it.prod);
-        return acc + prod.precio*it.cant;
-      },0);
-      if(necesitaFactura) total = Math.round(total*1.16);
-      let nota = { id:'N'+(Math.random()+'').slice(2,9), pedidoId, factura:necesitaFactura, nota:{total}};
-      estado.notas.push(nota);
-      mostrarToast(`✅ ${necesitaFactura ? 'Factura' : 'Nota'} generada exitosamente`, 'success');
-      verPedidosVendedor();
-    }
-    // -- Mensajería interna --
-    function verMensajes(){
-      let u = estado.user;
-      
-      // Filtrar mensajes relevantes para el usuario
-      let mensajesRelevantes = estado.mensajes.filter(m => {
-        if(u.rol === 'administrador') return true; // Admin ve todo
-        if(m.para === u.rol) {
-          // Si es vendedor, solo mostrar los que son para él específicamente
-          if(u.rol === 'vendedor' && m.vendedorDestino){
-            return m.vendedorDestino === u.mostrar;
-          }
-          return true;
-        }
-        if(m.para === u.nombre) return true;
-        return false;
-      });
-      
-      // Separar notificaciones de sistema y mensajes normales
-      const notificaciones = mensajesRelevantes.filter(m => m.tipo === 'aprobacion' || m.tipo === 'rechazo');
-      const mensajesNormales = mensajesRelevantes.filter(m => !m.tipo);
-      
-      dom.contentSection.innerHTML = `<div class="section-header"><h2>Mensajería Interna</h2><p>Comunicación con el equipo</p></div>`;
-      
-      // Notificaciones de descuentos
-      if(notificaciones.length > 0 && u.rol === 'vendedor'){
-        dom.contentSection.innerHTML += `<div style='margin-bottom:24px;'><h3 style='margin-bottom:12px;'>🔔 Notificaciones (${notificaciones.length})</h3>`;
-        for(const notif of notificaciones.slice().reverse()){
-          const icono = notif.tipo === 'aprobacion' ? '✅' : '❌';
-          const color = notif.tipo === 'aprobacion' ? 'var(--color-success)' : 'var(--color-error)';
-          dom.contentSection.innerHTML += `<div class='info-card' style='border-left:4px solid ${color};'>
-            <div style='display:flex;gap:12px;align-items:start;'>
-              <div style='font-size:24px;'>${icono}</div>
-              <div style='flex:1;'>
-                <div style='font-weight:600;color:${color};margin-bottom:4px;'>${notif.de}</div>
-                <div style='margin-bottom:4px;'>${notif.msg}</div>
-                <div style='color:var(--color-text-secondary);font-size:12px;'>${new Date(notif.fecha).toLocaleString('es-MX')}</div>
-              </div>
-            </div>
-          </div>`;
-        }
-        dom.contentSection.innerHTML += `</div>`;
-      }
-      
-      // Mensajes normales
-      dom.contentSection.innerHTML += `<h3 style='margin-bottom:12px;'>💬 Mensajes</h3>
-      <div id='mensajes-list' style='max-height:400px;overflow:auto;margin-bottom:24px;'>
-        ${mensajesNormales.length > 0 ? mensajesNormales.slice().reverse().map(m=>`<div class='info-card' style='margin-bottom:12px;'><div style='font-weight:600;color:var(--color-primary);margin-bottom:4px;'>👤 ${m.de}</div><div>${m.msg}</div><div style='color:var(--color-text-secondary);font-size:12px;margin-top:8px;'>${new Date(m.fecha).toLocaleString('es-MX')}</div></div>`).join('') : '<div style="text-align:center;padding:40px;color:var(--color-text-secondary);">Sin mensajes.</div>'}
-      </div>`;
-      
-      dom.contentSection.innerHTML += `<div class='info-card'><h3 style='margin-bottom:16px;'>Enviar mensaje</h3><form id='form-msg'>
-      <div class='form-group'><label class='form-label'>Destinatario</label>
-      <select name='para' class='form-control'>${ROLES.filter(r=>r!=="comprador"&&(u.rol==='administrador'||(u.rol==='vendedor'&&r!=='administrador'))).map(r=>`<option value='${r}'>${r.charAt(0).toUpperCase()+r.slice(1)}</option>`).join('')}</select></div>
-      <div class='form-group'><label class='form-label'>Mensaje</label>
-      <textarea placeholder='Escribe tu mensaje aquí...' class='form-control' name='msg' rows='3' required></textarea></div>
-      <button class='btn btn--primary btn--full-width'>📨 Enviar mensaje</button></form></div>`;
-      
-      document.getElementById('form-msg').onsubmit = function(e){
-        e.preventDefault();
-        let msg = this.msg.value.trim();
-        let para = this.para.value;
-        if(!msg) return;
-        estado.mensajes.push({de:u.nombre, para, msg, fecha:new Date().toISOString()});
-        mostrarToast('Mensaje enviado', 'success');
-        verMensajes();
-      };
-    }
-    // ---- ADMIN ----
-    function verPanelAdmin(){
-      let html = `<div class="section-header"><h2>Panel de Administración</h2><p>Configuración y gestión del sistema</p></div>
-      <div class='kpi-grid'>
-        <div class='kpi-card' onclick='verGestionProductos()' style='cursor:pointer;'>
-          <div style='font-size:36px;margin-bottom:8px;'>🏷️</div>
-          <div class='kpi-label'>Gestionar productos</div>
-        </div>
-        <div class='kpi-card' onclick='verSolicitudesDescuento()' style='cursor:pointer;'>
-          <div style='font-size:36px;margin-bottom:8px;'>💰</div>
-          <div class='kpi-label'>Autorizar descuentos</div>
-        </div>
-        <div class='kpi-card' onclick='verDescuentosActivos()' style='cursor:pointer;'>
-          <div style='font-size:36px;margin-bottom:8px;'>📊</div>
-          <div class='kpi-label'>Descuentos activos</div>
-        </div>
-        <div class='kpi-card' onclick='subirFotoProducto()' style='cursor:pointer;'>
-          <div style='font-size:36px;margin-bottom:8px;'>🖼️</div>
-          <div class='kpi-label'>Gestionar imágenes</div>
-        </div>
-        <div class='kpi-card' onclick='descargarReporte()' style='cursor:pointer;'>
-          <div style='font-size:36px;margin-bottom:8px;'>📄</div>
-          <div class='kpi-label'>Descargar reportes</div>
-        </div>
-        <div class='kpi-card' onclick='verVentasAdmin()' style='cursor:pointer;'>
-          <div style='font-size:36px;margin-bottom:8px;'>📈</div>
-          <div class='kpi-label'>Ver estadísticas</div>
-        </div>
-        <div class='kpi-card' onclick='adminEliminaDatos()' style='cursor:pointer;'>
-          <div style='font-size:36px;margin-bottom:8px;'>🗑️</div>
-          <div class='kpi-label'>Eliminar datos</div>
-        </div>
-      </div>`;
-      dom.contentSection.innerHTML = html;
-    }
-    // Subida de fotos (simulada):
-    function subirFotoProducto(){
-      let productosOpts = PRODUCTOS.map(p=>`<option value='${p.nombre}'>${p.nombre}</option>`).join('');
-      dom.contentSection.innerHTML = `<div class="section-header"><h2>Gestionar Imágenes de Productos</h2></div>
-      <div class='info-card'><form id='form-foto'>
-        <div class='form-group'><label class='form-label'>Selecciona el producto</label>
-        <select class='form-control' name='producto' required>${productosOpts}</select></div>
-        <div class='form-group'><label class='form-label'>Selecciona la imagen</label>
-        <input type='file' class='form-control' name='foto' accept='image/*' required /></div>
-        <div style='display:flex;gap:12px;'>
-          <button class='btn btn--primary' style='flex:1;'>💾 Subir foto</button>
-          <button type='button' class='btn btn--outline' onclick='verPanelAdmin()'>Cancelar</button>
-        </div>
-      </form></div>`;
-      document.getElementById('form-foto').onsubmit = function(e){
-        e.preventDefault();
-        let producto = this.producto.value;
-        let file = this.foto.files[0];
-        if(!file){alert('Falta la foto');return;}
-        // No se puede guardar archivo real en demo. Almacenamos File name
-        if(!estado.fotos[producto]) estado.fotos[producto]=[];
-        estado.fotos[producto].push(file.name||'Foto nueva');
-        mostrarToast('✅ Foto subida exitosamente', 'success');
-        verPanelAdmin();
-      }
-    }
-    // Eliminar registro (solo admin)
-    function adminEliminaDatos(){
-      dom.contentSection.innerHTML = `<div class="section-header"><h2>Eliminar Datos del Sistema</h2><p style='color:var(--color-error);'>Precaución: Esta acción no se puede deshacer</p></div>
-      <div class='info-card' style='border:2px solid var(--color-error);'>
-        <div style='display:flex;flex-direction:column;gap:12px;'>
-          <button onclick='eliminaUsuarios()' class='btn btn--outline btn--full-width'>👥 Eliminar todos los usuarios</button>
-          <button onclick='eliminaPedidos()' class='btn btn--outline btn--full-width'>📦 Eliminar todos los pedidos</button>
-          <button onclick='eliminaNotas()' class='btn btn--outline btn--full-width'>📄 Eliminar todas las notas</button>
-          <button onclick='verPanelAdmin()' class='btn btn--secondary btn--full-width'>Cancelar</button>
-        </div>
-      </div>`;
-    }
-    function eliminaUsuarios(){
-      if(!confirm('¿Estás seguro de eliminar TODOS los usuarios?')) return;
-      estado.users=[];
-      mostrarToast('Usuarios eliminados', 'warning');
-      verPanelAdmin();
-    }
-    function eliminaPedidos(){
-      if(!confirm('¿Estás seguro de eliminar TODOS los pedidos?')) return;
-      estado.pedidos=[];
-      mostrarToast('Pedidos eliminados', 'warning');
-      verPanelAdmin();
-    }
-    function eliminaNotas(){
-      if(!confirm('¿Estás seguro de eliminar TODAS las notas?')) return;
-      estado.notas=[];
-      mostrarToast('Notas eliminadas', 'warning');
-      verPanelAdmin();
-    }
-    // --- Reportes (descargar, gráfica) ---
-    function descargarReporte(){
-      let csv = 'Vendedor,Cliente,Producto,Cantidad,Total\n';
-      for(let p of estado.pedidos){
-        csv+=`${p.comprador.vendedor},${p.comprador.nombre},${p.items.map(i=>i.prod).join('|')},${p.items.map(i=>i.cant).join('|')},${p.items.reduce((a,x)=>{
-          let pp=PRODUCTOS.find(pr=>pr.nombre===x.prod);return a+pp.precio*x.cant;
-        },0)}\n`;
-      }
-      let blob = new Blob([csv], {type:'text/csv'});
-      let a = document.createElement('a');
-      a.href=URL.createObjectURL(blob);a.download='reporte_ventas.csv';a.click();
-    }
-    function verVentasAdmin(){
-      let porVendedor = {};
-      for(let p of estado.pedidos){
-        let vend = p.comprador.vendedor||'Sin asignar';
-        if(!porVendedor[vend]) porVendedor[vend]=0;
-        porVendedor[vend]+=p.items.reduce((a,x)=>{
-          let pp=PRODUCTOS.find(pr=>pr.nombre===x.prod);return a+pp.precio*x.cant;
-        },0);
-      }
-      let labels = Object.keys(porVendedor);
-      let data = labels.map(v=>porVendedor[v]);
-      let total = data.reduce((a,b)=>a+b,0);
-      const totalPedidos = estado.pedidos.length;
-      const totalClientes = estado.users.filter(u=>u.rol==='comprador').length;
-      const descuentosActivos = estado.descuentosActivos.filter(d => d.activo).length;
-      const solicitudesPendientes = estado.solicitudesDescuento.filter(s => s.estado === 'pendiente').length;
-      
-      dom.contentSection.innerHTML = `<div class="section-header"><h2>📈 Dashboard Administrador</h2><p>Resumen general del negocio</p></div>`;
-      
-      // KPIs principales
-      dom.contentSection.innerHTML += `<div class='kpi-grid'>
-        <div class='kpi-card' style='background:linear-gradient(135deg, var(--color-bg-1), var(--color-bg-3));'>
-          <div class='kpi-label'>Ventas Totales</div>
-          <div class='kpi-value'>$${total.toLocaleString()}</div>
-        </div>
-        <div class='kpi-card' style='background:linear-gradient(135deg, var(--color-bg-2), var(--color-bg-4));'>
-          <div class='kpi-label'>Total Pedidos</div>
-          <div class='kpi-value'>${totalPedidos}</div>
-        </div>
-        <div class='kpi-card' style='background:linear-gradient(135deg, var(--color-bg-5), var(--color-bg-7));'>
-          <div class='kpi-label'>Clientes Registrados</div>
-          <div class='kpi-value'>${totalClientes}</div>
-        </div>
-        <div class='kpi-card' style='background:linear-gradient(135deg, var(--color-bg-6), var(--color-bg-8));'>
-          <div class='kpi-label'>Ticket Promedio</div>
-          <div class='kpi-value'>$${totalPedidos > 0 ? Math.round(total/totalPedidos).toLocaleString() : 0}</div>
-        </div>
-      </div>`;
-      
-      // KPIs secundarios (descuentos)
-      dom.contentSection.innerHTML += `<div class='kpi-grid' style='margin-top:16px;'>
-        <div class='kpi-card' onclick='verDescuentosActivos()' style='cursor:pointer;'>
-          <div style='font-size:32px;margin-bottom:8px;'>💰</div>
-          <div class='kpi-label'>Descuentos Activos</div>
-          <div class='kpi-value'>${descuentosActivos}</div>
-        </div>
-        <div class='kpi-card' onclick='verSolicitudesDescuento()' style='cursor:pointer;${solicitudesPendientes > 0 ? "border:2px solid var(--color-warning);" : ""}'>
-          <div style='font-size:32px;margin-bottom:8px;'>⏳</div>
-          <div class='kpi-label'>Solicitudes Pendientes</div>
-          <div class='kpi-value' style='${solicitudesPendientes > 0 ? "color:var(--color-warning);" : ""}'>${solicitudesPendientes}</div>
-        </div>
-        <div class='kpi-card' onclick='verGestionProductos()' style='cursor:pointer;'>
-          <div style='font-size:32px;margin-bottom:8px;'>🏷️</div>
-          <div class='kpi-label'>Productos</div>
-          <div class='kpi-value'>${PRODUCTOS.length}</div>
-        </div>
-        <div class='kpi-card' onclick='verHistorialPrecios()' style='cursor:pointer;'>
-          <div style='font-size:32px;margin-bottom:8px;'>📜</div>
-          <div class='kpi-label'>Cambios de Precio</div>
-          <div class='kpi-value'>${estado.historialPrecios.length}</div>
-        </div>
-      </div>`;
-      
-      // Alertas rápidas
-      if(solicitudesPendientes > 0){
-        dom.contentSection.innerHTML += `<div class='info-card' style='background:var(--color-bg-2);border-left:4px solid var(--color-warning);margin-top:24px;'>
-          <div style='font-size:18px;font-weight:600;margin-bottom:8px;'>⚠️ Tienes ${solicitudesPendientes} solicitud${solicitudesPendientes > 1 ? 'es' : ''} de descuento pendiente${solicitudesPendientes > 1 ? 's' : ''}</div>
-          <button class='btn btn--primary' onclick='verSolicitudesDescuento()'>Revisar solicitudes</button>
-        </div>`;
-      }
-      
-      dom.contentSection.innerHTML += `<div class='info-card' style='margin-top:24px;'>
-        <h3 style='margin-bottom:16px;'>Ventas por Vendedor</h3>
-        <div style='max-width:600px;margin:auto;'>
-          <canvas id='ventasChart' style='max-height:300px;'></canvas>
-        </div>
-      </div>`;
-      
-      setTimeout(()=>{
-        const ctx = document.getElementById('ventasChart');
-        if(ctx){
-          new Chart(ctx.getContext('2d'),{
-            type:'bar',
-            data:{labels, datasets:[{label:'Ventas ($)',data, backgroundColor:['#1FB8CD','#FFC185','#B4413C','#ECEBD5','#5D878F']}]},
-            options:{responsive:true, maintainAspectRatio: true, plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'$'+c.parsed.y.toLocaleString()}}},scales:{y:{beginAtZero:true,ticks:{callback:v=>'$'+v.toLocaleString()}}}}
-          });
-        }
-      },100);
-    }
-    // -------- Cerrar sesión ----------
-    // Vista de todos los pedidos (admin)
-    function verTodosLosPedidos(){
-      let html = '<div class="section-header"><h2>Todos los Pedidos</h2><p>Vista completa de pedidos del sistema</p></div>';
-      if(estado.pedidos.length===0){
-        html+=`<div style="text-align:center;padding:40px;">
-          <div style="font-size:48px;margin-bottom:16px;">📦</div>
-          <p style="color:var(--color-text-secondary);">No hay pedidos en el sistema</p>
-        </div>`;
-      } else {
-        for(const p of estado.pedidos){
-          const estatusColor = p.estatus==='Pendiente' ? 'warning' : p.estatus==='Entregado' ? 'success' : 'info';
-          const total = p.items.reduce((acc,it)=>{
-            let prod = PRODUCTOS.find(pr=>pr.nombre===it.prod);
-            return acc + prod.precio*it.cant;
-          },0);
-          html += `<div class='info-card'>
-            <div style='display:flex;justify-content:space-between;align-items:start;margin-bottom:12px;'>
-              <div>
-                <div style='font-size:18px;font-weight:600;'>Pedido #${p.id}</div>
-                <div style='color:var(--color-text-secondary);font-size:14px;'>👤 ${p.comprador.nombre} | 📞 ${p.comprador.telefono}</div>
-                <div style='color:var(--color-text-secondary);font-size:14px;'>👥 Vendedor: ${p.comprador.vendedor}</div>
-              </div>
-              <span class='status status--${estatusColor}'>${p.estatus}</span>
-            </div>
-            <div style='padding:12px;background:var(--color-bg-1);border-radius:var(--radius-sm);margin:12px 0;'>
-              ${p.items.map(i=>`<div>📦 ${i.cant} x ${i.prod} (${i.color})</div>`).join('')}
-            </div>
-            <div style='font-size:18px;font-weight:600;color:var(--color-primary);'>Total: $${total.toLocaleString()}</div>
-          </div>`;
-        }
-      }
-      dom.contentSection.innerHTML = html;
-    }
-    
-    function cerrarSesion(){
-      estado.user = null;
-      carrito = [];
-      mostrarToast('Sesión cerrada', 'info');
-      setViewInicio();
-    }
-    
-    // --- PERFIL Y CAMBIO DE CONTRASEÑA ---
-    function verPerfil(){
-      const u = estado.user;
-      if(!u || u.rol === 'invitado') return;
-      
-      let html = `<div class="section-header"><h2>👤 Mi Perfil</h2><p>Información personal y seguridad</p></div>`;
-      
-      html += `<div class="info-card" style="max-width:500px;margin:0 auto 24px auto;">
-        <h3 style="margin-bottom:16px;color:var(--color-primary);">Datos personales</h3>
-        <div style="display:grid;gap:12px;">
-          <div style="border-bottom:1px solid var(--color-border);padding-bottom:8px;">
-            <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:4px;">Nombre</div>
-            <div style="font-weight:600;">${u.nombre_completo || u.nombre}</div>
-          </div>
-          <div style="border-bottom:1px solid var(--color-border);padding-bottom:8px;">
-            <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:4px;">Usuario</div>
-            <div style="font-weight:600;">${u.usuario}</div>
-          </div>
-          ${u.telefono ? `<div style="border-bottom:1px solid var(--color-border);padding-bottom:8px;">
-            <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:4px;">Teléfono</div>
-            <div style="font-weight:600;">${u.telefono}</div>
-          </div>` : ''}
-          ${u.correo ? `<div style="border-bottom:1px solid var(--color-border);padding-bottom:8px;">
-            <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:4px;">Correo</div>
-            <div style="font-weight:600;">${u.correo}</div>
-          </div>` : ''}
-          <div>
-            <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:4px;">Rol</div>
-            <div><span class="status status--info">${u.rol}</span></div>
-          </div>
-        </div>
-      </div>`;
-      
-      html += `<div class="info-card" style="max-width:500px;margin:0 auto;">
-        <h3 style="margin-bottom:16px;color:var(--color-primary);">Seguridad</h3>
-        <p style="color:var(--color-text-secondary);margin-bottom:16px;font-size:14px;">🔒 Cambia tu contraseña regularmente para mantener tu cuenta segura.</p>
-        <button class="btn btn--primary btn--full-width" onclick="mostrarCambioPassword()">Cambiar contraseña</button>
-      </div>`;
-      
-      html += `<div style="text-align:center;margin-top:24px;">
-        <button class="btn btn--secondary" onclick="cargarHome()">Volver al inicio</button>
-      </div>`;
-      
-      dom.contentSection.innerHTML = html;
-    }
-    
-    function mostrarCambioPassword(){
-      const u = estado.user;
-      
-      let html = `<div class="section-header"><h2>🔒 Cambiar Contraseña</h2></div>`;
-      
-      html += `<div class="info-card" style="max-width:480px;margin:0 auto;">
-        <form id="form-cambiar-pass">
-          <div class="form-group">
-            <label class="form-label">Contraseña actual</label>
-            <input type="password" name="passActual" class="form-control" required autocomplete="current-password" />
-          </div>
-          <div class="form-group">
-            <label class="form-label">Nueva contraseña</label>
-            <input type="password" name="passNueva" class="form-control" required autocomplete="new-password" />
-            <div style="font-size:12px;color:var(--color-text-secondary);margin-top:6px;">
-              Mínimo 8 caracteres, al menos 1 mayúscula y 1 número
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Confirmar nueva contraseña</label>
-            <input type="password" name="passConfirmar" class="form-control" required autocomplete="new-password" />
-          </div>
-          <div style="display:flex;gap:12px;margin-top:24px;">
-            <button type="submit" class="btn btn--primary" style="flex:1;">✔️ Cambiar contraseña</button>
-            <button type="button" class="btn btn--outline" onclick="verPerfil()">Cancelar</button>
-          </div>
-        </form>
-      </div>`;
-      
-      dom.contentSection.innerHTML = html;
-      
-      document.getElementById('form-cambiar-pass').onsubmit = function(e){
-        e.preventDefault();
-        const passActual = this.passActual.value;
-        const passNueva = this.passNueva.value;
-        const passConfirmar = this.passConfirmar.value;
-        
-        // Validar contraseña actual
-        if(u.rol === 'administrador'){
-          if(passActual !== ADMIN.password){
-            mostrarToast('La contraseña actual es incorrecta', 'error');
-            return;
-          }
-        } else if(u.rol === 'vendedor'){
-          const vendedor = VENDEDORES.find(v => v.usuario === u.usuario);
-          if(!vendedor || passActual !== vendedor.password){
-            mostrarToast('La contraseña actual es incorrecta', 'error');
-            return;
-          }
-        }
-        
-        // Validar que las nuevas coincidan
-        if(passNueva !== passConfirmar){
-          mostrarToast('Las contraseñas nuevas no coinciden', 'error');
-          return;
-        }
-        
-        // Validar requisitos de seguridad
-        if(passNueva.length < 8){
-          mostrarToast('La contraseña debe tener al menos 8 caracteres', 'error');
-          return;
-        }
-        if(!/[A-Z]/.test(passNueva)){
-          mostrarToast('La contraseña debe tener al menos una mayúscula', 'error');
-          return;
-        }
-        if(!/[0-9]/.test(passNueva)){
-          mostrarToast('La contraseña debe tener al menos un número', 'error');
-          return;
-        }
-        
-        // Actualizar contraseña (en memoria)
-        if(u.rol === 'administrador'){
-          ADMIN.password = passNueva;
-        } else if(u.rol === 'vendedor'){
-          const vendedor = VENDEDORES.find(v => v.usuario === u.usuario);
-          if(vendedor) vendedor.password = passNueva;
-        }
-        
-        // Actualizar también en el user actual
-        estado.user.password = passNueva;
-        
-        mostrarToast('✅ Contraseña cambiada exitosamente', 'success');
-        setTimeout(() => verPerfil(), 800);
-      };
-    }
-    // ========== NUEVAS FUNCIONES ADMINISTRADOR ==========
-    
-    // GESTIÓN DE PRODUCTOS Y PRECIOS
-    function verGestionProductos(){
-      let html = `<div class="section-header"><h2>🏷️ Gestión de Productos</h2><p>Administra el catálogo y precios</p></div>`;
-      
-      // Estadísticas rápidas
-      const totalProductos = PRODUCTOS.length;
-      const precioPromedio = Math.round(PRODUCTOS.reduce((sum, p) => sum + p.precio, 0) / totalProductos);
-      const cambiosRecientes = estado.historialPrecios.length;
-      
-      html += `<div class='kpi-grid' style='margin-bottom:24px;'>
-        <div class='kpi-card'>
-          <div class='kpi-label'>Productos</div>
-          <div class='kpi-value'>${totalProductos}</div>
-        </div>
-        <div class='kpi-card'>
-          <div class='kpi-label'>Precio Promedio</div>
-          <div class='kpi-value'>$${precioPromedio.toLocaleString()}</div>
-        </div>
-        <div class='kpi-card'>
-          <div class='kpi-label'>Cambios de Precio</div>
-          <div class='kpi-value'>${cambiosRecientes}</div>
-        </div>
-      </div>`;
-      
-      html += `<div style='margin-bottom:24px;'><button class='btn btn--primary' onclick='verHistorialPrecios()'>📜 Ver historial de precios</button></div>`;
-      
-      html += `<div style='display:grid;gap:16px;'>`;
-      for(const prod of PRODUCTOS){
-        const cambioReciente = estado.historialPrecios.filter(h => h.producto === prod.nombre).slice(-1)[0];
-        const tieneCambios = cambioReciente !== undefined;
-        const diferenciaPrecio = prod.precio - prod.precioInicial;
-        const porcentajeCambio = prod.precioInicial > 0 ? ((diferenciaPrecio / prod.precioInicial) * 100).toFixed(1) : 0;
-        
-        html += `<div class='info-card' style='transition:all 0.3s ease;'>
-          <div style='display:flex;justify-content:space-between;align-items:start;flex-wrap:wrap;gap:16px;'>
-            <div style='flex:1;min-width:250px;'>
-              <div style='font-size:20px;font-weight:600;margin-bottom:8px;'>${prod.nombre}</div>
-              <div style='color:var(--color-text-secondary);margin-bottom:4px;'>📦 Capacidad: ${prod.nombre.match(/\d+/)[0]} litros</div>
-              <div style='color:var(--color-text-secondary);margin-bottom:8px;'>🎨 Colores: ${prod.colores.length} disponibles</div>
-              <div style='background:var(--color-bg-1);padding:8px 12px;border-radius:var(--radius-sm);display:inline-block;margin-bottom:8px;'>
-                <span style='color:var(--color-text-secondary);font-size:13px;'>Precio inicial:</span>
-                <span style='font-weight:600;margin-left:4px;'>$${prod.precioInicial.toLocaleString()}</span>
-              </div>
-              ${diferenciaPrecio !== 0 ? `<div style='font-size:13px;margin-top:4px;'><span class='status status--${diferenciaPrecio > 0 ? "warning" : "success"}' style='font-size:12px;'>${diferenciaPrecio > 0 ? '↑' : '↓'} ${Math.abs(porcentajeCambio)}% ${diferenciaPrecio > 0 ? 'aumento' : 'descuento'}</span></div>` : ''}
-              ${tieneCambios ? `<div style='font-size:12px;color:var(--color-text-secondary);margin-top:4px;'>⏱️ Última modificación: ${new Date(cambioReciente.fecha).toLocaleDateString('es-MX')}</div>` : ''}
-            </div>
-            <div style='text-align:right;'>
-              <div style='font-size:32px;font-weight:700;color:var(--color-primary);margin-bottom:8px;'>$${prod.precio.toLocaleString()}</div>
-              <div style='color:var(--color-text-secondary);font-size:13px;margin-bottom:12px;'>Precio actual</div>
-              <button class='btn btn--primary btn--sm' onclick='editarPrecioProducto(${prod.id})'>✏️ Editar precio</button>
-            </div>
-          </div>
-        </div>`;
-      }
-      html += `</div>`;
-      
-      dom.contentSection.innerHTML = html;
-    }
-    
-    function editarPrecioProducto(productoId){
-      const prod = PRODUCTOS.find(p => p.id === productoId);
-      if(!prod) return;
-      
-      // Crear modal
-      const modalHTML = `<div class='modal-overlay' id='modal-precio' onclick='if(event.target===this) cerrarModal("modal-precio")'>
-        <div class='modal-content'>
-          <div class='modal-header'>
-            <h3 style='margin:0;'>✏️ Editar Precio</h3>
-            <button class='modal-close' onclick='cerrarModal("modal-precio")'>×</button>
-          </div>
-          <div class='modal-body'>
-            <div style='background:var(--color-bg-1);padding:16px;border-radius:var(--radius-md);margin-bottom:16px;'>
-              <div style='font-size:18px;font-weight:600;margin-bottom:8px;'>${prod.nombre}</div>
-              <div style='color:var(--color-text-secondary);'>Precio actual: <span style='font-weight:600;color:var(--color-primary);font-size:20px;'>$${prod.precio.toLocaleString()}</span></div>
-            </div>
-            <form id='form-editar-precio'>
-              <div class='form-group'>
-                <label class='form-label'>Nuevo precio (MXN)</label>
-                <input type='number' name='precio' class='form-control' min='1' step='1' value='${prod.precio}' required autofocus />
-              </div>
-              <div style='background:var(--color-bg-2);padding:12px;border-radius:var(--radius-sm);margin-bottom:16px;'>
-                <div style='font-size:13px;color:var(--color-text-secondary);margin-bottom:4px;'>⚠️ Nota importante</div>
-                <div style='font-size:13px;'>Este cambio se aplicará inmediatamente y quedará registrado en el historial.</div>
-              </div>
-              <div style='display:flex;gap:12px;'>
-                <button type='submit' class='btn btn--primary' style='flex:1;'>💾 Guardar cambios</button>
-                <button type='button' class='btn btn--outline' onclick='cerrarModal("modal-precio")'>Cancelar</button>
-              </div>
+    <!-- Login -->
+    <div id="login" class="content">
+        <div class="container">
+            <form class="login-form" onsubmit="handleLogin(event)">
+                <h2 class="form-title">Iniciar Sesión</h2>
+                <div class="form-group">
+                    <label for="username">Usuario:</label>
+                    <input type="text" id="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Contraseña:</label>
+                    <input type="password" id="password" required>
+                </div>
+                <div class="button-group">
+                    <button type="submit" class="btn" style="flex: 1;">Ingresar</button>
+                    <button type="button" class="btn btn-secondary" onclick="backToLanding()" style="flex: 1;">Volver</button>
+                </div>
             </form>
-          </div>
         </div>
-      </div>`;
-      
-      document.body.insertAdjacentHTML('beforeend', modalHTML);
-      
-      document.getElementById('form-editar-precio').onsubmit = function(e){
-        e.preventDefault();
-        const nuevoPrecio = Number(this.precio.value);
-        
-        if(nuevoPrecio === prod.precio){
-          mostrarToast('El precio no ha cambiado', 'info');
-          cerrarModal('modal-precio');
-          return;
-        }
-        
-        if(confirm(`¿Confirmas cambiar el precio de ${prod.nombre} de $${prod.precio.toLocaleString()} a $${nuevoPrecio.toLocaleString()}?`)){
-          // Guardar en historial
-          estado.historialPrecios.push({
-            producto: prod.nombre,
-            precioAnterior: prod.precio,
-            precioNuevo: nuevoPrecio,
-            fecha: new Date().toISOString(),
-            modificadoPor: estado.user.nombre
-          });
-          
-          // Actualizar precio
-          prod.precio = nuevoPrecio;
-          
-          mostrarToast('✅ Precio actualizado exitosamente', 'success');
-          cerrarModal('modal-precio');
-          verGestionProductos();
-        }
-      };
-    }
-    
-    function cerrarModal(modalId){
-      const modal = document.getElementById(modalId);
-      if(modal) modal.remove();
-    }
-    
-    function verHistorialPrecios(){
-      let html = `<div class="section-header"><h2>📜 Historial de Cambios de Precios</h2><p>Registro de todas las modificaciones</p></div>`;
-      html += `<button class='btn btn--secondary mb-8' onclick='verGestionProductos()'>← Volver a productos</button>`;
-      
-      if(estado.historialPrecios.length === 0){
-        html += `<div style="text-align:center;padding:40px;">
-          <div style="font-size:48px;margin-bottom:16px;">📜</div>
-          <p style="color:var(--color-text-secondary);">No hay cambios de precios registrados</p>
-        </div>`;
-      } else {
-        html += `<div style='display:grid;gap:12px;'>`;
-        const historialOrdenado = [...estado.historialPrecios].reverse();
-        for(const cambio of historialOrdenado){
-          const fecha = new Date(cambio.fecha);
-          const diferencia = cambio.precioNuevo - cambio.precioAnterior;
-          const porcentaje = ((diferencia / cambio.precioAnterior) * 100).toFixed(1);
-          const esAumento = diferencia > 0;
-          
-          html += `<div class='info-card'>
-            <div style='display:flex;justify-content:space-between;align-items:start;flex-wrap:wrap;gap:12px;'>
-              <div>
-                <div style='font-weight:600;margin-bottom:4px;'>${cambio.producto}</div>
-                <div style='color:var(--color-text-secondary);font-size:13px;margin-bottom:4px;'>📅 ${fecha.toLocaleDateString('es-MX')} - ${fecha.toLocaleTimeString('es-MX', {hour:'2-digit', minute:'2-digit'})}</div>
-                <div style='color:var(--color-text-secondary);font-size:13px;'>👤 Modificado por: ${cambio.modificadoPor}</div>
-              </div>
-              <div style='text-align:right;'>
-                <div style='font-size:14px;color:var(--color-text-secondary);text-decoration:line-through;margin-bottom:4px;'>$${cambio.precioAnterior.toLocaleString()}</div>
-                <div style='font-size:20px;font-weight:700;color:var(--color-primary);margin-bottom:4px;'>$${cambio.precioNuevo.toLocaleString()}</div>
-                <span class='status status--${esAumento ? "warning" : "success"}' style='font-size:12px;'>${esAumento ? '↑' : '↓'} ${Math.abs(diferencia).toLocaleString()} (${porcentaje}%)</span>
-              </div>
-            </div>
-          </div>`;
-        }
-        html += `</div>`;
-      }
-      
-      dom.contentSection.innerHTML = html;
-    }
-    
-    // SISTEMA DE AUTORIZACIÓN DE DESCUENTOS
-    function verSolicitudesDescuento(){
-      const solicitudesPendientes = estado.solicitudesDescuento.filter(s => s.estado === 'pendiente');
-      const solicitudesHistorial = estado.solicitudesDescuento.filter(s => s.estado !== 'pendiente');
-      
-      let html = `<div class="section-header"><h2>💰 Solicitudes de Descuentos</h2><p>Aprueba o rechaza las propuestas de vendedores</p></div>`;
-      
-      // Pendientes
-      html += `<div style='margin-bottom:32px;'><h3 style='margin-bottom:16px;color:var(--color-warning);'>⏳ Pendientes de Aprobación (${solicitudesPendientes.length})</h3>`;
-      
-      if(solicitudesPendientes.length === 0){
-        html += `<div class='info-card' style='text-align:center;background:var(--color-bg-1);'>
-          <div style='font-size:36px;margin-bottom:8px;'>✅</div>
-          <p style='color:var(--color-text-secondary);'>No hay solicitudes pendientes</p>
-        </div>`;
-      } else {
-        for(const sol of solicitudesPendientes){
-          const fecha = new Date(sol.fecha);
-          html += `<div class='info-card' style='border-left:4px solid var(--color-warning);'>
-            <div style='display:flex;justify-content:space-between;align-items:start;flex-wrap:wrap;gap:16px;margin-bottom:12px;'>
-              <div style='flex:1;'>
-                <div style='font-size:18px;font-weight:600;margin-bottom:8px;'>Solicitud #${sol.id}</div>
-                <div style='display:grid;gap:6px;'>
-                  <div>👤 <strong>Vendedor:</strong> ${sol.vendedorCompleto || sol.vendedor}</div>
-                  <div>🏢 <strong>Cliente:</strong> ${sol.cliente}</div>
-                  <div>📦 <strong>Producto:</strong> ${sol.producto || 'General (todos los productos)'}</div>
-                  <div style='color:var(--color-primary);font-weight:600;'>💰 <strong>Descuento propuesto:</strong> ${sol.porcentaje}%</div>
-                  <div style='color:var(--color-text-secondary);font-size:13px;'>📅 ${fecha.toLocaleDateString('es-MX')} ${fecha.toLocaleTimeString('es-MX', {hour:'2-digit', minute:'2-digit'})}</div>
+    </div>
+
+    <!-- Dashboard Comprador -->
+    <div id="comprador-dashboard" class="content">
+        <div class="container">
+            <div class="dashboard">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                    <h2>Catálogo de Productos</h2>
+                    <button class="btn logout-btn" onclick="logout()">Cerrar Sesión</button>
                 </div>
-              </div>
+                <div class="grid-products" id="productos-grid"></div>
             </div>
-            <div style='background:var(--color-bg-1);padding:12px;border-radius:var(--radius-sm);margin-bottom:16px;'>
-              <div style='font-weight:600;margin-bottom:6px;font-size:13px;color:var(--color-text-secondary);'>📝 Justificación:</div>
-              <div style='font-size:14px;'>${sol.justificacion}</div>
+        </div>
+    </div>
+
+    <!-- Dashboard Vendedor -->
+    <div id="vendedor-dashboard" class="content">
+        <div class="container">
+            <div class="dashboard">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                    <h2>Panel de Vendedor</h2>
+                    <button class="btn logout-btn" onclick="logout()">Cerrar Sesión</button>
+                </div>
+                <div class="menu">
+                    <button class="menu-item" onclick="showSection('clientes')">👥 Mis Clientes</button>
+                    <button class="menu-item" onclick="showSection('descuentos')">🏷️ Proponer Descuento</button>
+                    <button class="menu-item" onclick="showSection('notas')">📝 Generar Nota</button>
+                    <button class="menu-item" onclick="showSection('facturas')">🧾 Generar Factura</button>
+                </div>
+                <div id="section-content" style="background: white; padding: 2rem; border-radius: 12px; margin-top: 2rem;"></div>
             </div>
-            <div style='display:flex;gap:8px;flex-wrap:wrap;'>
-              <button class='btn btn--primary btn--sm' onclick='aprobarDescuento("${sol.id}")'>✅ Aprobar</button>
-              <button class='btn btn--outline btn--sm' onclick='rechazarDescuento("${sol.id}")'>❌ Rechazar</button>
+        </div>
+    </div>
+
+    <!-- Dashboard Admin -->
+    <div id="admin-dashboard" class="content">
+        <div class="container">
+            <div class="dashboard">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                    <h2>Panel de Administrador</h2>
+                    <button class="btn logout-btn" onclick="logout()">Cerrar Sesión</button>
+                </div>
+                <div class="menu">
+                    <button class="menu-item" onclick="showSection('productos')">📦 Gestión de Productos</button>
+                    <button class="menu-item" onclick="showSection('descuentos-admin')">✅ Solicitudes Descuentos</button>
+                    <button class="menu-item" onclick="showSection('descuento-directo')">🎁 Otorgar Descuento</button>
+                    <button class="menu-item" onclick="showSection('ventas')">📊 Ver Ventas</button>
+                    <button class="menu-item" onclick="showSection('clientes-admin')">👥 Ver Clientes</button>
+                    <button class="menu-item" onclick="showSection('reportes')">📈 Reportes</button>
+                </div>
+                <div id="section-content" style="background: white; padding: 2rem; border-radius: 12px; margin-top: 2rem;"></div>
             </div>
-          </div>`;
+        </div>
+    </div>
+
+    <script>
+        // Datos
+        const vendedores = [
+            { usuario: 'husai.mendez', password: 'Husai2024*', nombre: 'Husai M.' },
+            { usuario: 'pedro.delgado', password: 'Pedro2024*', nombre: 'Pedro D.' },
+            { usuario: 'fernando.ocampo', password: 'Fernando2024*', nombre: 'Fernando O.' },
+            { usuario: 'isidro.gonzalez', password: 'Isidro2024*', nombre: 'Isidro G.' }
+        ];
+        const admin = { usuario: 'admin.plastinova', password: 'Admin2024*Plastinova', nombre: 'Administrador' };
+        const productos = [
+            { id: 1, nombre: 'Tambo 235 lt', precio: 520 },
+            { id: 2, nombre: 'Tinaco 750 lt', precio: 1400 },
+            { id: 3, nombre: 'Tinaco 1100 lt', precio: 1500 },
+            { id: 4, nombre: 'Tinaco 1200 lt', precio: 1600 }
+        ];
+
+        let usuarioActual = null;
+
+        // Navegación
+        function showContent(id) {
+            document.querySelectorAll('.content').forEach(el => el.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
         }
-      }
-      html += `</div>`;
-      
-      // Historial
-      html += `<div><h3 style='margin-bottom:16px;'>📋 Historial de Solicitudes</h3>`;
-      if(solicitudesHistorial.length === 0){
-        html += `<div class='info-card' style='text-align:center;background:var(--color-bg-1);'>
-          <p style='color:var(--color-text-secondary);'>No hay historial aún</p>
-        </div>`;
-      } else {
-        const historialOrdenado = [...solicitudesHistorial].reverse();
-        for(const sol of historialOrdenado){
-          const fecha = new Date(sol.fecha);
-          const esAprobada = sol.estado === 'aprobada';
-          html += `<div class='info-card' style='opacity:0.85;'>
-            <div style='display:flex;justify-content:space-between;align-items:start;flex-wrap:wrap;gap:12px;'>
-              <div style='flex:1;'>
-                <div style='font-size:14px;font-weight:600;margin-bottom:6px;'>${sol.vendedorCompleto || sol.vendedor} → ${sol.cliente}</div>
-                <div style='font-size:13px;color:var(--color-text-secondary);'>Descuento: ${sol.porcentaje}% | ${fecha.toLocaleDateString('es-MX')}</div>
-              </div>
-              <span class='status status--${esAprobada ? "success" : "error"}'>${esAprobada ? '✅ Aprobada' : '❌ Rechazada'}</span>
-            </div>
-            ${sol.respuestaAdmin ? `<div style='margin-top:8px;font-size:13px;color:var(--color-text-secondary);'>💬 ${sol.respuestaAdmin}</div>` : ''}
-          </div>`;
-        }
-      }
-      html += `</div>`;
-      
-      html += `<div style='margin-top:32px;text-align:center;'><button class='btn btn--primary' onclick='otorgarDescuentoDirecto()'>➕ Otorgar descuento directo</button></div>`;
-      
-      dom.contentSection.innerHTML = html;
-    }
-    
-    function aprobarDescuento(solicitudId){
-      const sol = estado.solicitudesDescuento.find(s => s.id === solicitudId);
-      if(!sol) return;
-      
-      if(confirm(`¿Aprobar descuento del ${sol.porcentaje}% para ${sol.cliente}?`)){
-        sol.estado = 'aprobada';
-        sol.fechaAprobacion = new Date().toISOString();
-        sol.aprobadoPor = estado.user.nombre;
-        sol.respuestaAdmin = 'Aprobado';
-        
-        // Crear descuento activo
-        const descuentoActivo = {
-          id: 'DA' + Date.now(),
-          cliente: sol.cliente,
-          clienteTelefono: sol.clienteTelefono,
-          tipo: sol.tipo,
-          producto: sol.producto,
-          porcentaje: sol.porcentaje,
-          fechaInicio: new Date().toISOString(),
-          fechaExpiracion: null,
-          otorgadoPor: 'Admin (aprobación de solicitud)',
-          vendedor: sol.vendedor,
-          notas: `Aprobado por ${estado.user.nombre}. Justificación original: ${sol.justificacion}`,
-          activo: true
-        };
-        estado.descuentosActivos.push(descuentoActivo);
-        
-        // También actualizar el sistema antiguo para compatibilidad
-        let clave = sol.clienteTelefono + '-' + sol.vendedor;
-        estado.descuentos[clave] = sol.porcentaje;
-        
-        // Enviar notificación al vendedor
-        estado.mensajes.push({
-          de: 'Administrador',
-          para: 'vendedor',
-          msg: `✅ Tu solicitud de descuento del ${sol.porcentaje}% para ${sol.cliente} ha sido APROBADA. El descuento ya está activo.`,
-          fecha: new Date().toISOString(),
-          tipo: 'aprobacion',
-          vendedorDestino: sol.vendedor
-        });
-        
-        mostrarToast('✅ Descuento aprobado exitosamente. Vendedor notificado.', 'success');
-        verSolicitudesDescuento();
-      }
-    }
-    
-    function rechazarDescuento(solicitudId){
-      const sol = estado.solicitudesDescuento.find(s => s.id === solicitudId);
-      if(!sol) return;
-      
-      const razon = prompt('Razón del rechazo (opcional):');
-      if(razon === null) return;
-      
-      sol.estado = 'rechazada';
-      sol.fechaRechazo = new Date().toISOString();
-      sol.rechazadoPor = estado.user.nombre;
-      sol.respuestaAdmin = razon || 'Sin especificar';
-      
-      // Enviar notificación al vendedor
-      estado.mensajes.push({
-        de: 'Administrador',
-        para: 'vendedor',
-        msg: `❌ Tu solicitud de descuento del ${sol.porcentaje}% para ${sol.cliente} ha sido RECHAZADA. Razón: ${sol.respuestaAdmin}`,
-        fecha: new Date().toISOString(),
-        tipo: 'rechazo',
-        vendedorDestino: sol.vendedor
-      });
-      
-      mostrarToast('Solicitud rechazada. Vendedor notificado.', 'warning');
-      verSolicitudesDescuento();
-    }
-    
-    // OTORGAR DESCUENTO DIRECTO (ADMIN)
-    function otorgarDescuentoDirecto(){
-      const clientes = estado.users.filter(u => u.rol === 'comprador');
-      
-      let html = `<div class="section-header"><h2>➕ Otorgar Descuento Directo</h2><p>Asigna descuentos sin solicitud previa</p></div>`;
-      
-      html += `<div class='info-card' style='max-width:600px;margin:0 auto;'>
-        <form id='form-descuento-directo'>
-          <div class='form-group'>
-            <label class='form-label'>Seleccionar cliente</label>
-            <select name='cliente' class='form-control' required>
-              <option value=''>-- Selecciona un cliente --</option>
-              ${clientes.map(c => `<option value='${c.telefono}'>${c.nombre} (${c.telefono}) - Vendedor: ${c.vendedor}</option>`).join('')}
-            </select>
-          </div>
-          <div class='form-group'>
-            <label class='form-label'>Tipo de descuento</label>
-            <select name='tipo' class='form-control' required>
-              <option value='general'>General para el cliente</option>
-              <option value='producto'>Por producto específico</option>
-            </select>
-          </div>
-          <div class='form-group' id='producto-select-directo' style='display:none;'>
-            <label class='form-label'>Producto específico</label>
-            <select name='producto' class='form-control'>
-              ${PRODUCTOS.map(p => `<option value='${p.nombre}'>${p.nombre}</option>`).join('')}
-            </select>
-          </div>
-          <div class='form-group'>
-            <label class='form-label'>Porcentaje de descuento (%)</label>
-            <input type='number' name='porcentaje' class='form-control' min='0' max='100' required placeholder='Ej: 20' />
-          </div>
-          <div class='form-group'>
-            <label class='form-label'>Fecha de expiración (opcional)</label>
-            <input type='date' name='expiracion' class='form-control' />
-          </div>
-          <div class='form-group'>
-            <label class='form-label'>Notas / Justificación</label>
-            <textarea name='notas' class='form-control' rows='2' placeholder='Motivo del descuento...'></textarea>
-          </div>
-          <div style='display:flex;gap:12px;margin-top:24px;'>
-            <button type='submit' class='btn btn--primary' style='flex:1;'>💾 Aplicar descuento</button>
-            <button type='button' class='btn btn--outline' onclick='verSolicitudesDescuento()'>Cancelar</button>
-          </div>
-        </form>
-      </div>`;
-      
-      dom.contentSection.innerHTML = html;
-      
-      document.querySelector('select[name="tipo"]').onchange = function(){
-        document.getElementById('producto-select-directo').style.display = this.value === 'producto' ? 'block' : 'none';
-      };
-      
-      document.getElementById('form-descuento-directo').onsubmit = function(e){
-        e.preventDefault();
-        
-        const clienteTelefono = this.cliente.value;
-        const cliente = clientes.find(c => c.telefono === clienteTelefono);
-        if(!cliente) return;
-        
-        const tipo = this.tipo.value;
-        const producto = tipo === 'producto' ? this.producto.value : null;
-        const porcentaje = Number(this.porcentaje.value);
-        const expiracion = this.expiracion.value || null;
-        const notas = this.notas.value.trim();
-        
-        // Validar porcentaje
-        if(porcentaje < 0 || porcentaje > 100){
-          mostrarToast('El porcentaje debe estar entre 0 y 100', 'error');
-          return;
-        }
-        
-        // Verificar si ya existe un descuento activo similar
-        const yaExiste = estado.descuentosActivos.some(d => 
-          d.activo && 
-          d.clienteTelefono === cliente.telefono && 
-          d.tipo === tipo &&
-          (tipo === 'general' || d.producto === producto)
-        );
-        
-        if(yaExiste && !confirm('Ya existe un descuento activo similar para este cliente. ¿Deseas reemplazarlo?')){
-          return;
-        }
-        
-        // Desactivar descuentos anteriores similares
-        if(yaExiste){
-          estado.descuentosActivos.forEach(d => {
-            if(d.activo && d.clienteTelefono === cliente.telefono && d.tipo === tipo && (tipo === 'general' || d.producto === producto)){
-              d.activo = false;
-              d.fechaDesactivacion = new Date().toISOString();
-              d.desactivadoPor = estado.user.nombre;
+
+        function backToLanding() { showContent('landing'); }
+        function showLogin() { showContent('login'); }
+        function showRegister() { alert('Registro en desarrollo'); }
+        function guestCheckout() { usuarioActual = { nombre: 'Invitado' }; mostrarProductos(); }
+
+        // Login
+        function handleLogin(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (username === admin.usuario && password === admin.password) {
+                usuarioActual = admin;
+                updateNavbar();
+                showContent('admin-dashboard');
+                mostrarNotification('✅ Bienvenido Administrador');
+            } else {
+                const v = vendedores.find(v => v.usuario === username && v.password === password);
+                if (v) {
+                    usuarioActual = v;
+                    updateNavbar();
+                    showContent('vendedor-dashboard');
+                    mostrarNotification('✅ Bienvenido ' + v.nombre);
+                } else {
+                    mostrarNotification('❌ Credenciales incorrectas', true);
+                }
             }
-          });
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
         }
-        
-        const descuento = {
-          id: 'DA' + Date.now(),
-          cliente: cliente.nombre,
-          clienteTelefono: cliente.telefono,
-          tipo: tipo,
-          producto: producto,
-          porcentaje: porcentaje,
-          fechaInicio: new Date().toISOString(),
-          fechaExpiracion: expiracion ? new Date(expiracion).toISOString() : null,
-          otorgadoPor: estado.user.nombre,
-          vendedor: cliente.vendedor,
-          notas: notas || 'Descuento directo del administrador',
-          activo: true
-        };
-        
-        estado.descuentosActivos.push(descuento);
-        
-        // Actualizar sistema antiguo
-        let clave = cliente.telefono + '-' + cliente.vendedor;
-        if(tipo === 'general'){
-          estado.descuentos[clave] = porcentaje;
+
+        function logout() {
+            usuarioActual = null;
+            showContent('landing');
+            updateNavbar();
+            mostrarNotification('👋 Sesión cerrada');
         }
-        
-        // Notificar al vendedor
-        const vendedor = VENDEDORES.find(v => v.mostrar === cliente.vendedor);
-        if(vendedor){
-          estado.mensajes.push({
-            de: 'Administrador',
-            para: 'vendedor',
-            msg: `🎉 Se ha otorgado un descuento del ${porcentaje}% para tu cliente ${cliente.nombre} (${tipo === 'general' ? 'general' : producto}). ${notas ? 'Nota: ' + notas : ''}`,
-            fecha: new Date().toISOString(),
-            tipo: 'info',
-            vendedorDestino: cliente.vendedor
-          });
+
+        // Navbar
+        function updateNavbar() {
+            const navRight = document.getElementById('navbar-right');
+            navRight.innerHTML = usuarioActual ? `<span>${usuarioActual.nombre}</span>` : '';
         }
-        
-        mostrarToast('✅ Descuento aplicado exitosamente', 'success');
-        verDescuentosActivos();
-      };
-    }
-    
-    // VER DESCUENTOS ACTIVOS
-    function verDescuentosActivos(){
-      const descuentosVigentes = estado.descuentosActivos.filter(d => d.activo);
-      const descuentosExpirados = estado.descuentosActivos.filter(d => !d.activo);
-      
-      let html = `<div class="section-header"><h2>📊 Descuentos Activos</h2><p>Gestiona todos los descuentos vigentes</p></div>`;
-      
-      // Estadísticas
-      const totalDescuentos = descuentosVigentes.length;
-      const promedioDescuento = totalDescuentos > 0 
-        ? (descuentosVigentes.reduce((sum, d) => sum + d.porcentaje, 0) / totalDescuentos).toFixed(1)
-        : 0;
-      const pendientesAprobacion = estado.solicitudesDescuento.filter(s => s.estado === 'pendiente').length;
-      
-      html += `<div class='kpi-grid' style='margin-bottom:24px;'>
-        <div class='kpi-card'>
-          <div class='kpi-label'>Descuentos Activos</div>
-          <div class='kpi-value'>${totalDescuentos}</div>
-        </div>
-        <div class='kpi-card'>
-          <div class='kpi-label'>Promedio de Descuento</div>
-          <div class='kpi-value'>${promedioDescuento}%</div>
-        </div>
-        <div class='kpi-card'>
-          <div class='kpi-label'>Por Aprobar</div>
-          <div class='kpi-value'>${pendientesAprobacion}</div>
-        </div>
-      </div>`;
-      
-      html += `<button class='btn btn--primary mb-8' onclick='otorgarDescuentoDirecto()'>➕ Nuevo descuento directo</button>`;
-      
-      // Descuentos activos
-      if(descuentosVigentes.length === 0){
-        html += `<div class='info-card' style='text-align:center;background:var(--color-bg-1);'>
-          <div style='font-size:48px;margin-bottom:16px;'>📊</div>
-          <p style='color:var(--color-text-secondary);'>No hay descuentos activos</p>
-        </div>`;
-      } else {
-        html += `<h3 style='margin-bottom:16px;'>Descuentos vigentes</h3>`;
-        for(const desc of descuentosVigentes){
-          const fechaInicio = new Date(desc.fechaInicio);
-          const expira = desc.fechaExpiracion ? new Date(desc.fechaExpiracion) : null;
-          const diasRestantes = expira ? Math.ceil((expira - new Date()) / (1000 * 60 * 60 * 24)) : null;
-          
-          html += `<div class='info-card'>
-            <div style='display:flex;justify-content:space-between;align-items:start;flex-wrap:wrap;gap:16px;'>
-              <div style='flex:1;'>
-                <div style='font-size:18px;font-weight:600;margin-bottom:8px;'>👤 ${desc.cliente}</div>
-                <div style='display:grid;gap:4px;font-size:14px;color:var(--color-text-secondary);'>
-                  <div>📦 ${desc.producto || 'General (todos los productos)'}</div>
-                  <div>👥 Vendedor: ${desc.vendedor}</div>
-                  <div>📅 Desde: ${fechaInicio.toLocaleDateString('es-MX')}</div>
-                  ${expira ? `<div style='color:${diasRestantes < 7 ? 'var(--color-warning)' : 'inherit'};'>⏰ Expira: ${expira.toLocaleDateString('es-MX')} (${diasRestantes} días)</div>` : '<div>⏰ Sin fecha de expiración</div>'}
-                  ${desc.notas ? `<div style='margin-top:4px;'>📝 ${desc.notas}</div>` : ''}
+
+        // Productos
+        function mostrarProductos() {
+            document.getElementById('productos-grid').innerHTML = productos.map(p => `
+                <div class="product-card">
+                    <div class="product-image">🛢️</div>
+                    <div class="product-info">
+                        <div class="product-name">${p.nombre}</div>
+                        <div class="product-price">$${p.precio}</div>
+                        <button class="btn" onclick="agregarCarrito(${p.id})">Agregar</button>
+                    </div>
                 </div>
-              </div>
-              <div style='text-align:right;'>
-                <div style='font-size:32px;font-weight:700;color:var(--color-success);margin-bottom:8px;'>${desc.porcentaje}%</div>
-                <button class='btn btn--outline btn--sm' onclick='desactivarDescuento("${desc.id}")' style='margin-bottom:4px;'>🔒 Desactivar</button>
-              </div>
-            </div>
-          </div>`;
+            `).join('');
+            showContent('comprador-dashboard');
         }
-      }
-      
-      dom.contentSection.innerHTML = html;
-    }
-    
-    function desactivarDescuento(descuentoId){
-      const desc = estado.descuentosActivos.find(d => d.id === descuentoId);
-      if(!desc) return;
-      
-      if(confirm(`¿Desactivar descuento del ${desc.porcentaje}% para ${desc.cliente}?`)){
-        desc.activo = false;
-        desc.fechaDesactivacion = new Date().toISOString();
-        desc.desactivadoPor = estado.user.nombre;
-        
-        // Actualizar sistema antiguo
-        let clave = desc.clienteTelefono + '-' + desc.vendedor;
-        if(estado.descuentos[clave]) delete estado.descuentos[clave];
-        
-        mostrarToast('Descuento desactivado', 'warning');
-        verDescuentosActivos();
-      }
-    }
-    
-    // VER MIS SOLICITUDES (VENDEDOR)
-    function verMisSolicitudesDescuento(){
-      const misSolicitudes = estado.solicitudesDescuento.filter(s => s.vendedor === estado.user.mostrar);
-      
-      let html = `<div class="section-header"><h2>💰 Mis Solicitudes de Descuento</h2><p>Estado de tus propuestas</p></div>`;
-      
-      const pendientes = misSolicitudes.filter(s => s.estado === 'pendiente');
-      const aprobadas = misSolicitudes.filter(s => s.estado === 'aprobada');
-      const rechazadas = misSolicitudes.filter(s => s.estado === 'rechazada');
-      
-      html += `<div class='kpi-grid' style='margin-bottom:24px;'>
-        <div class='kpi-card'>
-          <div class='kpi-label'>Pendientes</div>
-          <div class='kpi-value' style='color:var(--color-warning);'>${pendientes.length}</div>
-        </div>
-        <div class='kpi-card'>
-          <div class='kpi-label'>Aprobadas</div>
-          <div class='kpi-value' style='color:var(--color-success);'>${aprobadas.length}</div>
-        </div>
-        <div class='kpi-card'>
-          <div class='kpi-label'>Rechazadas</div>
-          <div class='kpi-value' style='color:var(--color-error);'>${rechazadas.length}</div>
-        </div>
-      </div>`;
-      
-      if(misSolicitudes.length === 0){
-        html += `<div class='info-card' style='text-align:center;background:var(--color-bg-1);'>
-          <div style='font-size:48px;margin-bottom:16px;'>💰</div>
-          <p style='color:var(--color-text-secondary);'>No has enviado solicitudes de descuento aún</p>
-          <button class='btn btn--primary mt-8' onclick='verMisClientes()'>Proponer descuento a un cliente</button>
-        </div>`;
-      } else {
-        const ordenadas = [...misSolicitudes].reverse();
-        for(const sol of ordenadas){
-          const fecha = new Date(sol.fecha);
-          let estadoColor = 'info';
-          let estadoTexto = '⏳ Pendiente';
-          if(sol.estado === 'aprobada'){
-            estadoColor = 'success';
-            estadoTexto = '✅ Aprobada';
-          } else if(sol.estado === 'rechazada'){
-            estadoColor = 'error';
-            estadoTexto = '❌ Rechazada';
-          }
-          
-          html += `<div class='info-card'>
-            <div style='display:flex;justify-content:space-between;align-items:start;flex-wrap:wrap;gap:12px;margin-bottom:12px;'>
-              <div>
-                <div style='font-size:16px;font-weight:600;margin-bottom:6px;'>🏢 ${sol.cliente}</div>
-                <div style='color:var(--color-text-secondary);font-size:13px;margin-bottom:4px;'>📦 ${sol.producto || 'General'}</div>
-                <div style='color:var(--color-primary);font-weight:600;'>💰 Descuento: ${sol.porcentaje}%</div>
-                <div style='color:var(--color-text-secondary);font-size:13px;margin-top:6px;'>📅 ${fecha.toLocaleDateString('es-MX')}</div>
-              </div>
-              <span class='status status--${estadoColor}'>${estadoTexto}</span>
-            </div>
-            <div style='background:var(--color-bg-1);padding:10px;border-radius:var(--radius-sm);font-size:13px;'>
-              <strong>Justificación:</strong> ${sol.justificacion}
-            </div>
-            ${sol.respuestaAdmin ? `<div style='margin-top:8px;padding:10px;background:var(--color-bg-2);border-radius:var(--radius-sm);font-size:13px;'>
-              <strong>Respuesta del administrador:</strong> ${sol.respuestaAdmin}
-            </div>` : ''}
-          </div>`;
+
+        function agregarCarrito(id) {
+            const p = productos.find(x => x.id === id);
+            mostrarNotification('✅ ' + p.nombre + ' agregado');
         }
-      }
-      
-      dom.contentSection.innerHTML = html;
-    }
-    
-    // Estado persistente para trackear logins
-    estado.yaLogueados = [];
-    
-    // Inicial
-    setViewInicio();
-    // --- Instalar PWA prompt (muy básico/demo) ---
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js');
-    }
-  </script>
-<!-- FOOTER CORPORATIVO-->
-<footer style="margin-top:48px;background:var(--color-surface);border-top:2px solid var(--color-border);padding:32px 16px 16px 16px;border-radius:22px 22px 0 0;box-shadow:0 0 16px rgba(98,108,113,0.04);text-align:center;">
-  <div class="flex flex-col items-center gap-8" style="margin-bottom:16px;">
-    <img src="logo-tinacos.jpg" alt="Logo Tinacos Plastinova" style="height:48px;width:auto;background:white;border-radius:12px;box-shadow:0 1px 6px rgba(0,63,127,0.11);object-fit:contain;margin-bottom:8px;" />
-    <div style="font-size:18px;font-weight:600;letter-spacing:0.01em;color:var(--color-primary);">Tinacos Plastinova</div>
-    <div style="color:var(--color-text-secondary);margin-bottom:4px;">Carretera Zapata Zacatepec, Col. Lázaro Cárdenas, CP 62790, Chiconcuac Morelos</div>
-    <div style="color:var(--color-text-secondary);font-size:13px;margin-bottom:3px;">RFC: PPU790219S16 | <a href="mailto:tinacos-plastinova@outlook.com">tinacos-plastinova@outlook.com</a></div>
-    <div style="color:var(--color-text-secondary);font-size:13px;">Tel: <a href="tel:5636259982">5636259982</a> | WhatsApp: <a href="https://wa.me/5636259982" target="_blank">5636259982</a></div>
-    <div style="margin-top:8px;font-size:13px;color:var(--color-text-secondary);">&copy; 2025 Tinacos Plastinova - Todos los derechos reservados</div>
-    <div>
-      <a href="#" style="font-size:13px;font-weight:500;color:var(--color-primary);text-decoration:underline;" onclick="acercaDe();return false;">Acerca de Tinacos Plastinova</a>
-    </div>
-  </div>
-</footer>
-<script>
-// --- FUNCIONALIDAD ACERCA DE Y OLVIDO PASS ---
-function acercaDe(){
-  dom.contentSection.innerHTML = `
-  <div class="section-header fade-in"><h2>Acerca de Tinacos Plastinova</h2></div>
-  <div class="info-card" style="max-width:600px;margin:0 auto 32px auto;">
-    <img src="logo-tinacos.jpg" alt="Logo" style="height:60px;width:auto;display:block;margin:0 auto 14px auto;background:white;border-radius:14px;box-shadow:0 1px 6px rgba(0,63,127,0.13);object-fit:contain;"/>
-    <div style="font-size:17px;font-weight:600;margin-bottom:6px;">Tinacos Plastinova</div>
-    <div style="color:var(--color-text-secondary);">Carretera Zapata Zacatepec, Colonia Lázaro Cárdenas, CP 62790, Chiconcuac, Morelos</div>
-    <div style="color:var(--color-text-secondary);font-size:13px;">RFC: PPU790219S16</div>
-    <div style="color:var(--color-text-secondary);font-size:13px;">Correo: <a href="mailto:tinacos-plastinova@outlook.com">tinacos-plastinova@outlook.com</a></div>
-    <div style="color:var(--color-text-secondary);font-size:13px;">Teléfono oficina: <a href="tel:5636259982">5636259982</a></div>
-    <div style="color:var(--color-text-secondary);font-size:13px;">WhatsApp: <a href="https://wa.me/5636259982" target="_blank">5636259982</a></div>
-    <div style="margin-top:20px;font-size:15px;color:var(--color-text-secondary);">
-      Somos líderes en soluciones de almacenamiento de agua en Morelos.<br>
-      Especialistas en venta profesional de tinacos y tambores de alta calidad.<br>
-      Servicio personalizado para clientes, vendedores y empresas.
-    </div>
-  </div>` + dom.contentSection.innerHTML;
-}
-function olvidoPass(){
-  mostrarToast('Ponte en contacto con el administrador: tinacos-plastinova@outlook.com o llama al 5636259982', 'info');
-}
-</script>
+
+        // Secciones Admin
+        function showSection(section) {
+            const content = document.getElementById('section-content');
+            
+            if (section === 'productos') {
+                content.innerHTML = `
+                    <h3>Gestión de Productos</h3>
+                    <div class="table-container">
+                        <table>
+                            <thead><tr><th>Producto</th><th>Precio</th><th>Acción</th></tr></thead>
+                            <tbody>
+                                ${productos.map(p => `
+                                    <tr>
+                                        <td>${p.nombre}</td>
+                                        <td>$${p.precio}</td>
+                                        <td><button class="btn" onclick="editarPrecio(${p.id})">✏️ Editar</button></td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            } else if (section === 'descuentos-admin') {
+                content.innerHTML = '<h3>Solicitudes de Descuentos</h3><p>✅ Sistema de autorización activo</p>';
+            } else {
+                content.innerHTML = `<p>${section} en desarrollo</p>`;
+            }
+        }
+
+        function editarPrecio(id) {
+            const p = productos.find(x => x.id === id);
+            const nuevo = prompt(`Nuevo precio para ${p.nombre}:`, p.precio);
+            if (nuevo) {
+                p.precio = parseFloat(nuevo);
+                mostrarNotification('✅ Precio actualizado');
+                showSection('productos');
+            }
+        }
+
+        // Notificaciones
+        function mostrarNotification(msg, esError = false) {
+            const n = document.createElement('div');
+            n.className = 'notification' + (esError ? ' error' : '');
+            n.textContent = msg;
+            document.body.appendChild(n);
+            setTimeout(() => n.remove(), 3000);
+        }
+
+        // PWA
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js').catch(() => {});
+        }
+
+        updateNavbar();
+    </script>
 </body>
 </html>
